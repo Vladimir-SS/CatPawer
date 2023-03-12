@@ -10,20 +10,16 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera airmVirtualCamera;
     [SerializeField] private float normalSenstivity = 1f;
     [SerializeField] private float aimSenstivity = 0.5f;
-    //TODO: delete this
-    [SerializeField] private Transform aimTransform;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
+        
+
+
     
     private void Update()
     {
-        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-
-        float distanceAwayFromCamera = 10f;
-        Vector3 aimPosition = Camera.main.ScreenToWorldPoint(new Vector3(screenCenter.x, screenCenter.y, distanceAwayFromCamera));
-        aimTransform.position = aimPosition;
-
+        
 
 
         if (starterAssetsInputs.aim)
@@ -31,6 +27,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             airmVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetSensitivity(aimSenstivity);
             thirdPersonController.SetRotateOnMove(false);
+
+            Vector3 aimPosition = AimRaycastHandler.GetCameraTargetPosition();
 
             Vector3 aimDirection = (aimPosition - transform.position).normalized;
             aimDirection.y = 0f;
@@ -42,6 +40,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetSensitivity(normalSenstivity);
             thirdPersonController.SetRotateOnMove(true);
         }
+
+
 
     }
 
