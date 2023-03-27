@@ -355,6 +355,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 130469181146075526, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
+      propertyPath: m_Name
+      value: AreaChecker
+      objectReference: {fileID: 0}
     - target: {fileID: 3968974316667744696, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
       propertyPath: spawned
       value: 0

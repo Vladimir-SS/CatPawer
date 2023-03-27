@@ -12,18 +12,14 @@ public class RoomSpawner : MonoBehaviour
     private Component[] placedRoomSpawnCheckers;
     private Component[] placedRoomSpawners;
     private RoomSpawnAreaChecker placedRoomSpawnAreaChecker;
-
-    private static object lockObject = new object();
+    private RoomSpawnAreaChecker parentSpawnAreaChecker;
 
     public RoomTemplates roomQueue;
     private GameObject room;
 
     void Start()
     {
-        lock (lockObject)
-        {
-            Invoke("SpawnRoom", 0.5f);
-        }
+        Invoke("SpawnRoom", 0.5f);
     }
 
     private void SpawnRoom()
@@ -32,9 +28,14 @@ public class RoomSpawner : MonoBehaviour
         {
             templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
             room = templates.GetNextGameObject();
-            placedRoomSpawners = room.GetComponentsInChildren<RoomSpawner>();
-            
-
+            try
+            {
+                placedRoomSpawners = room.GetComponentsInChildren<RoomSpawner>();       //exception will be fixed
+            }
+            catch
+            {
+                return;
+            }
             placedRoomSpawnCheckers = room.GetComponentsInChildren<RoomSpawnChecker>();
             placedRoomSpawnAreaChecker = room.GetComponentInChildren<RoomSpawnAreaChecker>();
 
@@ -43,7 +44,6 @@ public class RoomSpawner : MonoBehaviour
             // aligns a spawnchecker from the placeable prefab to this spawn point 
             Vector3 pos = this.transform.position - placedRoomSpawnCheckers[0].transform.localPosition;
             StartCoroutine(TryPlacePrefab(room, pos, 0));
-
         }
     }
 
@@ -68,6 +68,16 @@ public class RoomSpawner : MonoBehaviour
 
             if (IsPrefabStillPlaced(placedPrefab))
             {
+                Transform child = transform.parent.Find("AreaChecker");
+                if (child != null)
+                {
+                    RoomSpawnAreaChecker areaChecker = child.GetComponent<RoomSpawnAreaChecker>();
+                    if (areaChecker != null)
+                    {
+                        areaChecker.removable = false;
+                    }
+                }
+                placedRoomSpawnAreaChecker.removable = false;
                 break;
             }
         }
@@ -81,7 +91,6 @@ public class RoomSpawner : MonoBehaviour
         {
             if (placedPrefab.activeSelf)
             {
-                print("here");
                 placedRoomSpawnAreaChecker.removable = false;
                 this.spawned = true;
             }

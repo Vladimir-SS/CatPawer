@@ -17,6 +17,7 @@ public class RoomSpawnAreaChecker : MonoBehaviour
     {
         if (other.CompareTag("RoomSpawnAreaChecker") && this.removable)
         {
+            Debug.Log("getting removed:" + transform.parent + " status " + removable);
             Destroy(transform.parent.gameObject);
         }
     }
