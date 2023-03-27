@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoomSpawner : MonoBehaviour
 {
     public bool spawned = false;
+    private bool hitAreaChecker = false;
     private Vector3 spawnPosition;
 
     private RoomTemplates templates;
@@ -21,15 +22,26 @@ public class RoomSpawner : MonoBehaviour
 
     public IEnumerator SpawnRoom()
     {
+        templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
+        // removes the current room if the spawn point hit a areaChecker but not a spawnChecher:
+        // the spawn point did not match to another door & is currently placed in a wall somewhere
+        yield return new WaitForSeconds(0.1f);
         if (spawned)
             yield break;
+        else if (this.hitAreaChecker)
+        {
+            templates.ReQueueRoom(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject);
+            yield break;
+        }
 
-        templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
         while(room == null)
         {
+            // if & delay ARE necessary in this order!
+            // Otherwise, single-door rooms (that are not starters) might "ask" for a room to spawn despite being unable to do so
             yield return new WaitForSeconds(0.1f);
-            room = templates.GetNextGameObject(); 
-        }
+            room = templates.GetNextRoom(); 
+        }  
 
         placedRoomSpawnCheckers = room.GetComponentsInChildren<RoomSpawnChecker>();
         placedRoomSpawnAreaChecker = room.GetComponentInChildren<RoomSpawnAreaChecker>();
@@ -74,7 +86,7 @@ public class RoomSpawner : MonoBehaviour
     {
         // try-catch IS necessary
         try
-        {
+        {  
             this.spawned = placedPrefab.activeSelf;
         }
         catch (MissingReferenceException)
@@ -90,6 +102,10 @@ public class RoomSpawner : MonoBehaviour
         if (other.CompareTag("RoomSpawnChecker"))
         {
             this.spawned = true;
+        }
+        if (other.CompareTag("RoomSpawnAreaChecker"))
+        {
+            this.hitAreaChecker = true;
         }
     }
 }

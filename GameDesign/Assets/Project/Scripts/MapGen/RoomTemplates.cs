@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class RoomTemplates : MonoBehaviour
 {
-    //public List<GameObject> mandatoryMultipleDoorRooms;
+    public List<GameObject> mandatoryMultipleDoorRooms;
     public List<GameObject> mandatorySingleDoorRooms;
     public List<GameObject> optionalSingleDoorRooms;
 
-    public static object lockMandatoryMultipleDoorRooms = new object();
+    public static object lockQueues = new object();
 
-    private Queue<GameObject> mandatorySingleDoorRoomsQueue;
+    private Queue<GameObject> multipleDoorRoomsQueue;
 
     private float startTime;
 
     void Start()
     {
         startTime = Time.time;
-        mandatorySingleDoorRoomsQueue = new Queue<GameObject>(mandatorySingleDoorRooms);
+        multipleDoorRoomsQueue = new Queue<GameObject>(mandatoryMultipleDoorRooms);
     }
 
-    public GameObject GetNextGameObject()
+    public GameObject GetNextRoom()
     {
         // delaying does not seem necessary anymore
         if (Time.time - startTime >= 0.5f)
         {
             startTime = Time.time;
-            lock (lockMandatoryMultipleDoorRooms)                   // to remmove??
+            lock (lockQueues)                   // to remmove??
             {
-                if (mandatorySingleDoorRoomsQueue.Count > 0)
+                if (multipleDoorRoomsQueue.Count > 0)
                 {
-                    return mandatorySingleDoorRoomsQueue.Dequeue();
+                    return multipleDoorRoomsQueue.Dequeue();
                 }
                 else
                 {
@@ -40,6 +40,11 @@ public class RoomTemplates : MonoBehaviour
         }
         else
             return null;
-        
+    }
+
+    public void ReQueueRoom(GameObject room)
+    {
+        print("req");
+        multipleDoorRoomsQueue.Enqueue(room);
     }
 }
