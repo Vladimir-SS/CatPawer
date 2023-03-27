@@ -153,11 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mandatorySingleDoorRooms:
-  - {fileID: 4339696201238788954, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
-  - {fileID: 4339696201238788954, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
-  - {fileID: 4339696201238788954, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
-  - {fileID: 4339696201238788954, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
-  - {fileID: 4339696201238788954, guid: bf9e70b92038882439be39a4a5c48e61, type: 3}
+  - {fileID: 3675722591664255626, guid: 81da0490c8f4f1a459a6db9b25a2b8c0, type: 3}
   optionalSingleDoorRooms: []
 --- !u!4 &333119771
 Transform:

@@ -7,7 +7,6 @@ public class RoomSpawner : MonoBehaviour
 {
     private RoomTemplates templates;
 
-    private int rand;
     public bool spawned = false;
 
     private Component[] placedRoomSpawnCheckers;
@@ -23,7 +22,6 @@ public class RoomSpawner : MonoBehaviour
     {
         lock (lockObject)
         {
-            templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
             Invoke("SpawnRoom", 0.5f);
         }
     }
@@ -32,6 +30,7 @@ public class RoomSpawner : MonoBehaviour
     {
         if (!spawned)
         {
+            templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
             room = templates.GetNextGameObject();
             placedRoomSpawners = room.GetComponentsInChildren<RoomSpawner>();
             
@@ -40,16 +39,11 @@ public class RoomSpawner : MonoBehaviour
             placedRoomSpawnAreaChecker = room.GetComponentInChildren<RoomSpawnAreaChecker>();
 
             placedRoomSpawnAreaChecker.removable = true;
-            //tries to place a spawnchecker from the prefab over the current spawn point
-            //foreach (RoomSpawnChecker rChecker in placedRoomSpawnCheckers)
-            //{
-                if (!spawned)
-                {
-                    // aligns a spawnchecker from the placeable prefab to this spawn point 
-                    Vector3 pos = this.transform.position - placedRoomSpawnCheckers[0].transform.localPosition;
-                    StartCoroutine(TryPlacePrefab(room, pos, 0));
-                }
-            //}
+
+            // aligns a spawnchecker from the placeable prefab to this spawn point 
+            Vector3 pos = this.transform.position - placedRoomSpawnCheckers[0].transform.localPosition;
+            StartCoroutine(TryPlacePrefab(room, pos, 0));
+
         }
     }
 
@@ -57,7 +51,7 @@ public class RoomSpawner : MonoBehaviour
     {
         if (this.spawned || roomSpawnCheckerIndex > placedRoomSpawnCheckers.Length)
             yield break;
-        print("crrr");
+
         GameObject placedPrefab;
         for (int angle = 90; angle <= 360; angle += 90)
         {
@@ -67,18 +61,10 @@ public class RoomSpawner : MonoBehaviour
             yield return null;
             yield return null;
             yield return null;
-
-            yield return null;
-            yield return null;
-            yield return null;
-            yield return null;
-
-            yield return null;
             yield return null;
             yield return null;
             yield return null;
 
-            yield return null;
 
             if (IsPrefabStillPlaced(placedPrefab))
             {
@@ -93,8 +79,12 @@ public class RoomSpawner : MonoBehaviour
     {
         try
         {
-            if (placedPrefab.activeSelf) 
+            if (placedPrefab.activeSelf)
+            {
+                print("here");
+                placedRoomSpawnAreaChecker.removable = false;
                 this.spawned = true;
+            }
         }
         catch (MissingReferenceException)
         {
@@ -105,7 +95,7 @@ public class RoomSpawner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("RoomSpawnChecker"))
+        if (other.CompareTag("RoomSpawnChecker"))
         {
             this.spawned = true;
         }

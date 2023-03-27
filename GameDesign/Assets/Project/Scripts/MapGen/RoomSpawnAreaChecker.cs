@@ -15,10 +15,8 @@ public class RoomSpawnAreaChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.CompareTag("RoomSpawnAreaChecker") && this.removable)
         {
-            print("destr!");
             Destroy(transform.parent.gameObject);
         }
     }
