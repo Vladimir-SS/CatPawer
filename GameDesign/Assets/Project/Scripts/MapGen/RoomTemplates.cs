@@ -12,23 +12,34 @@ public class RoomTemplates : MonoBehaviour
 
     private Queue<GameObject> mandatorySingleDoorRoomsQueue;
 
+    private float startTime;
+
     void Start()
     {
+        startTime = Time.time;
         mandatorySingleDoorRoomsQueue = new Queue<GameObject>(mandatorySingleDoorRooms);
     }
 
     public GameObject GetNextGameObject()
     {
-        lock (lockMandatoryMultipleDoorRooms)
+        // delaying does not seem necessary anymore
+        if (Time.time - startTime >= 0.5f)
         {
-            if (mandatorySingleDoorRoomsQueue.Count > 0)
+            startTime = Time.time;
+            lock (lockMandatoryMultipleDoorRooms)                   // to remmove??
             {
-                return mandatorySingleDoorRoomsQueue.Dequeue();
-            }
-            else
-            {
-                return null;
+                if (mandatorySingleDoorRoomsQueue.Count > 0)
+                {
+                    return mandatorySingleDoorRoomsQueue.Dequeue();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
+        else
+            return null;
+        
     }
 }
