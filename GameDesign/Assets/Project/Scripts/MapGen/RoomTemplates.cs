@@ -30,6 +30,7 @@ public class RoomTemplates : MonoBehaviour
             {
                 if (multipleDoorRoomsQueue.Count > 0)
                 {
+                    print("new");
                     return multipleDoorRoomsQueue.Dequeue();
                 }
                 else
@@ -44,7 +45,10 @@ public class RoomTemplates : MonoBehaviour
 
     public void ReQueueRoom(GameObject room)
     {
-        print("req");
-        multipleDoorRoomsQueue.Enqueue(room);
+        lock (lockQueues)
+        {
+            //Debug.Log("requeued:" + room.name);
+            multipleDoorRoomsQueue.Enqueue(room);
+        }
     }
 }

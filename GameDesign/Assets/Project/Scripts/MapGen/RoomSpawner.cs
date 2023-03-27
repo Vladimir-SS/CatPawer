@@ -11,8 +11,9 @@ public class RoomSpawner : MonoBehaviour
 
     private RoomTemplates templates;
     private GameObject room = null;
-    
-    private Component[] placedRoomSpawnCheckers;
+    private GameObject placedPrefab;
+
+    private RoomSpawnChecker[] placedRoomSpawnCheckers;
     private RoomSpawnAreaChecker placedRoomSpawnAreaChecker;
 
     void Start()
@@ -22,23 +23,17 @@ public class RoomSpawner : MonoBehaviour
 
     public IEnumerator SpawnRoom()
     {
-        templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
+        // if & delay ARE necessary in this order!
+        // Otherwise, single-door rooms (that are not starters) might "ask" for a room to spawn despite being unable to do so
         // removes the current room if the spawn point hit a areaChecker but not a spawnChecher:
         // the spawn point did not match to another door & is currently placed in a wall somewhere
         yield return new WaitForSeconds(0.1f);
         if (spawned)
             yield break;
-        else if (this.hitAreaChecker)
-        {
-            templates.ReQueueRoom(transform.parent.gameObject);
-            Destroy(transform.parent.gameObject);
-            yield break;
-        }
 
-        while(room == null)
+        templates = GameObject.Find("Room Templates").GetComponent<RoomTemplates>();
+        while (room == null)
         {
-            // if & delay ARE necessary in this order!
-            // Otherwise, single-door rooms (that are not starters) might "ask" for a room to spawn despite being unable to do so
             yield return new WaitForSeconds(0.1f);
             room = templates.GetNextRoom(); 
         }  
@@ -56,9 +51,21 @@ public class RoomSpawner : MonoBehaviour
     IEnumerator TryPlacePrefab(GameObject room, int roomSpawnCheckerIndex)
     {
         if (this.spawned || roomSpawnCheckerIndex > placedRoomSpawnCheckers.Length)
+        {
+            if (!this.spawned)
+            {
+                Destroy(placedPrefab);
+                templates.ReQueueRoom(room);
+                yield return null;
+                yield return null;
+                yield return null;
+                this.room = null;
+                StartCoroutine(SpawnRoom());
+            }
             yield break;
+        }
+            
 
-        GameObject placedPrefab;
         for (int angle = 90; angle <= 360; angle += 90)
         {
             placedPrefab = Instantiate(room, this.spawnPosition, Quaternion.identity);
@@ -69,17 +76,22 @@ public class RoomSpawner : MonoBehaviour
             yield return null;
             yield return null;
             yield return null;
-
-            if (IsPrefabStillPlaced(placedPrefab))
+ 
+            if (IsPrefabStillPlaced(placedPrefab) && ProperSpawnPointPlacement(placedPrefab))
             {
-                RoomSpawnAreaChecker script = placedPrefab.GetComponentInChildren<RoomSpawnAreaChecker>();
-                script.removable = false;
-                break;
+                
+                this.spawned = true;
+                MakePrefabUnremovable(placedPrefab);
+                yield break;
             }
+            else
+                this.spawned = false;
         }
-       
-        if(!this.spawned)
-            StartCoroutine(TryPlacePrefab(room, roomSpawnCheckerIndex++));
+        if (!this.spawned)
+        {
+            StartCoroutine(TryPlacePrefab(room, ++roomSpawnCheckerIndex));
+        }
+            
     }
 
     bool IsPrefabStillPlaced(GameObject placedPrefab)
@@ -87,13 +99,29 @@ public class RoomSpawner : MonoBehaviour
         // try-catch IS necessary
         try
         {  
-            this.spawned = placedPrefab.activeSelf;
+            return placedPrefab.activeSelf;
         }
-        catch (MissingReferenceException)
+        catch 
         {
-            this.spawned = false;
+            return false;
         }
-        return this.spawned;
+        
+    }
+
+    private void MakePrefabUnremovable(GameObject prefab)
+    {
+        RoomSpawnAreaChecker script = prefab.GetComponentInChildren<RoomSpawnAreaChecker>();
+        script.removable = false;
+    }
+
+    private bool ProperSpawnPointPlacement(GameObject prefab)
+    {
+        RoomSpawner[] placedPrefabSpawners;
+        placedPrefabSpawners = prefab.GetComponentsInChildren<RoomSpawner>();
+        foreach (RoomSpawner rs in placedPrefabSpawners)
+            if (rs.hitAreaChecker && !rs.spawned)
+                return false;
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -107,5 +135,10 @@ public class RoomSpawner : MonoBehaviour
         {
             this.hitAreaChecker = true;
         }
+    }
+
+    private void TryWithNewPrefab()
+    {
+
     }
 }
