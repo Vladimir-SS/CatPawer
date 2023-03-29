@@ -18,7 +18,7 @@ public class RoomSpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnRoom());
+        //StartCoroutine(SpawnRoom());
     }
 
     public IEnumerator SpawnRoom()
