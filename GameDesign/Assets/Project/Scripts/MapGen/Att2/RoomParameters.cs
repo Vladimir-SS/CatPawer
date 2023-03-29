@@ -4,40 +4,55 @@ using UnityEngine;
 
 public class RoomParameters : MonoBehaviour
 {
-    private List<Vector3> _corners;
-    private List<DoorMarker> _doors;
+    private Vector3[] _corners = new Vector3[4];
+    private DoorMarker[] _doors;
     public bool isSpecialRoom = false;  //true if it is boss or upgrade room
-    //wtf is the location supposed to be?
-    
+
     void Start()
     {
+        SetDoors();
         SetSizes();
     }
 
     private void SetSizes()
     {
-        List<Vector3> vertices = new List<Vector3>();
+        MeshRenderer[] meshRenderers = this.GetComponentsInChildren<MeshRenderer>();
 
-        MeshFilter[] meshFilters = this.GetComponentsInChildren<MeshFilter>();
-        foreach (MeshFilter meshFilter in meshFilters)
+        Bounds bounds = meshRenderers[0].bounds;
+
+        for (int i = 1; i < meshRenderers.Length; i++)
         {
-            Mesh mesh = meshFilter.mesh;
-            Vector3[] meshVertices = mesh.vertices;
-
-            // Transform the vertices from local space to world space
-            for (int i = 0; i < meshVertices.Length; i++)
-            {
-                Vector3 worldVertex = meshFilter.transform.TransformPoint(meshVertices[i]);
-                vertices.Add(worldVertex);
-            }
+            bounds.Encapsulate(meshRenderers[i].bounds);
         }
 
+        _corners[0] = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z);
+        _corners[1] = new Vector3(bounds.min.x, bounds.min.y, bounds.max.z);
+        _corners[2] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z);
+        _corners[3] = new Vector3(bounds.max.x, bounds.min.y, bounds.max.z);
+
+        
+        //uncomment for quick check
+        /*
         for (int i = 0; i < 4; i++)
-            this._corners.Add(vertices[i]);
-        // Get the coordinates of the 4 corners
-        /* Vector3 topLeft = vertices[0];
-        Vector3 topRight = vertices[1];
-        Vector3 bottomRight = vertices[2];
-        Vector3 bottomLeft = vertices[3];*/
+        {
+            GameObject emptyGameObject = new GameObject("EmptyGameObject");
+            emptyGameObject.transform.position = _corners[i];
+        }
+        */
+    }
+
+    private void SetDoors()
+    {
+        _doors = this.GetComponentsInChildren<DoorMarker>();
+    }
+
+    public Vector3[] Corners
+    {
+        get => _corners;
+    }
+
+    public DoorMarker[] DoorMarkers
+    {
+        get => _doors;
     }
 }

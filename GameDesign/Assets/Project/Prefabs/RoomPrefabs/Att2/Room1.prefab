@@ -1521,8 +1521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19bfec628eb6c342a8bb8db286f4c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side1: 0
-  side2: 0
   isSpecialRoom: 0
 --- !u!1 &3577061637364191657
 GameObject:
@@ -1568,6 +1566,7 @@ GameObject:
   - component: {fileID: 3577061637439481274}
   - component: {fileID: 3577061637439481276}
   - component: {fileID: 3577061637439481275}
+  - component: {fileID: 6895718433719813026}
   m_Layer: 0
   m_Name: DoorMarker (1)
   m_TagString: Untagged
@@ -1619,6 +1618,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6895718433719813026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577061637439481273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d70da9e3ca08a40a6359e724761c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3577061637457719696
 GameObject:
   m_ObjectHideFlags: 0
