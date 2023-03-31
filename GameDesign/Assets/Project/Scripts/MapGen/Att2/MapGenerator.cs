@@ -18,22 +18,10 @@ public class MapGenerator : MonoBehaviour
     private IEnumerator Start()
     {
         yield return StartCoroutine(InstantiateAll());
-
         PrepareData();
         //ValidateData();       //not rn
+        BuildLayout();
 
-        /*
-        while(multipleDoorRooms.Count > 0)
-        {
-            Tuple<RoomParameters, int> t = multipleDoorRooms.Dequeue();
-            Debug.Log("mult:" + t.Item1.name + " - " + t.Item2);
-        }
-        while (singleDoorRooms.Count > 0)
-        {
-            Tuple<RoomParameters, int> t = singleDoorRooms.Dequeue();
-            Debug.Log("mult:" + t.Item1.name + " - " + t.Item2);
-        }*/
-        //GetLayout();
     }
 
     private IEnumerator InstantiateAll()
@@ -50,7 +38,7 @@ public class MapGenerator : MonoBehaviour
 
     private void PrepareData()
     {
-        //sort the rooms
+        //sort out the rooms
         RoomParameters script;
         for(int i=0;i<placeableRooms.Count;i++)
         {
@@ -80,6 +68,56 @@ public class MapGenerator : MonoBehaviour
         if (singleDoorRooms.Count == 0)
         {
             Debug.LogException(new MissingComponentException("No single-door room provided in MapGenerator > placeableRooms!"));
+        }
+        /*
+         while(multipleDoorRooms.Count > 0)
+        {
+            Tuple<RoomParameters, int> t = multipleDoorRooms.Dequeue();
+            Debug.Log("mult:" + t.Item1.name + " - " + t.Item2);
+        }
+        while (singleDoorRooms.Count > 0)
+        {
+            Tuple<RoomParameters, int> t = singleDoorRooms.Dequeue();
+            Debug.Log("single:" + t.Item1.name + " - " + t.Item2);
+        }
+        */
+    }
+
+    private void PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
+    {
+        DoorMarker currentDoor = openDoors.Dequeue();
+        while(rooms.Count > 0)
+        {
+            //who gets requeued? rooms or doors
+            //
+        }
+    }
+
+    private void BuildLayout()
+    {
+        int maxReQueues = 5;
+        float elevation = this.transform.position.y;
+        //set the starter room at the position of this
+        openDoors = new Queue<DoorMarker>(startRoom.GetComponent<RoomParameters>().DoorMarkers);
+        placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));
+
+        Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
+        Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
+        Queue<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
+
+        //sets multiple door rooms
+        while (multipleDoorRooms.Count > 0)
+        {
+            /*
+            TryPlaceRoom();
+            if (placed)
+                addopenDoors;
+            else
+            {
+                openDoors.Enqueue(openDoors.Dequeue());
+                multipleDoorRooms.Enqueue(multipleDoorRooms.Dequeue());
+            }
+            */
         }
     }
 
