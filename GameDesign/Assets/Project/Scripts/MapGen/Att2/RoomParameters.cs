@@ -11,10 +11,10 @@ public class RoomParameters : MonoBehaviour
     void Start()
     {
         SetDoors();
-        SetSizes();
+        SetCorners();
     }
 
-    private void SetSizes()
+    public void SetCorners()
     {
         MeshRenderer[] meshRenderers = this.GetComponentsInChildren<MeshRenderer>();
 

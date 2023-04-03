@@ -12,21 +12,118 @@ public class MapGenerator : MonoBehaviour
     private Queue<Tuple<RoomParameters, int>> specialRooms = new Queue<Tuple<RoomParameters, int>>();
     private Queue<Tuple<RoomParameters, int>> singleDoorRooms = new Queue<Tuple<RoomParameters, int>>();
 
-    private Queue<DoorMarker> openDoors = new Queue<DoorMarker>();
-    private List<RoomPlacingData> placingData;
+    private Queue<DoorMarker> openDoors;
+    private List<RoomPlacingData> placingData = new List<RoomPlacingData>();
     
     private IEnumerator Start()
     {
         yield return StartCoroutine(InstantiateAll());
+        print("isnt");
         PrepareData();
+        print("prepped");
         //ValidateData();       //not rn
         BuildLayout();
 
     }
 
+    private void RotateRoomCounterClockwise(DoorMarker pivotPoint, RoomParameters room)
+    {
+        float aux;
+        for (int i = 0; i < 4; i++)
+        {
+            room.Corners[i] -= pivotPoint.transform.position;
+
+            aux = room.Corners[i].y;
+            room.Corners[i].y = room.Corners[i].x;
+            room.Corners[i].x = -1 * aux;
+
+            room.Corners[i] += pivotPoint.transform.position;
+        }
+    }
+
+    private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
+    {
+        for (int i = 0; i < room.DoorMarkers.Length; i++)
+        {
+            placeableRooms[roomIndex].SetActive(true);
+            room.DoorMarkers[i].transform.position = location.transform.position;
+            print("after1");
+            placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[i].transform.localPosition;
+            print(placeableRooms[roomIndex].GetComponent<RoomParameters>());
+            for (int angle = 90; angle < 360; angle += 90)
+            {
+                RotateRoomCounterClockwise(location, room);
+                //if(doesn collide && doors are properly placed)
+                //placedPrefab = Instantiate(room, this.spawnPosition, Quaternion.identity);
+               // placeableRooms[roomIndex].transform.position = location.transform.position;
+
+                //placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, angle);
+
+                //check collisions
+                //check to have valid doors
+                break;
+            }
+            break;
+        }
+        return false;
+    }
+
+    private void PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
+    {
+        DoorMarker currentDoor = openDoors.Dequeue();
+        while (rooms.Count > 0)
+        {
+            AbleToPlaceRoom(currentDoor, rooms.Dequeue().Item1, rooms.Dequeue().Item2);
+            break;
+            //TryPlaceRoom(at currentDoor);
+            /*
+             if(placed)
+            {
+                add to open doors
+                currentDoor =  openDoors.Dequeue();
+            }
+            else
+            {
+                check for loops
+                requeue room;
+            }*/
+        }
+    }
+
+    private void BuildLayout()
+    {
+        int maxReQueues = 5;
+        float elevation = this.transform.position.y;
+        //set the starter room at the position of this
+
+        openDoors = new Queue<DoorMarker>(startRoom.GetComponentInChildren<RoomParameters>().DoorMarkers);
+        placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));      // -1: starter room is already in position
+
+        Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
+        Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
+        Queue<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
+
+        //sets multiple door rooms
+        while (multipleDoorRooms.Count > 0)
+        {
+            PlaceRegularRoomCollection(multipleDoorRooms);
+            /*
+            TryPlaceRoom();
+            if (placed)
+                addopenDoors;
+            else
+            {
+                openDoors.Enqueue(openDoors.Dequeue());
+                multipleDoorRooms.Enqueue(multipleDoorRooms.Dequeue());
+            }
+            */
+        }
+    }
     private IEnumerator InstantiateAll()
     {
         startRoom = Instantiate(startRoom, this.transform.position, Quaternion.identity);
+
+        //startRoom.SetActive(false);
 
         for (int i = 0; i<placeableRooms.Count; i++)
         {
@@ -42,6 +139,7 @@ public class MapGenerator : MonoBehaviour
         RoomParameters script;
         for(int i=0;i<placeableRooms.Count;i++)
         {
+            placeableRooms[i].SetActive(false);
             script = placeableRooms[i].GetComponent<RoomParameters>();
             if (script.isSpecialRoom)
             {
@@ -81,44 +179,6 @@ public class MapGenerator : MonoBehaviour
             Debug.Log("single:" + t.Item1.name + " - " + t.Item2);
         }
         */
-    }
-
-    private void PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
-    {
-        DoorMarker currentDoor = openDoors.Dequeue();
-        while(rooms.Count > 0)
-        {
-            //who gets requeued? rooms or doors
-            //
-        }
-    }
-
-    private void BuildLayout()
-    {
-        int maxReQueues = 5;
-        float elevation = this.transform.position.y;
-        //set the starter room at the position of this
-        openDoors = new Queue<DoorMarker>(startRoom.GetComponent<RoomParameters>().DoorMarkers);
-        placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));
-
-        Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
-        Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
-        Queue<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
-
-        //sets multiple door rooms
-        while (multipleDoorRooms.Count > 0)
-        {
-            /*
-            TryPlaceRoom();
-            if (placed)
-                addopenDoors;
-            else
-            {
-                openDoors.Enqueue(openDoors.Dequeue());
-                multipleDoorRooms.Enqueue(multipleDoorRooms.Dequeue());
-            }
-            */
-        }
     }
 
     private void GetLayout()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlacingData : MonoBehaviour
+public class RoomPlacingData
 {
     private GameObject _room;   //to remove
 
