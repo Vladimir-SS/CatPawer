@@ -9,12 +9,14 @@ public class RoomPlacingData
     private int _index;
     private RoomPivot _pivot;
     private int _rotation;
+    private Vector3[] _corners = new Vector3[4];
 
-    public RoomPlacingData(int placeableRoomsIndex, DoorMarker doorMarker, int rotation)
+    public RoomPlacingData(int placeableRoomsIndex, DoorMarker doorMarker, int rotation, Vector3[] currentCorners)
     {
         this.PlaceableRoomsIndex = placeableRoomsIndex;
         this.Rotation = rotation;
         this.Pivot = new RoomPivot(doorMarker);
+        this.Corners = currentCorners;
     }
 
     public class RoomPivot
@@ -77,6 +79,18 @@ public class RoomPlacingData
             if ((value % 90 == 0) && (value < 360))
             {
                 _rotation = value;
+            }
+        }
+    }
+
+    public Vector3[] Corners
+    {
+        get => _corners;
+        set
+        {
+            if(value.Length == 4)
+            {
+                _corners = value;
             }
         }
     }

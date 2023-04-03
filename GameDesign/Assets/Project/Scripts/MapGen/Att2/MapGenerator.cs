@@ -41,23 +41,37 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    /*
+     placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[i].transform.localPosition;
+    placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, angle);
+     */
+
+    private void TransposeRoomToLocation(Vector3[] corners, DoorMarker location, RoomParameters room, int doorIndex)
+    {
+        Vector3 v = new Vector3(location.transform.position.x - room.DoorMarkers[doorIndex].transform.position.x, location.transform.position.y, location.transform.position.z - room.DoorMarkers[doorIndex].transform.position.z);
+        room.DoorMarkers[doorIndex].transform.position += v;
+        Vector3 delta = new Vector3(location.transform.position.x - room.DoorMarkers[doorIndex].transform.position.x, location.transform.position.y, location.transform.position.z - room.DoorMarkers[doorIndex].transform.position.z);
+
+        for (int j = 0; j < 4; j++)
+        {
+            corners[j].x = corners[j].x + delta.x;
+            corners[j].z = corners[j].z + delta.z;
+        }
+    }
+
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
+        Vector3[] corners = room.Corners;
+        placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
-            placeableRooms[roomIndex].SetActive(true);
-            room.DoorMarkers[i].transform.position = location.transform.position;
-            print("after1");
-            placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[i].transform.localPosition;
-            print(placeableRooms[roomIndex].GetComponent<RoomParameters>());
-            for (int angle = 90; angle < 360; angle += 90)
+            TransposeRoomToLocation(corners, location, room, i);
+            
+            for (int angle = 0; angle <= 360; angle += 90)
             {
                 RotateRoomCounterClockwise(location, room);
                 //if(doesn collide && doors are properly placed)
-                //placedPrefab = Instantiate(room, this.spawnPosition, Quaternion.identity);
-               // placeableRooms[roomIndex].transform.position = location.transform.position;
-
-                //placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, angle);
+                
 
                 //check collisions
                 //check to have valid doors
@@ -127,7 +141,7 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0; i<placeableRooms.Count; i++)
         {
-            placeableRooms[i] = Instantiate(placeableRooms[i].gameObject, this.transform.position, Quaternion.identity);
+            placeableRooms[i] = Instantiate(placeableRooms[i].gameObject, this.transform.position + new Vector3(10, 1, 110), Quaternion.identity);
             //placeableRooms[i].SetActive(false);
         }
         yield return new WaitForSeconds(0.2f);
@@ -179,20 +193,5 @@ public class MapGenerator : MonoBehaviour
             Debug.Log("single:" + t.Item1.name + " - " + t.Item2);
         }
         */
-    }
-
-    private void GetLayout()
-    {
-        //Instantiate(placeablePrefabs[0], this.transform.position, Quaternion.identity);
-        //place starter room at this.position :) 
-        //for (i=1; I, placingData....) -> place all other prefabs
-        //placingData[0] = new RoomPlacingData(-1, starterRoom.DoorMarkers[0], 0);
-        //RoomParameters script = starterRoom.GetComponent<RoomParameters>();
-        //print(script.DoorMarkers[0]);
-        //float elevation = this.transform.position.y;
-
-        //ist<DoorMarker> openDoors = new List<DoorMarker>(starterRoom.DoorMarkers);
-        //place multiple-door rooms
-
     }
 }
