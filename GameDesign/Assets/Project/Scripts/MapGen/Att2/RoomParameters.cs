@@ -14,7 +14,7 @@ public class RoomParameters : MonoBehaviour
         SetCorners();
     }
 
-    private void SetCorners()
+    public void SetCorners()
     {
         MeshRenderer[] meshRenderers = this.GetComponentsInChildren<MeshRenderer>();
 
