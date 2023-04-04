@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AimRaycastHandler : MonoBehaviour
+public class AimRaycastProvider : MonoBehaviour
 {
     private const float RayCastMaxDistance = 99f;
     private static LayerMask IgnoredLayerMask;
