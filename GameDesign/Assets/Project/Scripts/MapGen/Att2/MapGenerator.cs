@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     private Queue<Tuple<RoomParameters, int>> specialRooms = new Queue<Tuple<RoomParameters, int>>();
     private Queue<Tuple<RoomParameters, int>> singleDoorRooms = new Queue<Tuple<RoomParameters, int>>();
 
-    private Queue<DoorMarker> openDoors;
+    private LinkedList<DoorMarker> openDoors = new LinkedList<DoorMarker>();
     private List<RoomPlacingData> placingData = new List<RoomPlacingData>();
     
     private IEnumerator Start()
@@ -46,8 +46,8 @@ public class MapGenerator : MonoBehaviour
             room.DoorMarkers[i].Position = p;
 
             room.DoorMarkers[i].Position += pivotPoint.transform.position;
-            GameObject emptyGameObject = new GameObject("Rotated door");
-            emptyGameObject.transform.position = room.DoorMarkers[i].Position;
+           // GameObject emptyGameObject = new GameObject("EmptyGameObject");
+            //emptyGameObject.transform.position = room.DoorMarkers[i].Position;
         }
     }
 
@@ -63,9 +63,8 @@ public class MapGenerator : MonoBehaviour
 
     private IEnumerator TransposeRoomToInitialLocation(DoorMarker location, RoomParameters room, int doorIndex, int roomIndex)
     {
-        room.DoorMarkers[doorIndex].transform.position = location.transform.position;
+        //room.DoorMarkers[doorIndex].transform.position = location.transform.position;
         placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[doorIndex].transform.localPosition;
-        //placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, 90);
         yield return null;
     }
 
@@ -141,53 +140,93 @@ public class MapGenerator : MonoBehaviour
         {
             rez[k] = placeableRooms[roomIndex].GetComponentInChildren<RoomParameters>().DoorMarkers[k].transform.position;
         }
+        
         return rez;
     }
 
-    private bool DoorsAreProperlyPlaced(RoomParameters room, int roomIndex)
+    private bool DoorsAreProperlyPlaced(RoomParameters currentRoom)
     {
-        print("here");
-        for (int k = 0; k < room.DoorMarkers.Length; k++)
+        for(int i=0; i< placingData.Count; i++)
         {
-            //GameObject emptyGameObject = new GameObject("E");
-            //emptyGameObject.transform.position = placeableRooms[roomIndex].GetComponentInChildren<RoomParameters>().DoorMarkers[k].transform.position;
+            DoorMarker[] placedRoomDoors;
+            Vector3 minPoint, maxPoint;
+            if (placingData[i].PlaceableRoomsIndex == -1)
+            {
+                placedRoomDoors = startRoom.GetComponent<RoomParameters>().DoorMarkers;
+                (minPoint, maxPoint) = GetExtemeCornerCoordinates(startRoom.GetComponent<RoomParameters>());
+            }
+            else
+            {
+                placedRoomDoors = placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>().DoorMarkers;
+                (minPoint, maxPoint) = GetExtemeCornerCoordinates(placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>());
+            }
+                
+            for(int doorIndex = 0; doorIndex<currentRoom.DoorMarkers.Length; doorIndex++)
+            {
+                bool overlaps = false;
+                if ((currentRoom.DoorMarkers[doorIndex].Position.x == minPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.x == maxPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.y == minPoint.y) || (currentRoom.DoorMarkers[doorIndex].Position.y == maxPoint.y))
+                {
+                    for(int j = 0; j < placedRoomDoors.Length; j++)
+                    {
+                        Debug.Log(placedRoomDoors[j].Position + " - " + currentRoom.DoorMarkers[doorIndex].Position);
+                        if(placedRoomDoors[j].Position == currentRoom.DoorMarkers[doorIndex].Position) 
+                            overlaps = true;
+                    }
+                    if (!overlaps)
+                    {
+                        Debug.Log("door collided with wall " + currentRoom);
+                        return false;
+                    }
+                        
+                } 
+            }
         }
         return true;
     }
 
+    private void UpdateOpenDoors(RoomParameters lastPlacedRoom)
+    {
+        List<DoorMarker> doors = new List<DoorMarker>(lastPlacedRoom.DoorMarkers);
+        for (var node = openDoors.First; node != null; node = node.Next)
+        {
+            for(int i = 0; i < doors.Count; i++)
+            {
+                if(node.Value.Position == doors[i].Position)
+                {
+                    openDoors.Remove(node);
+                    doors.RemoveAt(i);
+                }
+            }
+        }
+        for (int i = 0; i < doors.Count; i++)
+        {
+            openDoors.AddLast(doors[i]);
+        }
+    }
+
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
-        Vector3[] corners = room.Corners;
-        placeableRooms[roomIndex].SetActive(true);
+        //placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
-
             StartCoroutine(TransposeRoomToInitialLocation(location, room, i, roomIndex));
+            
             room.SetCorners();
             room.SetDoors(GetDoorInitialPositions(room, roomIndex));
-
-            for (int k = 0; k < room.DoorMarkers.Length; k++)
-            {
-                GameObject emptyGameObject = new GameObject("D");
-                emptyGameObject.transform.position = room.DoorMarkers[k].Position;
-            }
-
+            
             for (int angle = 0; angle < 360; angle += 90)
             {
-
-                bool d = DoorsAreProperlyPlaced(room, roomIndex);
                 //Debug.Log("angle " + angle + " Room coll:" + CollidesWithAnyRoom(room));
-                if (!CollidesWithAnyRoom(room) && d)
+                if (!CollidesWithAnyRoom(room) && DoorsAreProperlyPlaced(room))
                 {
-                    print("here");
+                    placingData.Add(new RoomPlacingData(roomIndex, room.DoorMarkers[i], angle));
+                    //TODO: remove
+                    //placeableRooms[roomIndex].transform.position = room.DoorMarkers[i].Position - room.DoorMarkers[i].transform.localPosition;
+                    placeableRooms[roomIndex].transform.RotateAround(room.DoorMarkers[i].Position, Vector3.up, angle);
+                    placeableRooms[roomIndex].SetActive(true);
+                    return true;
                 }
                 RotateRoomClockwise(location, room);
-                RotateRoomClockwise(location, room);
-                RotateRoomClockwise(location, room);
-                placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, 270);
-                break;
-                
-                //if(doesn collide && doors are properly placed)
             }
             break;
         }
@@ -196,18 +235,16 @@ public class MapGenerator : MonoBehaviour
 
     private void PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
     {
-        DoorMarker currentDoor = openDoors.Dequeue();
+        DoorMarker currentDoor = openDoors.First.Value;
         while (rooms.Count > 0)
         {
-            AbleToPlaceRoom(currentDoor, rooms.Dequeue().Item1, rooms.Dequeue().Item2);
-            break;
-            //TryPlaceRoom(at currentDoor);
-            /*
-             if(placed)
+            Tuple<RoomParameters, int> r = rooms.Dequeue();
+            if (AbleToPlaceRoom(currentDoor, r.Item1, r.Item2))
             {
-                add to open doors
-                currentDoor =  openDoors.Dequeue();
+                UpdateOpenDoors(r.Item1);
+                currentDoor = openDoors.First.Value;
             }
+            /*
             else
             {
                 check for loops
@@ -221,18 +258,22 @@ public class MapGenerator : MonoBehaviour
         int maxReQueues = 5;
         float elevation = this.transform.position.y;
         //set the starter room at the position of this
-
-        openDoors = new Queue<DoorMarker>(startRoom.GetComponentInChildren<RoomParameters>().DoorMarkers);
-        placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));      // -1: starter room is already in position
+        DoorMarker[] d = startRoom.GetComponent<RoomParameters>().DoorMarkers;
+        for(int i = 0; i < d.Length; i++)
+        {
+            d[i].Position = startRoom.GetComponent<RoomParameters>().DoorMarkers[i].transform.position;
+            openDoors.AddLast(d[i]);
+        }
+        placingData.Add(new RoomPlacingData(-1, openDoors.First.Value, 0));      // -1: starter room is already in position
 
         Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
         Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
         Queue<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
 
         //sets multiple door rooms
-        while (multipleDoorRooms.Count > 0)
+        while (firstRoomCollection.Count > 0)
         {
-            PlaceRegularRoomCollection(multipleDoorRooms);
+            PlaceRegularRoomCollection(firstRoomCollection);
             /*
             TryPlaceRoom();
             if (placed)
