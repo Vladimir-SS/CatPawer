@@ -305,11 +305,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6040facf9288414db61e64fd60953ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionTollerance: 0.5
   startRoom: {fileID: 3577061637326574385, guid: 99243171b150bad45b7a5719dc196e27, type: 3}
   placeableRooms:
-  - {fileID: 3796767029853376602, guid: 3750e2fb122ffbd4095219aec3c53dd4, type: 3}
-  - {fileID: 9182787835909874233, guid: c1a135331966a1c469f6be7d550eefa7, type: 3}
   - {fileID: 3577061637326574385, guid: 99243171b150bad45b7a5719dc196e27, type: 3}
+  - {fileID: 3796767029853376602, guid: 3750e2fb122ffbd4095219aec3c53dd4, type: 3}
+  - {fileID: 3796767029853376602, guid: 3750e2fb122ffbd4095219aec3c53dd4, type: 3}
+  - {fileID: 3796767029853376602, guid: 3750e2fb122ffbd4095219aec3c53dd4, type: 3}
 --- !u!1 &1169527491
 GameObject:
   m_ObjectHideFlags: 0

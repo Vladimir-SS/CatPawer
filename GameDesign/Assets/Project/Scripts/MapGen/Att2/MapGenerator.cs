@@ -6,7 +6,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     //allows rooms to be placed even if they slightly overlap. reduces headaches with doorMarker placement
-    public float collisionTollerance = 0.5f;
+    public float collisionTollerance = 0.2f;
 
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
         PrepareData();
         //ValidateData();       //not rn
         BuildLayout();
-
+        ShowRooms();
     }
 
     private void RotateRoomClockwise(DoorMarker pivotPoint, RoomParameters room)
@@ -62,6 +62,8 @@ public class MapGenerator : MonoBehaviour
                 GameObject emptyGameObject = new GameObject("EmptyGameObject");
                 emptyGameObject.transform.position = d;
             }
+                //if ((currentRoom.DoorMarkers[doorIndex].Position.x == minPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.x == maxPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.y == minPoint.y) || (currentRoom.DoorMarkers[doorIndex].Position.y == maxPoint.y))
+
      */
 
     private IEnumerator TransposeRoomToInitialLocation(DoorMarker location, RoomParameters room, int doorIndex, int roomIndex)
@@ -147,42 +149,48 @@ public class MapGenerator : MonoBehaviour
         return rez;
     }
 
+    private bool PrefabIsProperlyDistanced(DoorMarker currentDoor, Vector3 maxCheckerPoint, Vector3 minCheckerPoint, RoomParameters placedRoomScript)
+    {
+        (Vector3 minPoints, Vector3 maxPoints) = GetExtemeCornerCoordinates(placedRoomScript);
+        //checks that the door is close to a prefab
+        if ((minCheckerPoint.x < maxPoints.x) && (minPoints.x < maxCheckerPoint.x) && (minCheckerPoint.z < maxPoints.z) && (minPoints.z < maxCheckerPoint.z))
+        {
+            bool isClose = false;
+            // if the door is very close to a prefab, it needs to also be close/overlap another door in the prefab
+            // if not, the door is badly placed and it would not be possible to place anything between them OR the door would just face a wall
+            foreach (DoorMarker placedDoor in placedRoomScript.DoorMarkers)
+            {
+                if (Vector3.Distance(currentDoor.Position, placedDoor.Position) < collisionTollerance)
+                {
+                    isClose = true;
+                    break;
+                }
+            }
+            if (!isClose)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //checks that the doors are not placed too close to other prefabs, but allows doors to overlap
     private bool DoorsAreProperlyPlaced(RoomParameters currentRoom)
     {
-        return true;
-        for (int i=0; i< placingData.Count; i++)
+        List<DoorMarker> doors = new List<DoorMarker>(currentRoom.DoorMarkers);
+        Vector3 maxCheckerPoint, minCheckerPoint;
+        foreach(DoorMarker door in doors)
         {
-            DoorMarker[] placedRoomDoors;
-            Vector3 minPoint, maxPoint;
-            if (placingData[i].PlaceableRoomsIndex == -1)
+            maxCheckerPoint = door.Position + new Vector3(2.0f, door.Position.y, 2.0f);
+            minCheckerPoint = door.Position + new Vector3(-2.0f, door.Position.y, -2.0f);
+
+            if (!PrefabIsProperlyDistanced(door, maxCheckerPoint, minCheckerPoint, startRoom.GetComponent<RoomParameters>()))
+                return false;
+
+            for (int i = 1; i < placingData.Count; i++)
             {
-                placedRoomDoors = startRoom.GetComponent<RoomParameters>().DoorMarkers;
-                (minPoint, maxPoint) = GetExtemeCornerCoordinates(startRoom.GetComponent<RoomParameters>());
-            }
-            else
-            {
-                placedRoomDoors = placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>().DoorMarkers;
-                (minPoint, maxPoint) = GetExtemeCornerCoordinates(placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>());
-            }
-                
-            for(int doorIndex = 0; doorIndex<currentRoom.DoorMarkers.Length; doorIndex++)
-            {
-                bool overlaps = false;
-                if ((currentRoom.DoorMarkers[doorIndex].Position.x == minPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.x == maxPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.y == minPoint.y) || (currentRoom.DoorMarkers[doorIndex].Position.y == maxPoint.y))
-                {
-                    for(int j = 0; j < placedRoomDoors.Length; j++)
-                    {
-                        Debug.Log(placedRoomDoors[j].Position + " - " + currentRoom.DoorMarkers[doorIndex].Position);
-                        if (placedRoomDoors[j].Position == currentRoom.DoorMarkers[doorIndex].Position + currentRoom.DoorMarkers[doorIndex].transform.localPosition)
-                            overlaps = true;
-                    }
-                    if (!overlaps)
-                    {
-                        Debug.Log("door collided with wall " + currentRoom);
-                        return false;
-                    }
-                        
-                } 
+                if (!PrefabIsProperlyDistanced(door, maxCheckerPoint, minCheckerPoint, placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>()))
+                    return false;
             }
         }
         return true;
@@ -210,7 +218,6 @@ public class MapGenerator : MonoBehaviour
 
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
-        print("here");
         //placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
@@ -239,7 +246,7 @@ public class MapGenerator : MonoBehaviour
 
     private bool PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
     {
-        int maxReQueues = 20, nrRequeues = 0;
+        int maxReQueues = 2, nrRequeues = 0;
         DoorMarker currentDoor = openDoors.First.Value;
         while (rooms.Count > 0)
         {
@@ -252,10 +259,12 @@ public class MapGenerator : MonoBehaviour
             }
             else
             {
+                //Debug.Log("req:" + r.Item1.name);
                 nrRequeues++;
-                //rooms.Enqueue(r);
-                
-            }   
+                if (nrRequeues >= maxReQueues)
+                    return false;
+                rooms.Enqueue(r);
+            }
         }
         return true;
     }
@@ -292,6 +301,16 @@ public class MapGenerator : MonoBehaviour
             */
         }
     }
+
+    private void ShowRooms()
+    {
+        //starter should be already placed
+        for(int i = 1; i < placingData.Count; i++)
+        {
+
+        }
+    }
+
     private IEnumerator InstantiateAll()
     {
         startRoom = Instantiate(startRoom, this.transform.position, Quaternion.identity);
