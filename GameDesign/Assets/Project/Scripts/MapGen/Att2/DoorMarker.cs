@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class DoorMarker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool _isOpen = false;
+    private Vector3 _position;
+
+    public bool IsOpen
     {
-        
+        get => _isOpen;
+        set
+        {
+            _isOpen = value;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 Position
     {
-        
+        get => _position;
+        set
+        {
+            _position = value;
+        }
     }
 }

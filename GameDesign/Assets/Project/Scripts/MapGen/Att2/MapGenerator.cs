@@ -27,6 +27,7 @@ public class MapGenerator : MonoBehaviour
     private void RotateRoomClockwise(DoorMarker pivotPoint, RoomParameters room)
     {
         float aux;
+        Vector3 p;
         for (int i = 0; i < 4; i++)
         {
             room.Corners[i] -= pivotPoint.transform.position;
@@ -36,6 +37,17 @@ public class MapGenerator : MonoBehaviour
             room.Corners[i].z = -1 * aux;
 
             room.Corners[i] += pivotPoint.transform.position;
+        }
+        for (int i=0;i<room.DoorMarkers.Length; i++)
+        {
+            room.DoorMarkers[i].Position -= pivotPoint.transform.position;
+
+            p = new Vector3(room.DoorMarkers[i].Position.z, room.DoorMarkers[i].Position.y, -1 * room.DoorMarkers[i].Position.x);
+            room.DoorMarkers[i].Position = p;
+
+            room.DoorMarkers[i].Position += pivotPoint.transform.position;
+            GameObject emptyGameObject = new GameObject("Rotated door");
+            emptyGameObject.transform.position = room.DoorMarkers[i].Position;
         }
     }
 
@@ -122,25 +134,60 @@ public class MapGenerator : MonoBehaviour
         return false;
     }
 
+    private Vector3[] GetDoorInitialPositions(RoomParameters room, int roomIndex)
+    {
+        Vector3[] rez = new Vector3[room.DoorMarkers.Length];
+        for (int k = 0; k < room.DoorMarkers.Length; k++)
+        {
+            rez[k] = placeableRooms[roomIndex].GetComponentInChildren<RoomParameters>().DoorMarkers[k].transform.position;
+        }
+        return rez;
+    }
+
+    private bool DoorsAreProperlyPlaced(RoomParameters room, int roomIndex)
+    {
+        print("here");
+        for (int k = 0; k < room.DoorMarkers.Length; k++)
+        {
+            //GameObject emptyGameObject = new GameObject("E");
+            //emptyGameObject.transform.position = placeableRooms[roomIndex].GetComponentInChildren<RoomParameters>().DoorMarkers[k].transform.position;
+        }
+        return true;
+    }
+
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
         Vector3[] corners = room.Corners;
         placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
+
             StartCoroutine(TransposeRoomToInitialLocation(location, room, i, roomIndex));
             room.SetCorners();
+            room.SetDoors(GetDoorInitialPositions(room, roomIndex));
+
+            for (int k = 0; k < room.DoorMarkers.Length; k++)
+            {
+                GameObject emptyGameObject = new GameObject("D");
+                emptyGameObject.transform.position = room.DoorMarkers[k].Position;
+            }
 
             for (int angle = 0; angle < 360; angle += 90)
             {
-                Debug.Log("angle " + angle + " Room coll:" + CollidesWithAnyRoom(room));
+
+                bool d = DoorsAreProperlyPlaced(room, roomIndex);
+                //Debug.Log("angle " + angle + " Room coll:" + CollidesWithAnyRoom(room));
+                if (!CollidesWithAnyRoom(room) && d)
+                {
+                    print("here");
+                }
                 RotateRoomClockwise(location, room);
-                //placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, 270);
+                RotateRoomClockwise(location, room);
+                RotateRoomClockwise(location, room);
+                placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, 270);
+                break;
+                
                 //if(doesn collide && doors are properly placed)
-
-
-                //check collisions
-                //check to have valid doors
             }
             break;
         }
@@ -176,7 +223,7 @@ public class MapGenerator : MonoBehaviour
         //set the starter room at the position of this
 
         openDoors = new Queue<DoorMarker>(startRoom.GetComponentInChildren<RoomParameters>().DoorMarkers);
-        //placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));      // -1: starter room is already in position
+        placingData.Add(new RoomPlacingData(-1, openDoors.Peek(), 0));      // -1: starter room is already in position
 
         Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
         Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;

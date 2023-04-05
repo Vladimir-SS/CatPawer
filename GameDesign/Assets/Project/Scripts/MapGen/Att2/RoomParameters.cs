@@ -10,7 +10,7 @@ public class RoomParameters : MonoBehaviour
 
     void Start()
     {
-        SetDoors();
+        IniDoors();
         SetCorners();
     }
 
@@ -41,7 +41,15 @@ public class RoomParameters : MonoBehaviour
         */
     }
 
-    private void SetDoors()
+    public void SetDoors(Vector3[] positions)
+    {
+        for(int i = 0; i < _doors.Length; i++)
+        {
+            _doors[i].Position = positions[i];
+        }
+    }
+
+    private void IniDoors()
     {
         _doors = this.GetComponentsInChildren<DoorMarker>();
     }

@@ -10,7 +10,7 @@ public class RoomPlacingData
     private RoomPivot _pivot;
     private int _rotation;
 
-    public RoomPlacingData(int placeableRoomsIndex, DoorMarker doorMarker, int rotation, Vector3[] currentCorners, Vector3[] currentDoorLocations)
+    public RoomPlacingData(int placeableRoomsIndex, DoorMarker doorMarker, int rotation)
     {
         this.PlaceableRoomsIndex = placeableRoomsIndex;
         this.Rotation = rotation;
