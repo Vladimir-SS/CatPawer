@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    //allows rooms to be placed even if they slightly overlap. reduces headaches with doorMarker placement
+    public float collisionTollerance = 0.5f;
+
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
 
@@ -101,9 +104,9 @@ public class MapGenerator : MonoBehaviour
     {
         (Vector3 minPoints1, Vector3 maxPoints1) = GetExtemeCornerCoordinates(room1);
         (Vector3 minPoints2, Vector3 maxPoints2) = GetExtemeCornerCoordinates(room2);
-        if ((minPoints1.x < maxPoints2.x) && (minPoints2.x < maxPoints1.x))
+        if ((minPoints1.x < maxPoints2.x - collisionTollerance) && (minPoints2.x < maxPoints1.x - collisionTollerance))
         {
-            if ((minPoints1.z < maxPoints2.z) && (minPoints2.z < maxPoints1.z))
+            if ((minPoints1.z < maxPoints2.z - collisionTollerance) && (minPoints2.z < maxPoints1.z - collisionTollerance))
             {
                 return true;
             }
@@ -146,7 +149,8 @@ public class MapGenerator : MonoBehaviour
 
     private bool DoorsAreProperlyPlaced(RoomParameters currentRoom)
     {
-        for(int i=0; i< placingData.Count; i++)
+        return true;
+        for (int i=0; i< placingData.Count; i++)
         {
             DoorMarker[] placedRoomDoors;
             Vector3 minPoint, maxPoint;
@@ -169,7 +173,7 @@ public class MapGenerator : MonoBehaviour
                     for(int j = 0; j < placedRoomDoors.Length; j++)
                     {
                         Debug.Log(placedRoomDoors[j].Position + " - " + currentRoom.DoorMarkers[doorIndex].Position);
-                        if(placedRoomDoors[j].Position == currentRoom.DoorMarkers[doorIndex].Position) 
+                        if (placedRoomDoors[j].Position == currentRoom.DoorMarkers[doorIndex].Position + currentRoom.DoorMarkers[doorIndex].transform.localPosition)
                             overlaps = true;
                     }
                     if (!overlaps)
@@ -206,6 +210,7 @@ public class MapGenerator : MonoBehaviour
 
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
+        print("here");
         //placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
@@ -228,13 +233,13 @@ public class MapGenerator : MonoBehaviour
                 }
                 RotateRoomClockwise(location, room);
             }
-            break;
         }
         return false;
     }
 
-    private void PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
+    private bool PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
     {
+        int maxReQueues = 20, nrRequeues = 0;
         DoorMarker currentDoor = openDoors.First.Value;
         while (rooms.Count > 0)
         {
@@ -243,19 +248,20 @@ public class MapGenerator : MonoBehaviour
             {
                 UpdateOpenDoors(r.Item1);
                 currentDoor = openDoors.First.Value;
+                nrRequeues = 0;
             }
-            /*
             else
             {
-                check for loops
-                requeue room;
-            }*/
+                nrRequeues++;
+                //rooms.Enqueue(r);
+                
+            }   
         }
+        return true;
     }
 
     private void BuildLayout()
     {
-        int maxReQueues = 5;
         float elevation = this.transform.position.y;
         //set the starter room at the position of this
         DoorMarker[] d = startRoom.GetComponent<RoomParameters>().DoorMarkers;
