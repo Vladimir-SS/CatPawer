@@ -493,6 +493,10 @@ PrefabInstance:
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5713555176224584971, guid: 2a681174708f74545ab3cfa73f173bf5, type: 3}
+      propertyPath: isManual
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6282633542383435075, guid: 2a681174708f74545ab3cfa73f173bf5, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.057
@@ -1204,6 +1208,26 @@ Transform:
   m_Father: {fileID: 516569046}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1634637728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6282633543328570988, guid: 2a681174708f74545ab3cfa73f173bf5, type: 3}
+  m_PrefabInstance: {fileID: 788061412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1634637730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634637728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf34be889b9cb67469aa9c4a35f51b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FireRateBase>k__BackingField: 0.3
+  <ReloadSpeedBase>k__BackingField: 2
+  <MagazineCapacityBase>k__BackingField: 4
 --- !u!1 &1656307938
 GameObject:
   m_ObjectHideFlags: 0
