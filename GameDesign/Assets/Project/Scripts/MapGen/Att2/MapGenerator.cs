@@ -6,14 +6,14 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     //allows rooms to be placed even if they slightly overlap. reduces headaches with doorMarker placement
-    public float collisionTollerance = 0.2f;
+    public float collisionTollerance;
 
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
 
     private Queue<Tuple<RoomParameters, int>> multipleDoorRooms = new Queue<Tuple<RoomParameters, int>>();
     private Queue<Tuple<RoomParameters, int>> specialRooms = new Queue<Tuple<RoomParameters, int>>();
-    private Queue<Tuple<RoomParameters, int>> singleDoorRooms = new Queue<Tuple<RoomParameters, int>>();
+    private List<Tuple<RoomParameters, int>> singleDoorRooms = new List<Tuple<RoomParameters, int>>();
 
     private LinkedList<DoorMarker> openDoors = new LinkedList<DoorMarker>();
     private List<RoomPlacingData> placingData = new List<RoomPlacingData>();
@@ -218,9 +218,9 @@ public class MapGenerator : MonoBehaviour
 
     private bool AbleToPlaceRoom(DoorMarker location, RoomParameters room, int roomIndex)
     {
-        //placeableRooms[roomIndex].SetActive(true);
         for (int i = 0; i < room.DoorMarkers.Length; i++)
         {
+            
             StartCoroutine(TransposeRoomToInitialLocation(location, room, i, roomIndex));
             
             room.SetCorners();
@@ -228,14 +228,11 @@ public class MapGenerator : MonoBehaviour
             
             for (int angle = 0; angle < 360; angle += 90)
             {
-                //Debug.Log("angle " + angle + " Room coll:" + CollidesWithAnyRoom(room));
                 if (!CollidesWithAnyRoom(room) && DoorsAreProperlyPlaced(room))
                 {
                     placingData.Add(new RoomPlacingData(roomIndex, room.DoorMarkers[i], angle));
-                    //TODO: remove
-                    //placeableRooms[roomIndex].transform.position = room.DoorMarkers[i].Position - room.DoorMarkers[i].transform.localPosition;
+                    
                     placeableRooms[roomIndex].transform.RotateAround(room.DoorMarkers[i].Position, Vector3.up, angle);
-                    placeableRooms[roomIndex].SetActive(true);
                     return true;
                 }
                 RotateRoomClockwise(location, room);
@@ -246,7 +243,8 @@ public class MapGenerator : MonoBehaviour
 
     private bool PlaceRegularRoomCollection(Queue<Tuple<RoomParameters, int>> rooms)
     {
-        int maxReQueues = 2, nrRequeues = 0;
+        //all this room/door swapping was not tested, but it should help place rooms on any door
+        int nrRoomReQueues = 0, nrDoorReQueues = 0;
         DoorMarker currentDoor = openDoors.First.Value;
         while (rooms.Count > 0)
         {
@@ -255,16 +253,101 @@ public class MapGenerator : MonoBehaviour
             {
                 UpdateOpenDoors(r.Item1);
                 currentDoor = openDoors.First.Value;
-                nrRequeues = 0;
+                nrRoomReQueues = 0;
+                nrDoorReQueues = 0;
             }
             else
             {
                 //Debug.Log("req:" + r.Item1.name);
-                nrRequeues++;
-                if (nrRequeues >= maxReQueues)
+                if (nrDoorReQueues >= openDoors.Count + 1)
                     return false;
-                rooms.Enqueue(r);
+                if (nrRoomReQueues >= rooms.Count + 1)
+                {
+                    openDoors.RemoveFirst();
+                    openDoors.AddLast(currentDoor);
+                    currentDoor = openDoors.First.Value;
+                    nrDoorReQueues++;
+                }
+                else
+                {
+                    nrRoomReQueues++;
+                    rooms.Enqueue(r);
+                }
             }
+        }
+        return true;
+    }
+
+
+    private bool PlaceSpecialRooms(Queue<Tuple<RoomParameters, int>> rooms)
+    {
+        DoorMarker currentDoor = openDoors.Last.Value;
+        int doorReQueues = 0;
+        while (rooms.Count > 0)
+        {
+            Tuple<RoomParameters, int> r = rooms.Peek();
+            if (AbleToPlaceRoom(currentDoor, r.Item1, r.Item2))
+            {
+                rooms.Dequeue();
+                doorReQueues = 0;
+            }
+            else
+            {
+                doorReQueues++;
+                openDoors.AddFirst(currentDoor);
+            }
+            if (doorReQueues >= rooms.Count + 1)
+                return false;
+            openDoors.RemoveLast();
+            currentDoor = openDoors.Last.Value;
+        }
+        return true;
+    }
+
+    private bool AbleToPlaceEndRoom(DoorMarker location, RoomParameters room, int roomIndex)
+    {
+        //it sure is cool that i gotta use another funct to do pretty much what another one does :] 
+        room.IniDoors();
+        StartCoroutine(TransposeRoomToInitialLocation(location, room, 0, roomIndex));
+        room.SetCorners();
+        room.SetDoors(GetDoorInitialPositions(room, roomIndex));
+
+        for (int angle = 0; angle < 360; angle += 90)
+        {
+            if (!CollidesWithAnyRoom(room) && DoorsAreProperlyPlaced(room))
+            {
+                placingData.Add(new RoomPlacingData(roomIndex, room.DoorMarkers[0], angle));
+
+                placeableRooms[roomIndex].transform.RotateAround(location.Position, Vector3.up, angle);
+                return true;
+            }
+            RotateRoomClockwise(location, room);
+        }
+        return false;
+    }
+
+    private bool PlacePatchingRooms(List<Tuple<RoomParameters, int>> rooms)
+    {
+        bool placed;
+        for (LinkedListNode<DoorMarker> node = openDoors.First; node != null; node = node.Next)
+        {
+            placed = false;
+            for(int i = 0; i < rooms.Count; i++)
+            {
+                Tuple<RoomParameters, int> currentRoom = rooms[i];
+                GameObject clone = Instantiate(placeableRooms[currentRoom.Item2], this.transform.position, Quaternion.identity);
+                placeableRooms.Add(clone);
+
+                RoomParameters script = clone.GetComponent<RoomParameters>();
+
+                if (AbleToPlaceEndRoom(node.Value, script, placeableRooms.Count - 1))
+                {
+                    placed = true;
+                    break;
+                }
+            }
+            if (!placed)
+                return false;
         }
         return true;
     }
@@ -283,31 +366,28 @@ public class MapGenerator : MonoBehaviour
 
         Queue<Tuple<RoomParameters, int>> firstRoomCollection = multipleDoorRooms;
         Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
-        Queue<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
+        List<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
 
         //sets multiple door rooms
-        while (firstRoomCollection.Count > 0)
+        while (true)
         {
-            PlaceRegularRoomCollection(firstRoomCollection);
-            /*
-            TryPlaceRoom();
-            if (placed)
-                addopenDoors;
-            else
+            //if not, shuffle & retry
+            if(PlaceRegularRoomCollection(firstRoomCollection))
             {
-                openDoors.Enqueue(openDoors.Dequeue());
-                multipleDoorRooms.Enqueue(multipleDoorRooms.Dequeue());
+                if (PlaceSpecialRooms(secondRoomCollection))
+                {
+                    PlacePatchingRooms(finalRoomCollection);
+                }
             }
-            */
+            break;
         }
     }
 
     private void ShowRooms()
     {
-        //starter should be already placed
         for(int i = 1; i < placingData.Count; i++)
         {
-
+            placeableRooms[placingData[i].PlaceableRoomsIndex].SetActive(true);
         }
     }
 
@@ -343,7 +423,7 @@ public class MapGenerator : MonoBehaviour
             }
             else
             {
-                singleDoorRooms.Enqueue(new Tuple<RoomParameters, int>(script, i));
+                singleDoorRooms.Add(new Tuple<RoomParameters, int>(script, i));
             }
         }
     }

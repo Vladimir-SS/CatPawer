@@ -49,7 +49,7 @@ public class RoomParameters : MonoBehaviour
         }
     }
 
-    private void IniDoors()
+    public void IniDoors()
     {
         _doors = this.GetComponentsInChildren<DoorMarker>();
     }
