@@ -49,26 +49,11 @@ public class MapGenerator : MonoBehaviour
             room.DoorMarkers[i].Position = p;
 
             room.DoorMarkers[i].Position += pivotPoint.transform.position;
-           // GameObject emptyGameObject = new GameObject("EmptyGameObject");
-            //emptyGameObject.transform.position = room.DoorMarkers[i].Position;
         }
     }
 
-    /*
-     placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[i].transform.localPosition;
-    placeableRooms[roomIndex].transform.RotateAround(location.transform.position, Vector3.up, angle);
-    foreach(Vector3 d in room.Corners)
-            {
-                GameObject emptyGameObject = new GameObject("EmptyGameObject");
-                emptyGameObject.transform.position = d;
-            }
-                //if ((currentRoom.DoorMarkers[doorIndex].Position.x == minPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.x == maxPoint.x) || (currentRoom.DoorMarkers[doorIndex].Position.y == minPoint.y) || (currentRoom.DoorMarkers[doorIndex].Position.y == maxPoint.y))
-
-     */
-
     private IEnumerator TransposeRoomToInitialLocation(DoorMarker location, RoomParameters room, int doorIndex, int roomIndex)
     {
-        //room.DoorMarkers[doorIndex].transform.position = location.transform.position;
         placeableRooms[roomIndex].transform.position = location.transform.position - room.DoorMarkers[doorIndex].transform.localPosition;
         yield return null;
     }
@@ -174,6 +159,34 @@ public class MapGenerator : MonoBehaviour
         return true;
     }
 
+    private bool AnyDoorGetsCovered(RoomParameters currentRoom, RoomParameters roomToCheckAgainst)
+    {
+        List<DoorMarker> doors = new List<DoorMarker>(roomToCheckAgainst.GetComponent<RoomParameters>().DoorMarkers);
+        Vector3 maxCheckerPoint, minCheckerPoint;
+        foreach (DoorMarker door in doors)
+        {
+            maxCheckerPoint = door.Position + new Vector3(2.0f, door.Position.y, 2.0f);
+            minCheckerPoint = door.Position + new Vector3(-2.0f, door.Position.y, -2.0f);
+            if (!PrefabIsProperlyDistanced(door, maxCheckerPoint, minCheckerPoint, currentRoom))
+                return true;
+        }
+        return false;
+    }
+
+    private bool PrefabDoesntSpawnOverDoor(RoomParameters currentRoom)
+    {
+        if (AnyDoorGetsCovered(currentRoom, startRoom.GetComponent<RoomParameters>()))
+            return false;
+
+        for (int i = 1; i < placingData.Count; i++)
+        {
+            RoomParameters placedRoom = placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>();
+            if (AnyDoorGetsCovered(currentRoom, placedRoom))
+                return false;
+        }
+        return true;
+    }
+
     //checks that the doors are not placed too close to other prefabs, but allows doors to overlap
     private bool DoorsAreProperlyPlaced(RoomParameters currentRoom)
     {
@@ -193,23 +206,32 @@ public class MapGenerator : MonoBehaviour
                     return false;
             }
         }
-        return true;
+        if(PrefabDoesntSpawnOverDoor(currentRoom))
+            return true;
+        return false;
     }
 
-    private void UpdateOpenDoors(RoomParameters lastPlacedRoom)
+    private List<DoorMarker> RemoveClosedDoors(List<DoorMarker> doors)
     {
-        List<DoorMarker> doors = new List<DoorMarker>(lastPlacedRoom.DoorMarkers);
         for (var node = openDoors.First; node != null; node = node.Next)
         {
-            for(int i = 0; i < doors.Count; i++)
+            for (int i = 0; i < doors.Count; i++)
             {
-                if(node.Value.Position == doors[i].Position)
+                //if(node.Value.Position == doors[i].Position)
+                if ((Vector3.Distance(node.Value.Position, doors[i].Position) < collisionTollerance) || (node.Value.Position == doors[i].Position))
                 {
                     openDoors.Remove(node);
                     doors.RemoveAt(i);
                 }
             }
         }
+        return doors;
+    }
+
+    private void UpdateOpenDoors(RoomParameters placedRoom)
+    {
+        List<DoorMarker> doors = new List<DoorMarker>(placedRoom.DoorMarkers);
+        doors = RemoveClosedDoors(doors);
         for (int i = 0; i < doors.Count; i++)
         {
             openDoors.AddLast(doors[i]);
@@ -277,7 +299,6 @@ public class MapGenerator : MonoBehaviour
         }
         return true;
     }
-
 
     private bool PlaceSpecialRooms(Queue<Tuple<RoomParameters, int>> rooms)
     {
@@ -352,9 +373,24 @@ public class MapGenerator : MonoBehaviour
         return true;
     }
 
-    private void BuildLayout()
+    // in case the placing of a prefab covers more than one door, in open doors there will be added two doors that are covered
+    private void FilterOpenDoors()
     {
-        float elevation = this.transform.position.y;
+        for (var node1 = openDoors.First; node1 != null; node1 = node1.Next)
+        {
+            for (var node2 = node1.Next; node2 != null; node2 = node2.Next)
+            {
+                if (Vector3.Distance(node1.Value.Position, node2.Value.Position) < collisionTollerance)
+                {
+                    openDoors.Remove(node1);
+                    openDoors.Remove(node2);
+                }
+            }
+        }
+    }
+
+    private bool BuildLayout()
+    {
         //set the starter room at the position of this
         DoorMarker[] d = startRoom.GetComponent<RoomParameters>().DoorMarkers;
         for(int i = 0; i < d.Length; i++)
@@ -368,19 +404,39 @@ public class MapGenerator : MonoBehaviour
         Queue<Tuple<RoomParameters, int>> secondRoomCollection = specialRooms;
         List<Tuple<RoomParameters, int>> finalRoomCollection = singleDoorRooms;
 
-        //sets multiple door rooms
-        while (true)
+        List<RoomPlacingData> prevPlacingData = new List<RoomPlacingData>();
+        LinkedList<DoorMarker> prevOpenDoors = new LinkedList<DoorMarker>();
+
+        //hope y'all like noodles
+        int maxAtt = 4;
+        for(int att1=0;att1<maxAtt;att1++)
         {
-            //if not, shuffle & retry
-            if(PlaceRegularRoomCollection(firstRoomCollection))
+            //shuflle first
+            if (!PlaceRegularRoomCollection(firstRoomCollection))
+                continue;
+            prevPlacingData = placingData;
+            prevOpenDoors = openDoors;
+            FilterOpenDoors();
+            for (int att2 = 0; att2 < maxAtt; att2++)
             {
-                if (PlaceSpecialRooms(secondRoomCollection))
+                //shuffle second 
+                prevPlacingData = placingData;
+                prevOpenDoors = openDoors;
+                if (!PlaceSpecialRooms(secondRoomCollection))
+                    continue;
+                for (int att3 = 0; att3 < maxAtt; att3++)
                 {
-                    PlacePatchingRooms(finalRoomCollection);
+                    //these get shuffled somewhere else
+                    if (PlacePatchingRooms(finalRoomCollection))
+                        return true;
                 }
+                placingData = prevPlacingData;
+                openDoors = prevOpenDoors;
             }
-            break;
+            placingData = prevPlacingData;
+            openDoors = prevOpenDoors;
         }
+        return false;
     }
 
     private void ShowRooms()
@@ -439,17 +495,5 @@ public class MapGenerator : MonoBehaviour
         {
             Debug.LogException(new MissingComponentException("No single-door room provided in MapGenerator > placeableRooms!"));
         }
-        /*
-         while(multipleDoorRooms.Count > 0)
-        {
-            Tuple<RoomParameters, int> t = multipleDoorRooms.Dequeue();
-            Debug.Log("mult:" + t.Item1.name + " - " + t.Item2);
-        }
-        while (singleDoorRooms.Count > 0)
-        {
-            Tuple<RoomParameters, int> t = singleDoorRooms.Dequeue();
-            Debug.Log("single:" + t.Item1.name + " - " + t.Item2);
-        }
-        */
     }
 }
