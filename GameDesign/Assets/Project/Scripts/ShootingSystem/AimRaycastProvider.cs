@@ -22,4 +22,18 @@ public class AimRaycastProvider : MonoBehaviour
 
         return ray.GetPoint(RayCastMaxDistance);
     }
+
+    static public GameObject GetHitObject()
+    {
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        if (Physics.Raycast(ray, out RaycastHit hit, RayCastMaxDistance, ~IgnoredLayerMask))
+        {
+            Debug.Log("You just hit : " + hit.collider.gameObject.name);
+            return hit.collider.gameObject;
+        }
+
+        return null;
+    }
 }
