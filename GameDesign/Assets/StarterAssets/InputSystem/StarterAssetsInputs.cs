@@ -12,6 +12,7 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool sneak;
 		public bool aim;
 		public bool reload;
 		public bool shootHold;
@@ -52,6 +53,11 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 
+		public void OnSneak(InputValue value)
+		{
+			SneakInput(value.isPressed);
+		}
+
         public void OnAim(InputValue value)
         {
             AimInput(value.isPressed);
@@ -87,6 +93,11 @@ namespace StarterAssets
         public void SprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
+		}
+
+		public void SneakInput(bool newSneakState)
+		{
+			sneak = newSneakState;
 		}
 
         public void AimInput(bool newAimState)
