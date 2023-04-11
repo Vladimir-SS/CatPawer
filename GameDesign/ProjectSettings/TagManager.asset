@@ -7,6 +7,8 @@ TagManager:
   - RoomSpawnPoint
   - RoomSpawnChecker
   - RoomSpawnAreaChecker
+  - CinemachineTarget
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Player
   - WhatIsGround
-  - 
+  - Bullet
   - 
   - 
   - 
