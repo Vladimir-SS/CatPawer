@@ -18,5 +18,6 @@ public class BulletSourceBulletProvider : BulletSourceBase
         IBullet bullet = bulletProvider.GetBullet();
         bullet.damage = statsEntityFinal.RangedDamage;
         bullet.Shoot(transform.position, GetDirection());
+        GetHitObject().GetComponent<IDamageable>()?.TakeDamage(bullet.damage);
     }
 }

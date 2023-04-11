@@ -9,7 +9,7 @@ public abstract class BulletSourceBase : MonoBehaviour
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
     protected GunStats gunStats;
-    
+
     protected float nextFire;
     protected uint bulletsInMagazine;
     protected bool isReloading;
@@ -38,6 +38,11 @@ public abstract class BulletSourceBase : MonoBehaviour
         return direction;
     }
 
+    protected GameObject GetHitObject()
+    {
+        return AimRaycastProvider.GetHitObject();
+    }
+
     protected abstract void ShootBullet();
 
     protected async void reload()
@@ -60,7 +65,7 @@ public abstract class BulletSourceBase : MonoBehaviour
 
         if (starterAssetsInputs.shootHold && starterAssetsInputs.aim && !isReloading)
         {
-            if(isManual)
+            if (isManual)
                 starterAssetsInputs.shootHold = false;
             // TODO : FireRateFinal
             if (Time.time > nextFire && bulletsInMagazine != 0)

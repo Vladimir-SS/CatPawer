@@ -13,14 +13,12 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-        
 
 
-    
+
+
     private void Update()
     {
-        
-
 
         if (starterAssetsInputs.aim)
         {
