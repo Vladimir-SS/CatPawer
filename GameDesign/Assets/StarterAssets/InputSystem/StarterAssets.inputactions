@@ -51,9 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Reload",
                     "type": "Button",
                     "id": "ec5cfd9e-1d8a-45d3-9e56-cb680cf0dd47",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShootHold",
+                    "type": "PassThrough",
+                    "id": "9ae21642-9726-4744-852b-664299e52f75",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -262,22 +271,33 @@
                 {
                     "name": "",
                     "id": "d8b74841-f81e-47bd-856d-449ae5bb1ab6",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Shoot",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8486acc9-71de-4d71-84c4-08b44f401ac9",
+                    "id": "8818fde0-4776-40da-addc-cb34e88be0a5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ShootHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31dc5827-992c-47ca-b9f7-971f2614b3b7",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Shoot",
+                    "action": "ShootHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -20,4 +20,9 @@ public class PossibleStats : MonoBehaviour
     [field: SerializeField] public float MoveSpeed { get; protected set; } = 0;
 
     [field: SerializeField] public float DamagePercentageBase { get; protected set; } = 0;
+
+    public void ModifyMaxHealth(float amount)
+    {
+        MaxHealth += amount;
+    }
 }

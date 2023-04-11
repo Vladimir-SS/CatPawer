@@ -13,14 +13,12 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-        
 
 
-    
+
+
     private void Update()
     {
-        
-
 
         if (starterAssetsInputs.aim)
         {
@@ -28,7 +26,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetSensitivity(aimSenstivity);
             thirdPersonController.SetRotateOnMove(false);
 
-            Vector3 aimPosition = AimRaycastHandler.GetCameraTargetPosition();
+            Vector3 aimPosition = AimRaycastProvider.GetCameraTargetPosition();
 
             Vector3 aimDirection = (aimPosition - transform.position).normalized;
             aimDirection.y = 0f;
