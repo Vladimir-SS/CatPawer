@@ -4,6 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - RoomSpawnPoint
+  - RoomSpawnChecker
+  - RoomSpawnAreaChecker
   - CinemachineTarget
   - Enemy
   layers:
