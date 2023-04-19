@@ -31,6 +31,8 @@ public class Damageable : MonoBehaviour, IDamageable
     public void Die()
     {
         Destroy(gameObject);
+        Destroy(healthbarImage.gameObject);
         //statsEntity.RemoveStats()  ...
     }
+
 }

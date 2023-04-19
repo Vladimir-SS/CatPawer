@@ -598,6 +598,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3643751414683158520, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: <MagazineCapacityBase>k__BackingField
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3710274553804124904, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_RootOrder
       value: 2
