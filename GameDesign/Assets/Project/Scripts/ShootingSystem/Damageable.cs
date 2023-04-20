@@ -30,9 +30,9 @@ public class Damageable : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        Destroy(gameObject);
-        Destroy(healthbarImage.gameObject);
-        //statsEntity.RemoveStats()  ...
+     Destroy(transform.root.gameObject); // Destroy the root GameObject
+     //statsEntity.RemoveStats()  ...
     }
+
 
 }
