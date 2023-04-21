@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Damageable : MonoBehaviour, IDamageable
 {
+
     [SerializeField] Image healthbarImage;
 
     private StatsEntity statsEntity;
@@ -30,8 +31,8 @@ public class Damageable : MonoBehaviour, IDamageable
 
     public void Die()
     {
-     Destroy(transform.root.gameObject); // Destroy the root GameObject
-     //statsEntity.RemoveStats()  ...
+        Destroy(transform.root.gameObject); // Destroy the root GameObject
+        //statsEntity.RemoveStats()  ...
     }
 
 

@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|walk
+      name: DuckWalk
       takeName: Armature|walk
       internalID: -4799524434163024911
       firstFrame: 0
