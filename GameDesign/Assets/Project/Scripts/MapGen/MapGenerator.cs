@@ -8,7 +8,6 @@ public class MapGenerator : MonoBehaviour
     //allows rooms to be placed even if they slightly overlap. reduces headaches with doorMarker placement
     public float collisionTollerance;
     public int seed = 123;
-
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
 
@@ -23,7 +22,7 @@ public class MapGenerator : MonoBehaviour
     {
         yield return StartCoroutine(InstantiateAll());
         PrepareData();
-        ValidateData();     
+        //ValidateData();     
         if (BuildLayout())
         {
             ShowRooms();
