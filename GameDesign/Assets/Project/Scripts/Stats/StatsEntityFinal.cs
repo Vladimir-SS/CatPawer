@@ -10,7 +10,6 @@ public class StatsEntityFinal : PossibleStats
 
     private void RecalculateStats()
     {
-        MeleeDamage = MeleeDamageBase + (MeleeDamageBase * DamagePercentageBase);
         RangedDamage = RangedDamageBase + (RangedDamageBase * DamagePercentageBase);
     }
     
@@ -18,7 +17,6 @@ public class StatsEntityFinal : PossibleStats
     {
         MaxHealth += stats.MaxHealth;
         AttackSpeed += stats.AttackSpeed;
-        MeleeDamageBase += stats.MeleeDamageBase;
         RangedDamageBase += stats.RangedDamageBase;
         Armor += stats.Armor;
         AttackRange += stats.AttackRange;
@@ -32,7 +30,6 @@ public class StatsEntityFinal : PossibleStats
     {
         MaxHealth -= stats.MaxHealth;
         AttackSpeed -= stats.AttackSpeed;
-        MeleeDamageBase -= stats.MeleeDamageBase;
         RangedDamageBase -= stats.RangedDamageBase;
         Armor -= stats.Armor;
         AttackRange -= stats.AttackRange;

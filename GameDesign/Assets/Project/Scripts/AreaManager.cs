@@ -5,12 +5,25 @@ using UnityEngine;
 public class AreaManager : MonoBehaviour
 {
     [SerializeField] private GameObject trashbin;
+    [SerializeField] private GameObject EnemyHealthBarPrefab;
+    
     public GameObject[] enemyPrefabs;
     public GameObject[] spawnPoints;
+
 
     void Start()
     {
         SpawnEnemies();
+    }
+
+    void AddHealthBar(GameObject go)
+    {
+        GameObject body = go.transform.Find("Body").gameObject;
+
+        var height = body.GetComponent<Collider>().bounds.size.y;
+        Vector3 offset = new (0, height, 0);
+
+        Instantiate(EnemyHealthBarPrefab, body.transform.position + offset, Quaternion.identity, body.transform);
     }
 
     void SpawnEnemies()
@@ -18,7 +31,8 @@ public class AreaManager : MonoBehaviour
         foreach (GameObject spawnPoint in spawnPoints)
         {
             int randomIndex = Random.Range(0, enemyPrefabs.Length);
-            Instantiate(enemyPrefabs[randomIndex], spawnPoint.transform.position, Quaternion.identity);
+            var enemy = Instantiate(enemyPrefabs[randomIndex], spawnPoint.transform.position, Quaternion.identity);
+            //AddHealthBar(enemy);
         }
     }
 
