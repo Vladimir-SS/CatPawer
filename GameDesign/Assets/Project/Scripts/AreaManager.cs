@@ -27,9 +27,6 @@ public class AreaManager : MonoBehaviour
                 OpenDoor();
             }
 
-    void Start()
-    {
-        SpawnEnemies();
     }
 
     void AddHealthBar(GameObject go)

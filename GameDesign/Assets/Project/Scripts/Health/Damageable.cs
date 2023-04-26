@@ -56,6 +56,6 @@ public class Damageable : MonoBehaviour
     
     void Die()
     {
-        Destroy(gameObject);
+        Destroy(transform.root.gameObject);
     }
 }

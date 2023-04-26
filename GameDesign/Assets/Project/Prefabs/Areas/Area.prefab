@@ -145,9 +145,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trashbin: {fileID: 0}
   spawnPoints: {fileID: 7153361016347979344}
+  EnemyHealthBarPrefab: {fileID: 7564379418139066590, guid: 4a6e3b6869ff0b344bea44a5aaeb6f91, type: 3}
   enemyPrefabs:
   - {fileID: 9075441756378592109, guid: 754fa2cc5def50b4395e81782c3240d0, type: 3}
   - {fileID: 4067813983902286559, guid: 7efc7bc07b04913458cdcd53bde547be, type: 3}
+  difficulty: 1
+  healthBuffPercentage: 0.5
+  speedBuffPercentage: 0.1
+  damageBuffPercentage: 0.25
 --- !u!1 &7153361016347979344
 GameObject:
   m_ObjectHideFlags: 0
