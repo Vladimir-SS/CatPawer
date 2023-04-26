@@ -769,13 +769,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3db472061ffdb4a917af8e295146b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 0
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 100
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
+  <Body>k__BackingField:
+    MaxHP: 0
+    Armor: 0
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  <Combat>k__BackingField:
+    DamageBonus: 0
+    DamageBase: 0
 --- !u!1 &3186033460590616834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,8 +1817,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3710274553804124904}
-  - component: {fileID: 3988945514302745530}
   - component: {fileID: 2015718018531963913}
+  - component: {fileID: 3988945514302745530}
   - component: {fileID: 4320975475467307122}
   m_Layer: 0
   m_Name: PlayerCat
@@ -1844,27 +1848,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3988945514302745530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7684548310088543534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8140ff5b320916d41bb500b589d35f19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 0
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 0
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
-  <MeleeDamage>k__BackingField: 0
-  <RangedDamage>k__BackingField: 0
 --- !u!114 &2015718018531963913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1877,13 +1860,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affa30c920d410f46b2d08967840c1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 10
-  <AttackSpeed>k__BackingField: 5
-  <RangedDamageBase>k__BackingField: 20
-  <Armor>k__BackingField: 5
-  <AttackRange>k__BackingField: 10
-  <MoveSpeed>k__BackingField: 10
-  <DamagePercentageBase>k__BackingField: 0.2
+  <Body>k__BackingField:
+    MaxHP: 100
+    Armor: 3
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  <Combat>k__BackingField:
+    DamageBonus: 0
+    DamageBase: 0
+--- !u!114 &3988945514302745530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684548310088543534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8140ff5b320916d41bb500b589d35f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Body>k__BackingField:
+    MaxHP: 0
+    Armor: 0
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  Combat:
+    Damage: 0
 --- !u!114 &4320975475467307122
 MonoBehaviour:
   m_ObjectHideFlags: 0

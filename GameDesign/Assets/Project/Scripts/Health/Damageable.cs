@@ -2,6 +2,8 @@
 using System;
 using System.Xml.Serialization;
 using UnityEngine;
+using Stats;
+using Stats.Structs;
 
 [RequireComponent(typeof(StatsEntityFinal))]
 public class Damageable : MonoBehaviour
@@ -18,7 +20,7 @@ public class Damageable : MonoBehaviour
     void Start()
     {
         stats = GetComponent<StatsEntityFinal>();
-        currentHealth = stats.MaxHealth;
+        currentHealth = stats.Body.MaxHP;
     }
 
     //TODO: change with an event subscription later on
@@ -32,9 +34,9 @@ public class Damageable : MonoBehaviour
 
     private void Update()
     {
-        if(stats.MaxHealth != lastMaxHealth)
+        if(stats.Body.MaxHP != lastMaxHealth)
         {
-            UpdateCurrentHealth(stats.MaxHealth);
+            UpdateCurrentHealth(stats.Body.MaxHP);
         }
 
         // TODO: DELETE

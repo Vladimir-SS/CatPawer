@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Stats;
 
 public abstract class BulletSourceBase : MonoBehaviour
 {
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
-    protected GunStats gunStats;
 
     protected float nextFire;
     protected uint bulletsInMagazine;
@@ -25,9 +25,8 @@ public abstract class BulletSourceBase : MonoBehaviour
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
         statsEntityFinal = GetComponentInParent<StatsEntityFinal>();
-        gunStats = GetComponentInParent<GunStats>();
 
-        bulletsInMagazine = gunStats.MagazineCapacityBase;
+        bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
     }
 
     protected Vector3 GetDirection()
@@ -48,8 +47,8 @@ public abstract class BulletSourceBase : MonoBehaviour
     protected async void reload()
     {
         isReloading = true;
-        await Task.Delay((int)(gunStats.ReloadSpeedBase * 1000));
-        bulletsInMagazine = gunStats.MagazineCapacityBase;
+        await Task.Delay((int)(statsEntityFinal.Gun.ReloadSpeed * 1000));
+        bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
         isReloading = false;
     }
 
@@ -70,7 +69,7 @@ public abstract class BulletSourceBase : MonoBehaviour
             // TODO : FireRateFinal
             if (Time.time > nextFire && bulletsInMagazine != 0)
             {
-                nextFire = Time.time + gunStats.FireRateBase;
+                nextFire = Time.time + statsEntityFinal.Gun.FireRate;
                 --bulletsInMagazine;
                 ShootBullet();
             }

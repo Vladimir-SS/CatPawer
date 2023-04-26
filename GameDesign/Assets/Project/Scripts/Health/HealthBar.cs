@@ -6,12 +6,12 @@ public class HealthBar : MonoBehaviour
 
     [SerializeField] Image healthbarImage;
 
-    private StatsEntityFinal statsEntity;
+    private Stats.StatsEntityFinal statsEntity;
     private Damageable damageable;
 
     void Start()
     {
-        statsEntity = GetComponentInParent<StatsEntityFinal>();
+        statsEntity = GetComponentInParent<Stats.StatsEntityFinal> ();
         damageable = GetComponentInParent<Damageable>();
     }
 
@@ -21,10 +21,8 @@ public class HealthBar : MonoBehaviour
         {
             return;
         }
-
-        Debug.Log(damageable.CurrentHealth);
         
-        healthbarImage.fillAmount = damageable.CurrentHealth / statsEntity.MaxHealth;
+        healthbarImage.fillAmount = damageable.CurrentHealth / statsEntity.Body.MaxHP;
     }
 
 
