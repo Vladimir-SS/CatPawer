@@ -8,8 +8,11 @@ public class Billboard : MonoBehaviour
         if(cam == null)
             cam = FindObjectOfType<Camera>();
 
-        if(cam == null)
+        if (cam == null)
+        {
+            Debug.Log("no cam");
             return;
+        }
         
         transform.LookAt(cam.transform);
         transform.Rotate(Vector3.up * 180);
