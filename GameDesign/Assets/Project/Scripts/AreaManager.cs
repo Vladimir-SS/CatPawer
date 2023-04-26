@@ -32,7 +32,7 @@ public class AreaManager : MonoBehaviour
         {
             int randomIndex = Random.Range(0, enemyPrefabs.Length);
             var enemy = Instantiate(enemyPrefabs[randomIndex], spawnPoint.transform.position, Quaternion.identity);
-            //AddHealthBar(enemy);
+            AddHealthBar(enemy);
         }
     }
 

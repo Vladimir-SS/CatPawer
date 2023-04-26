@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3179780778399460845, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3710274553804124904, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -174,17 +178,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4110065055067629176, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7684548310088543534, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_Name
       value: PlayerCat
       objectReference: {fileID: 0}
+    - target: {fileID: 8421800250361550191, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8774940469319420753, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: field of view
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
@@ -363,6 +375,7 @@ MonoBehaviour:
   EnemyHealthBarPrefab: {fileID: 7564379418139066590, guid: 4a6e3b6869ff0b344bea44a5aaeb6f91, type: 3}
   enemyPrefabs:
   - {fileID: 9075441756378592109, guid: 754fa2cc5def50b4395e81782c3240d0, type: 3}
+  - {fileID: 4067813983902286559, guid: 7efc7bc07b04913458cdcd53bde547be, type: 3}
   spawnPoints:
   - {fileID: 2016664901}
   - {fileID: 1653813304}

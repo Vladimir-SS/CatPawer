@@ -1816,7 +1816,7 @@ GameObject:
   - component: {fileID: 3988945514302745530}
   - component: {fileID: 2015718018531963913}
   - component: {fileID: 4320975475467307122}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerCat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
