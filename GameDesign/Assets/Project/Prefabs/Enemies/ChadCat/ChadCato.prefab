@@ -655,7 +655,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3959637606340821550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.16, y: 4.6691556, z: 2.12}
+  m_LocalPosition: {x: 1.16, y: 5.37, z: 2.12}
   m_LocalScale: {x: 6.4851336, y: 6.4851336, z: 6.4851336}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -690,15 +690,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8140ff5b320916d41bb500b589d35f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 0
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 0
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
-  <MeleeDamage>k__BackingField: 0
-  <RangedDamage>k__BackingField: 0
+  <Body>k__BackingField:
+    MaxHP: 0
+    Armor: 0
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  Combat:
+    Damage: 0
 --- !u!114 &3959637606340821527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,13 +712,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affa30c920d410f46b2d08967840c1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 300
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 0
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
+  <Body>k__BackingField:
+    MaxHP: 0
+    Armor: 0
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  <Combat>k__BackingField:
+    DamageBonus: 0
+    DamageBase: 0
 --- !u!114 &3959637606340821524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,7 +878,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4067813983902286559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.804, y: -0.485, z: 0}
+  m_LocalPosition: {x: -1.804, y: 0, z: 0}
   m_LocalScale: {x: 0.16374373, y: 0.16374373, z: 0.16374373}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -928,7 +933,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4067813983902286559}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 8
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -937,7 +942,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 13
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
