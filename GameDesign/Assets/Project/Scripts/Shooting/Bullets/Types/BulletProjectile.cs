@@ -26,7 +26,7 @@ public class BulletProjectile : IBullet
             gameObject.SetActive(false);
         }
 
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * transform.forward;
     }
 
    private void OnTriggerEnter(Collider other)

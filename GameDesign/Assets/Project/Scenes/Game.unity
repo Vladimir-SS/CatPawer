@@ -596,6 +596,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minigun
       objectReference: {fileID: 0}
+    - target: {fileID: 4494081710830358838, guid: 7fd1ff3073aa4d14e8f7512b55a7060f, type: 3}
+      propertyPath: <Gun>k__BackingField.FireRate
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 4494081710830358857, guid: 7fd1ff3073aa4d14e8f7512b55a7060f, type: 3}
       propertyPath: m_RootOrder
       value: 4

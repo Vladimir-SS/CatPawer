@@ -46,6 +46,7 @@ public class AreaManager : MonoBehaviour
     {
         foreach (Transform child in spawnPoints.transform)
         {
+
             if (child != null)
             {
                 int randomIndex = Random.Range(0, enemyPrefabs.Length);

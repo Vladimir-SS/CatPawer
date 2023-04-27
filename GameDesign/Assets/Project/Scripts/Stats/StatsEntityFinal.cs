@@ -1,41 +1,57 @@
+using Stats.Structs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatsEntityFinal : PossibleStats
+namespace Stats
 {
-    //TODO: Remove [field: SerializeField] when you finished debugging
-    [field: SerializeField] public float MeleeDamage { get; protected set; } = 0;
-    [field: SerializeField] public float RangedDamage { get; protected set; } = 0;
-
-    private void RecalculateStats()
+    public class StatsEntityFinal : MonoBehaviour
     {
-        RangedDamage = RangedDamageBase + (RangedDamageBase * DamagePercentageBase);
-    }
-    
-    public void AddStats(StatsBase stats)
-    {
-        MaxHealth += stats.MaxHealth;
-        AttackSpeed += stats.AttackSpeed;
-        RangedDamageBase += stats.RangedDamageBase;
-        Armor += stats.Armor;
-        AttackRange += stats.AttackRange;
-        MoveSpeed += stats.MoveSpeed;
-        DamagePercentageBase += stats.DamagePercentageBase;
+        [field: SerializeField] public Structs.Body Body { get; protected set; } = new Structs.Body { MaxHP = 0, Armor = 0, Speed = 0 };
+        private Structs.Combat CombatBase;
+        [field: SerializeField] public Structs.Gun Gun { get; protected set; }
 
-        RecalculateStats();
-    }
+        [Serializable]
+        public struct CalculatedCombat
+        {
+            public float Damage;
+        }
 
-    public void RemoveStats(StatsBase stats)
-    {
-        MaxHealth -= stats.MaxHealth;
-        AttackSpeed -= stats.AttackSpeed;
-        RangedDamageBase -= stats.RangedDamageBase;
-        Armor -= stats.Armor;
-        AttackRange -= stats.AttackRange;
-        MoveSpeed -= stats.MoveSpeed;
-        DamagePercentageBase -= stats.DamagePercentageBase;
+        [field: SerializeField] public CalculatedCombat Combat;
 
-        RecalculateStats();
+
+
+        private readonly object changeLock = new();
+
+        private void RecalculateStats()
+        {
+            Combat.Damage = CombatBase.DamageBase + CombatBase.DamageBase * (CombatBase.DamageBonus / 100);
+        }
+
+        public void AddStats(PossibleStats stats)
+        {
+            lock (changeLock)
+            {
+                Body += stats.Body;
+                CombatBase += stats.Combat;
+                Gun += stats.Gun;
+
+
+                RecalculateStats();
+            }
+        }
+
+        public void RemoveStats(PossibleStats stats)
+        {
+            lock (changeLock)
+            {
+                Body -= stats.Body;
+                CombatBase -= stats.Combat;
+                Gun -= stats.Gun;
+
+                RecalculateStats();
+            }
+        }
     }
 }
