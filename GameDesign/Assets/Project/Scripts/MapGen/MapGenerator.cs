@@ -6,11 +6,10 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     //allows rooms to be placed even if they slightly overlap. reduces headaches with doorMarker placement
-    public float collisionTollerance;
-    public int seed = 123;
-
-    public GameObject startRoom;
-    public List<GameObject> placeableRooms;
+    private float collisionTollerance;
+    private int seed = 123;
+    private GameObject startRoom;
+    private List<GameObject> placeableRooms;
 
     private List<Tuple<RoomParameters, int>> multipleDoorRooms = new List<Tuple<RoomParameters, int>>();
     private List<Tuple<RoomParameters, int>> specialRooms = new List<Tuple<RoomParameters, int>>();
@@ -18,16 +17,27 @@ public class MapGenerator : MonoBehaviour
 
     private LinkedList<DoorMarker> openDoors = new LinkedList<DoorMarker>();
     private List<RoomPlacingData> placingData = new List<RoomPlacingData>();
+
+    private Vector3[] startRoomCorners = new Vector3[3];
     
-    private IEnumerator Start()
+    public IEnumerator GenerateMap(int seed, float collisionTollerance, GameObject startRoom, List<GameObject> placeableRooms)
+    {
+        this.seed = seed;
+        this.collisionTollerance = collisionTollerance;
+        this.startRoom = startRoom;
+        this.placeableRooms = placeableRooms;
+        yield return StartCoroutine(Build());
+    }
+
+    public IEnumerator Build()
     {
         yield return StartCoroutine(InstantiateAll());
         PrepareData();
-        ValidateData();     
+        //ValidateData();     
         if (BuildLayout())
         {
             ShowRooms();
-            Cleanup();  // should delete the doormarkers too, but not yet
+            TryCleanup();  // should delete the doormarkers too, but not yet
         }
     }
 
@@ -63,7 +73,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     //needed to check if two rooms collide
-    private Tuple<Vector3, Vector3> GetExtemeCornerCoordinates(RoomParameters room)
+    public Tuple<Vector3, Vector3> GetExtemeCornerCoordinates(RoomParameters room)
     {
         Vector3 minPoints = new Vector3(Mathf.Infinity, room.Corners[0].y, Mathf.Infinity);
         Vector3 maxPoints = new Vector3(Mathf.NegativeInfinity, room.Corners[0].y, Mathf.NegativeInfinity);
@@ -119,7 +129,7 @@ public class MapGenerator : MonoBehaviour
         {
             if (RoomsCollide(placeableRooms[placingData[i].PlaceableRoomsIndex].GetComponent<RoomParameters>(), room))
             {
-                //Debug.Log("Collided with room of index:" + placingData[i].PlaceableRoomsIndex);
+                // Debug.Log("Collided with room of index:" + placingData[i].PlaceableRoomsIndex);
                 return true;
             }
         }
@@ -250,10 +260,13 @@ public class MapGenerator : MonoBehaviour
             StartCoroutine(TransposeRoomToInitialLocation(location, room, i, roomIndex));
             
             room.SetCorners();
+
             room.SetDoors(GetDoorInitialPositions(room, roomIndex));
             
             for (int angle = 0; angle < 360; angle += 90)
             {
+                //Debug.Log(CollidesWithAnyRoom(room));
+                //Debug.Log(DoorsAreProperlyPlaced(room));              
                 if (!CollidesWithAnyRoom(room) && DoorsAreProperlyPlaced(room))
                 {
                     placingData.Add(new RoomPlacingData(roomIndex, room.DoorMarkers[i], angle));
@@ -271,6 +284,8 @@ public class MapGenerator : MonoBehaviour
     {
         //all this room/door swapping was not tested, but it should help place rooms on any door
         int nrRoomReQueues = 0, nrDoorReQueues = 0;
+        if (openDoors.Count == 0)
+            return false;
         DoorMarker currentDoor = openDoors.First.Value;
         while (rooms.Count > 0)
         {
@@ -284,7 +299,7 @@ public class MapGenerator : MonoBehaviour
             }
             else
             {
-                //Debug.Log("req:" + r.Item1.name);
+                Debug.Log("req:" + r.Item1.name);
                 if (nrDoorReQueues >= openDoors.Count + 1)
                     return false;
                 if (nrRoomReQueues >= rooms.Count + 1)
@@ -306,25 +321,34 @@ public class MapGenerator : MonoBehaviour
 
     private bool PlaceSpecialRooms(Queue<Tuple<RoomParameters, int>> rooms)
     {
+        if (openDoors.Count == 0)
+            return false;
         DoorMarker currentDoor = openDoors.Last.Value;
         int doorReQueues = 0;
-        while (rooms.Count > 0)
+        try
         {
-            Tuple<RoomParameters, int> r = rooms.Peek();
-            if (AbleToPlaceRoom(currentDoor, r.Item1, r.Item2))
+            while (rooms.Count > 0)
             {
-                rooms.Dequeue();
-                doorReQueues = 0;
+                Tuple<RoomParameters, int> r = rooms.Peek();
+                if (AbleToPlaceRoom(currentDoor, r.Item1, r.Item2))
+                {
+                    rooms.Dequeue();
+                    doorReQueues = 0;
+                }
+                else
+                {
+                    doorReQueues++;
+                    openDoors.AddFirst(currentDoor);
+                }
+                if (doorReQueues >= rooms.Count + 1)
+                    return false;
+                openDoors.RemoveLast();
+                currentDoor = openDoors.Last.Value;
             }
-            else
-            {
-                doorReQueues++;
-                openDoors.AddFirst(currentDoor);
-            }
-            if (doorReQueues >= rooms.Count + 1)
-                return false;
-            openDoors.RemoveLast();
-            currentDoor = openDoors.Last.Value;
+        }
+        catch (NullReferenceException)
+        {
+
         }
         return true;
     }
@@ -410,7 +434,8 @@ public class MapGenerator : MonoBehaviour
     {
         //set the starter room at the position of this
         DoorMarker[] d = startRoom.GetComponent<RoomParameters>().DoorMarkers;
-        for(int i = 0; i < d.Length; i++)
+        startRoom.GetComponent<RoomParameters>().SetCorners();
+        for (int i = 0; i < d.Length; i++)
         {
             d[i].Position = startRoom.GetComponent<RoomParameters>().DoorMarkers[i].transform.position;
             openDoors.AddLast(d[i]);
@@ -431,7 +456,7 @@ public class MapGenerator : MonoBehaviour
             //shuflle first
             ShuffleList(multipleDoorRooms);
             firstRoomCollection = new Queue<Tuple<RoomParameters, int>>(multipleDoorRooms);
-            if (!PlaceRegularRoomCollection(firstRoomCollection))
+            if (!PlaceRegularRoomCollection(firstRoomCollection)) 
                 continue;
             prevPlacingData = placingData;
             prevOpenDoors = openDoors;
@@ -468,17 +493,11 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void Cleanup()
+    // returns false if there are multiple door rooms not set as active;
+    // if there are multiple door rooms not placed, layout builder failed;
+    // there should always be single-door rooms to remove
+    private bool TryCleanup()
     {
-        //removes extra finishing rooms
-        for(int i = 0; i < placeableRooms.Count; i++)
-        {
-            if (!placeableRooms[i].activeSelf)
-            {
-                GameObject.Destroy(placeableRooms[i]);
-            }
-        }
-
         multipleDoorRooms.Clear();
         multipleDoorRooms = null;
         specialRooms.Clear();
@@ -488,11 +507,15 @@ public class MapGenerator : MonoBehaviour
 
         openDoors.Clear();
         openDoors = null;
+
+        return true;
     }
 
     private IEnumerator InstantiateAll()
     {
         startRoom = Instantiate(startRoom, this.transform.position, Quaternion.identity);
+        startRoom.GetComponent<RoomParameters>().SetCorners();
+        this.startRoomCorners = startRoom.GetComponent<RoomParameters>().Corners;
 
         //startRoom.SetActive(false);
 
@@ -508,6 +531,9 @@ public class MapGenerator : MonoBehaviour
     {
         //sort out the rooms
         RoomParameters script;
+        multipleDoorRooms = new List<Tuple<RoomParameters, int>>();
+        specialRooms = new List<Tuple<RoomParameters, int>>();
+        singleDoorRooms = new List<Tuple<RoomParameters, int>>();
         for(int i=0;i<placeableRooms.Count;i++)
         {
             placeableRooms[i].SetActive(false);
@@ -538,5 +564,10 @@ public class MapGenerator : MonoBehaviour
         {
             Debug.LogException(new MissingComponentException("No single-door room provided in MapGenerator > placeableRooms!"));
         }
+    }
+
+    public Vector3[] GetStartRoomCorners()
+    {
+        return startRoomCorners;
     }
 }

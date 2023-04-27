@@ -41,6 +41,11 @@ public class RoomParameters : MonoBehaviour
         */
     }
 
+    public void SetCorners(Vector3[] corners)
+    {
+        _corners = corners;
+    }
+
     public void SetDoors(Vector3[] positions)
     {
         for(int i = 0; i < _doors.Length; i++)
