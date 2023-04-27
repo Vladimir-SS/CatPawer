@@ -42,6 +42,8 @@ namespace Stats
         }
 
 
+
+
         
 
         [Serializable]
@@ -102,6 +104,54 @@ namespace Stats
                     ReloadSpeed = left.ReloadSpeed - right.ReloadSpeed,
                     MagazineCapacity = left.MagazineCapacity - right.MagazineCapacity
                 };
+            }
+        }
+
+        namespace Final
+        {
+            [Serializable]
+            public struct Body
+            {
+                public float MaxHP;
+                public float DamageReduction;
+                public float Speed;
+
+                private static float CalculateDamageReductionAux(float armor)
+                {
+                    return 1 - 10 / (10 + armor);
+                }
+
+                private static float CalculateDamageReduction(float armor)
+                {
+                    if (armor > 0)
+                        return CalculateDamageReductionAux(armor);
+                    return -CalculateDamageReductionAux(-armor);
+                }
+
+
+                public static implicit operator Body(Structs.Body body)
+                {
+                    return new Body
+                    {
+                        MaxHP = Math.Max(1, body.MaxHP),
+                        Speed = body.Speed,
+                        DamageReduction = CalculateDamageReduction(body.Armor)
+                    };
+                }
+            }
+
+            [Serializable]
+            public struct Combat
+            {
+                public float Damage;
+
+                public static implicit operator Combat(Structs.Combat combat)
+                {
+                    return new Combat
+                    {
+                        Damage = combat.DamageBase + combat.DamageBase * (combat.DamageBonus / 100)
+                    };
+                }
             }
         }
     }

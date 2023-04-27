@@ -47,7 +47,7 @@ public class Damageable : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
 
         if (currentHealth <= 0)
         {
