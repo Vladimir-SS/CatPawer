@@ -50,15 +50,8 @@ public class AreaManager : MonoBehaviour
                 AddHealthBar(enemy);
 
                 var body = enemy.transform.Find("Body");
-                // create item 
                 EnemyBonus bonus = body.gameObject.AddComponent<EnemyBonus>();
-                // set difficulty
                 bonus.SetDifficulty(difficulty);
-
-                //itemStats.MaxHealth = defaultStats.MaxHealth * (difficulty - 1) * healthBuffPercentage;
-                //itemStats.DamagePercentageBase = defaultStats.DamagePercentageBase * (difficulty - 1) * damageBuffPercentage;
-                //itemStats.MoveSpeed = defaultStats.MoveSpeed * (difficulty - 1) * speedBuffPercentage;
-                //itemStats.Armor = difficulty == 3 ? defaultStats.Armor + 100 : defaultStats.Armor;
             }
         }
         enemiesSpawned = true;
