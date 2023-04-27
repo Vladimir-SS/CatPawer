@@ -9,8 +9,8 @@ namespace Stats {
         {
             return new Structs.Body
             {
-                MaxHP = difficulty * 10,
-                Armor = difficulty,
+                MaxHP = difficulty * 20.0f,
+                Armor = difficulty * 10,
                 Speed = 0
             };
         }
@@ -19,7 +19,7 @@ namespace Stats {
         {
             return new Structs.Combat
             {
-                DamageBase = difficulty,
+                DamageBase = difficulty * 10,
                 DamageBonus = difficulty * 2
             };
         }
@@ -36,9 +36,11 @@ namespace Stats {
 
         public void SetDifficulty(int difficulty)
         {
+            RemoveMyself();
             Body = getDifficultyBody(difficulty);
             Combat = getDifficultyCombat(difficulty);
             Gun = getDifficultyGun(difficulty);
+            AddMyself();
         }
     }
 }

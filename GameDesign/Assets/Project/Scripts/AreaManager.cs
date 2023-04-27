@@ -1,3 +1,4 @@
+using Stats;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -12,11 +13,6 @@ public class AreaManager : MonoBehaviour
     public GameObject[] enemyPrefabs;
     private bool enemiesSpawned = false;
     [SerializeField] private int difficulty = 1; // 0 - easy, 1 - normal, 2 - hard
-
-    // Percentage of the default stats that will be added or removed from the enemy per difficulty level
-    [SerializeField] private float healthBuffPercentage = 0.5f;
-    [SerializeField] private float speedBuffPercentage = 0.1f;
-    [SerializeField] private float damageBuffPercentage = 0.25f;
 
     void Update()
     {
@@ -53,10 +49,11 @@ public class AreaManager : MonoBehaviour
                 var enemy = Instantiate(enemyPrefabs[randomIndex], child.transform.position, Quaternion.identity);
                 AddHealthBar(enemy);
 
-                var defaultStats = enemy.gameObject.transform.Find("Body").GetComponent<StatsEntity>();
-                Debug.Log(defaultStats.MaxHealth);
+                var body = enemy.transform.Find("Body");
                 // create item 
-                ItemStats itemStats = enemy.AddComponent<ItemStats>();
+                EnemyBonus bonus = body.gameObject.AddComponent<EnemyBonus>();
+                // set difficulty
+                bonus.SetDifficulty(difficulty);
 
                 //itemStats.MaxHealth = defaultStats.MaxHealth * (difficulty - 1) * healthBuffPercentage;
                 //itemStats.DamagePercentageBase = defaultStats.DamagePercentageBase * (difficulty - 1) * damageBuffPercentage;
