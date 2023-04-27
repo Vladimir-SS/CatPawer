@@ -1885,13 +1885,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Body>k__BackingField:
     MaxHP: 0
-    Armor: 0
+    DamageReduction: 0
     Speed: 0
   <Gun>k__BackingField:
     FireRate: 0
     ReloadSpeed: 0
     MagazineCapacity: 0
-  Combat:
+  <Combat>k__BackingField:
     Damage: 0
 --- !u!114 &4320975475467307122
 MonoBehaviour:
@@ -1953,6 +1953,7 @@ GameObject:
   - component: {fileID: 5210209132133370131}
   - component: {fileID: 8421800250361550179}
   - component: {fileID: 1327702654946908683}
+  - component: {fileID: 2367624962095826634}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -2031,7 +2032,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 2
-  SneakSpeed: 1.5
   SprintSpeed: 5.335
   Sensitivity: 1
   RotationSmoothTime: 0.12
@@ -2217,6 +2217,19 @@ MonoBehaviour:
   airmVirtualCamera: {fileID: 2999071370612505635}
   normalSenstivity: 1
   aimSenstivity: 0.5
+--- !u!114 &2367624962095826634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421800250361550191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82001280ea23bc841becb9680b33f636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 0}
 --- !u!1 &8626630283172494634
 GameObject:
   m_ObjectHideFlags: 0

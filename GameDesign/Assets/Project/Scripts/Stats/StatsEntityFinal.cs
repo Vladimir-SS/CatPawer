@@ -8,17 +8,14 @@ namespace Stats
 {
     public class StatsEntityFinal : MonoBehaviour
     {
-        [field: SerializeField] public Structs.Body Body { get; protected set; } = new Structs.Body { MaxHP = 0, Armor = 0, Speed = 0 };
-        private Structs.Combat CombatBase;
-        [field: SerializeField] public Structs.Gun Gun { get; protected set; }
+        [field: SerializeField] public Structs.Final.Body Body { get; protected set; }
+        [field: SerializeField] public Gun Gun { get; protected set; }
+        [field: SerializeField] public Structs.Final.Combat Combat { get; protected set; }
 
-        [Serializable]
-        public struct CalculatedCombat
-        {
-            public float Damage;
-        }
+        private Combat CombatBase;
+        private Body BodyBase;
+        private Gun GunBase;
 
-        [field: SerializeField] public CalculatedCombat Combat;
 
 
 
@@ -26,16 +23,18 @@ namespace Stats
 
         private void RecalculateStats()
         {
-            Combat.Damage = CombatBase.DamageBase + CombatBase.DamageBase * (CombatBase.DamageBonus / 100);
+            Body = BodyBase;
+            Combat = CombatBase;
+            Gun = GunBase;
         }
 
         public void AddStats(PossibleStats stats)
         {
             lock (changeLock)
             {
-                Body += stats.Body;
+                BodyBase += stats.Body;
                 CombatBase += stats.Combat;
-                Gun += stats.Gun;
+                GunBase += stats.Gun;
 
 
                 RecalculateStats();
@@ -46,9 +45,9 @@ namespace Stats
         {
             lock (changeLock)
             {
-                Body -= stats.Body;
+                BodyBase -= stats.Body;
                 CombatBase -= stats.Combat;
-                Gun -= stats.Gun;
+                GunBase -= stats.Gun;
 
                 RecalculateStats();
             }
