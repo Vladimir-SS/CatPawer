@@ -86,6 +86,17 @@ public class WallPlacer : MonoBehaviour
             topRight.Add(room.topRight);
             bottomLeft.Add(room.bottomLeft);
             bottomRight.Add(room.bottomRight);
+            //GameObject emptyGameObject = new GameObject("TL");
+            //emptyGameObject.transform.position = room.topLeft;
+
+            //GameObject emptyGameObject1 = new GameObject("BL");
+            //emptyGameObject1.transform.position = room.bottomLeft;
+
+            //GameObject emptyGameObject2 = new GameObject("TR");
+            //emptyGameObject2.transform.position = room.topRight;
+
+            //GameObject emptyGameObject3 = new GameObject("BR");
+            //emptyGameObject3.transform.position = room.bottomRight;
         }
 
         PlaceWallsAlongXAxis(topLeft, topRight, bottomLeft, bottomRight);
@@ -124,10 +135,10 @@ public class WallPlacer : MonoBehaviour
     {
         Vector3 l1, r1, l2, r2;
         Vector3 axis = new Vector3(1, 0, 0);
- 
         while (true)
         {
             (l1, r1) = GetFurthestPoints(topLeft, topRight, bottomRight, axis);
+            
             (l2, r2) = GetFurthestPoints(bottomLeft, topRight, bottomRight, axis);
             if (DistanceXZ(l1, r1) > DistanceXZ(l2, r2))
             {
@@ -142,6 +153,7 @@ public class WallPlacer : MonoBehaviour
                 topLeft = UpdateCoveredCorners(l2, r2, topLeft);
                 bottomLeft = UpdateCoveredCorners(l2, r2, bottomLeft);
             }
+
             if (topLeft.Count == 0 && bottomLeft.Count == 0)
             {
                 break;
@@ -153,6 +165,7 @@ public class WallPlacer : MonoBehaviour
     {
         (Vector3 l1, Vector3 r1) = GetLongestSegment(start, end1, axis);
         (Vector3 l2, Vector3 r2) = GetLongestSegment(start, end2, axis);
+
         if (DistanceXZ(l1, r1) > DistanceXZ(l2, r2))
         {
             return new Tuple<Vector3, Vector3>(l1, r1);
@@ -162,7 +175,7 @@ public class WallPlacer : MonoBehaviour
 
     private List<Vector3> UpdateCoveredCorners(Vector3 p1, Vector3 p2, List<Vector3> toCheck)
     {
-        return toCheck.Where(x => !IsPointOnLine(p1, p2, x, wallWidth / 2)).ToList();
+        return toCheck.Where(x => !IsPointOnLine(p1, p2, x, wallWidth)).ToList();
     }
 
     private Tuple<Vector3, Vector3> GetLongestSegment(List<Vector3> leftPoints, List<Vector3> rightPoints, Vector3 axis)
@@ -174,9 +187,9 @@ public class WallPlacer : MonoBehaviour
         {
             foreach (Vector3 right in rightPoints)
             {
-                if ((axis.x != 0) &&  (Math.Abs(left.z - right.z) > wallWidth))
+                if ((axis.x != 0) &&  (Math.Abs(left.z - right.z) >= wallWidth))
                     continue;
-                if ((axis.z != 0) && (Math.Abs(left.x - right.x) > wallWidth))
+                if ((axis.z != 0) && (Math.Abs(left.x - right.x) >= wallWidth))
                     continue;
                 float distance = DistanceXZ(left, right);
                 if (distance > maxDistance)
@@ -192,14 +205,14 @@ public class WallPlacer : MonoBehaviour
 
     private bool IsPointOnLine(Vector3 p1, Vector3 p2, Vector3 toCheck, float treshold)
     {
-        if (Math.Abs(p1.x - p2.x) < treshold)
+        if (Math.Abs(p1.x - p2.x) <= treshold)
         {
-            if (Math.Abs(p1.x - toCheck.x) < treshold)
+            if (Math.Abs(p1.x - toCheck.x) <= treshold)
                 return true;
         }
-        else if (Math.Abs(p1.z - p2.z) < treshold)
+        else if (Math.Abs(p1.z - p2.z) <= treshold)
         {
-            if (Math.Abs(p1.z - toCheck.z) < treshold)
+            if (Math.Abs(p1.z - toCheck.z) <= treshold)
                 return true;
         }
         return false;
@@ -239,7 +252,7 @@ public class WallPlacer : MonoBehaviour
 
         if (increment.x != 0)
         {
-            while (currentPosition.x < end.x || currentPosition.z < end.z)
+            while (Math.Abs(currentPosition.x - end.x) > wallWidth)
             {
                 GameObject wall = Instantiate(this.wall, currentPosition, Quaternion.identity, wallContainer.transform);
                 placedWalls.Add(wall);
@@ -248,11 +261,19 @@ public class WallPlacer : MonoBehaviour
         }
         else
         {
-            while (currentPosition.x < end.x || currentPosition.z > end.z)
+            int i = 0;
+            while (Math.Abs(currentPosition.z - end.z) > wallWidth)
             {
                 GameObject wall = Instantiate(this.wall, currentPosition, Quaternion.identity, wallContainer.transform);
                 placedWalls.Add(wall);
                 currentPosition += increment;
+                i++;
+                if (i == 100)
+                {
+                    print("broke i2");
+                    break;
+
+                }
             }
         }
     }
