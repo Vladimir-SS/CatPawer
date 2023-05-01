@@ -244,9 +244,9 @@ MonoBehaviour:
   placeableRooms:
   - {fileID: 8006504357059930100, guid: d0f8ec7bc60c594448a6a6d7b4ba2fc1, type: 3}
   - {fileID: 8006504357059930100, guid: 9909a5f25cd6c374ea00764091d0434e, type: 3}
-  - {fileID: 3163648872910060060, guid: bd7c57e33b89db1408880d668dd7164e, type: 3}
-  - {fileID: 3163648872910060060, guid: bd7c57e33b89db1408880d668dd7164e, type: 3}
   - {fileID: 2974428693742697778, guid: 86c83b07f1607524799c912c0791bc0d, type: 3}
+  - {fileID: 3163648872910060060, guid: bd7c57e33b89db1408880d668dd7164e, type: 3}
+  - {fileID: 3163648872910060060, guid: bd7c57e33b89db1408880d668dd7164e, type: 3}
   moveWallsUpBy: 12
   wall: {fileID: 9132667780375137345, guid: 91e4b807fef136f4987c72a36adccdcf, type: 3}
 --- !u!4 &1059455838
