@@ -9,8 +9,6 @@ public class MapBuilder : MonoBehaviour
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
 
-    public float moveWallsUpBy = 0.5f;
-
     public GameObject wall;
     private MapGenerator mapGenerator;
     private WallPlacer wallPlacer;
@@ -29,7 +27,7 @@ public class MapBuilder : MonoBehaviour
         startRoom.GetComponent<RoomParameters>().SetCorners(mapGenerator.GetStartRoomCorners());
         placeableRooms.Add(startRoom);
 
-        wallPlacer.PlaceWalls(placeableRooms, 1, wall, moveWallsUpBy);
+        wallPlacer.PlaceWalls(placeableRooms, 1, wall);
     }
 
     private IEnumerator ClearRooms()

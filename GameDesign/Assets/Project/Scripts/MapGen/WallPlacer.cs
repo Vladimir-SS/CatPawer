@@ -47,6 +47,8 @@ public class WallPlacer : MonoBehaviour
     private List<GameObject> rooms;
     private List<RoomAttributes> roomAttributes = new List<RoomAttributes>();
 
+    private int doorSize;
+
     private GameObject wall;
     private float wallWidth;
 
@@ -55,10 +57,11 @@ public class WallPlacer : MonoBehaviour
 
     private GameObject wallContainer;
 
-    public void PlaceWalls(List<GameObject> rooms, float doorSize, GameObject baseWall, float wallHeightOffset)
+    public void PlaceWalls(List<GameObject> rooms, int doorSize, GameObject baseWall)
     {
         this.rooms = rooms;
         this.wall = baseWall;
+        this.doorSize = doorSize;
 
         SetWallSizes();
 
@@ -108,11 +111,44 @@ public class WallPlacer : MonoBehaviour
     private bool IsWallInsideRoom(GameObject wall, RoomAttributes room)
     {
         Vector3 p = wall.transform.position;
-        if (p.x >= room.bottomLeft.x + wallWidth && p.x <= room.bottomRight.x - wallWidth && p.z >= room.bottomLeft.z + wallWidth && p.z <= room.topLeft.z - wallWidth)
+        if (p.x > room.bottomLeft.x + wallWidth/2 && p.x < room.bottomRight.x - wallWidth/2 && p.z > room.bottomLeft.z + wallWidth/2 && p.z < room.topLeft.z - wallWidth / 2)
         {
             return true;
         }
         return false;
+    }
+
+    //private bool IsWallOutsideMap(GameObject wall)
+    //{
+    //    Vector3 p = wall.transform.position;
+    //    foreach (RoomAttributes room in roomAttributes)
+    //    {
+    //        if(p.x > room.bottomLeft.x - wallWidth && p.x < room.bottomRight.x + wallWidth && p.z > room.bottomLeft.z - wallWidth && p.z < room.topLeft.z + wallWidth)
+    //        {
+    //            return false;
+    //        }
+    //    }
+    //    return true;
+    //}
+
+    private bool WallIsOnRoomEdge(GameObject wall, RoomAttributes room)
+    {
+        Vector3 p = wall.transform.position;
+        if (p.x > room.bottomLeft.x - wallWidth/2 && p.x < room.bottomRight.x + wallWidth/2 && p.z > room.bottomLeft.z - wallWidth / 2 && p.z < room.topLeft.z + wallWidth / 2)
+            return true;
+        return false;
+    }
+
+    private bool IsWallRemovable(GameObject wall)
+    {
+        foreach (RoomAttributes room in roomAttributes)
+        {
+            if (WallIsOnRoomEdge(wall, room))
+                return false;
+            //if (IsWallInsideRoom(wall, room))
+            //    return true;
+        }
+        return true;
     }
 
     private void ClearExtraWalls()
@@ -121,11 +157,9 @@ public class WallPlacer : MonoBehaviour
         {
             if (wall == null)
                 continue;
-            foreach(RoomAttributes room in roomAttributes)
+            if (IsWallRemovable(wall))
             {
-                if(IsWallInsideRoom(wall, room)){
-                    Destroy(wall);
-                }
+                Destroy(wall);
             }
         }
     }
@@ -182,12 +216,6 @@ public class WallPlacer : MonoBehaviour
                 bottomLeft = UpdateCoveredCorners(l2, r2, bottomLeft);
             }
 
-            i++;
-            if (i == 3)
-            {
-                print(i);
-                //break;
-            }
 
             if (topLeft.Count == 0 && bottomLeft.Count == 0)
             {
@@ -279,11 +307,12 @@ public class WallPlacer : MonoBehaviour
 
         if (Math.Abs(p1.x - p2.x) > wallWidth || Math.Abs(p1.z - p2.z) < wallWidth)
         {
-            start = p1;
+            start = p1 + new Vector3(1, 0, 0) * wallWidth / 2; 
             end = p2 + new Vector3(1, 0, 0) * wallWidth;
         }
         else
         {
+            //start = p1 + new Vector3(0, 0, -1) * wallWidth / 2;
             start = p1;
             end = p2 + new Vector3(0, 0, -2) * wallWidth;
         }
