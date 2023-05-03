@@ -247,7 +247,7 @@ MonoBehaviour:
   - {fileID: 1502016068796977615, guid: 2b2fd3b2c56226f42a23670f93aef89e, type: 3}
   - {fileID: 1502016068796977615, guid: 02c5867c064ea424ba886b151220e8e8, type: 3}
   - {fileID: 1502016068796977615, guid: 02c5867c064ea424ba886b151220e8e8, type: 3}
-  moveWallsUpBy: 12
+  - {fileID: 1502016068796977615, guid: 2b2fd3b2c56226f42a23670f93aef89e, type: 3}
   wall: {fileID: 9132667780375137345, guid: 91e4b807fef136f4987c72a36adccdcf, type: 3}
 --- !u!4 &1059455838
 Transform:

@@ -89,17 +89,6 @@ public class WallPlacer : MonoBehaviour
             topRight.Add(room.topRight);
             bottomLeft.Add(room.bottomLeft);
             bottomRight.Add(room.bottomRight);
-            //GameObject emptyGameObject = new GameObject("TL");
-            //emptyGameObject.transform.position = room.topLeft;
-
-            //GameObject emptyGameObject1 = new GameObject("BL");
-            //emptyGameObject1.transform.position = room.bottomLeft;
-
-            //GameObject emptyGameObject2 = new GameObject("TR");
-            //emptyGameObject2.transform.position = room.topRight;
-
-            //GameObject emptyGameObject3 = new GameObject("BR");
-            //emptyGameObject3.transform.position = room.bottomRight;
         }
 
         PlaceWallsAlongXAxis(topLeft, topRight, bottomLeft, bottomRight);
@@ -111,7 +100,7 @@ public class WallPlacer : MonoBehaviour
     private bool WallIsOnRoomEdge(GameObject wall, RoomAttributes room)
     {
         Vector3 p = wall.transform.position;
-        if (p.x > room.bottomLeft.x - wallWidth/2 && p.x < room.bottomRight.x + wallWidth/2 && p.z > room.bottomLeft.z - wallWidth / 2 && p.z < room.topLeft.z + wallWidth / 2)
+        if (p.x >= room.bottomLeft.x - wallWidth * 3 / 2 && p.x <= room.bottomRight.x + wallWidth / 2 && p.z >= room.bottomLeft.z - wallWidth / 2 && p.z <= room.topLeft.z + wallWidth / 2)
             return true;
         return false;
     }
@@ -123,7 +112,7 @@ public class WallPlacer : MonoBehaviour
             DoorMarker[] doors = room.GetComponentsInChildren<DoorMarker>();
             foreach(DoorMarker door in doors)
             {
-                if(DistanceXZ(wall.transform.position, door.Position) < doorSize)
+                if(DistanceXZ(wall.transform.position, door.Position) <= doorSize )
                 {
                     return true;
                 }
@@ -187,7 +176,6 @@ public class WallPlacer : MonoBehaviour
     {
         Vector3 l1, r1, l2, r2;
         Vector3 axis = new Vector3(1, 0, 0);
-        int i = 0;
         while (true)
         {
             (l1, r1) = GetFurthestPoints(topLeft, topRight, bottomRight, axis);
@@ -206,8 +194,6 @@ public class WallPlacer : MonoBehaviour
                 topLeft = UpdateCoveredCorners(l2, r2, topLeft);
                 bottomLeft = UpdateCoveredCorners(l2, r2, bottomLeft);
             }
-
-
             if (topLeft.Count == 0 && bottomLeft.Count == 0)
             {
                 break;
@@ -230,16 +216,6 @@ public class WallPlacer : MonoBehaviour
     private List<Vector3> UpdateCoveredCorners(Vector3 p1, Vector3 p2, List<Vector3> toCheck)
     {
         return toCheck.Where(x => !IsPointOnLine(p1, p2, x, wallWidth)).ToList();
-    }
-
-    private bool IsCornerCoveredByLine(Vector3 p1, Vector3 p2, Vector3 corner)
-    {
-        if (IsPointOnLine(p1, p2, corner, wallWidth))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private Tuple<Vector3, Vector3> GetLongestSegment(List<Vector3> leftPoints, List<Vector3> rightPoints, Vector3 axis)
@@ -303,7 +279,6 @@ public class WallPlacer : MonoBehaviour
         }
         else
         {
-            //start = p1 + new Vector3(0, 0, -1) * wallWidth / 2;
             start = p1;
             end = p2 + new Vector3(0, 0, -2) * wallWidth;
         }
@@ -345,8 +320,6 @@ public class WallPlacer : MonoBehaviour
     {
         roomAttributes.Sort((x, y) => RoomArea(y).CompareTo(RoomArea(x)));
     }
-
-
 
     private void SetWallSizes()
     {
