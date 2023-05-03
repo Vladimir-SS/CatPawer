@@ -108,34 +108,27 @@ public class WallPlacer : MonoBehaviour
         ClearExtraWalls();
     }
 
-    private bool IsWallInsideRoom(GameObject wall, RoomAttributes room)
-    {
-        Vector3 p = wall.transform.position;
-        if (p.x > room.bottomLeft.x + wallWidth/2 && p.x < room.bottomRight.x - wallWidth/2 && p.z > room.bottomLeft.z + wallWidth/2 && p.z < room.topLeft.z - wallWidth / 2)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    //private bool IsWallOutsideMap(GameObject wall)
-    //{
-    //    Vector3 p = wall.transform.position;
-    //    foreach (RoomAttributes room in roomAttributes)
-    //    {
-    //        if(p.x > room.bottomLeft.x - wallWidth && p.x < room.bottomRight.x + wallWidth && p.z > room.bottomLeft.z - wallWidth && p.z < room.topLeft.z + wallWidth)
-    //        {
-    //            return false;
-    //        }
-    //    }
-    //    return true;
-    //}
-
     private bool WallIsOnRoomEdge(GameObject wall, RoomAttributes room)
     {
         Vector3 p = wall.transform.position;
         if (p.x > room.bottomLeft.x - wallWidth/2 && p.x < room.bottomRight.x + wallWidth/2 && p.z > room.bottomLeft.z - wallWidth / 2 && p.z < room.topLeft.z + wallWidth / 2)
             return true;
+        return false;
+    }
+
+    private bool IsWallNearDoor(GameObject wall)
+    {
+        foreach(GameObject room in rooms)
+        {
+            DoorMarker[] doors = room.GetComponentsInChildren<DoorMarker>();
+            foreach(DoorMarker door in doors)
+            {
+                if(DistanceXZ(wall.transform.position, door.Position) < doorSize)
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -145,8 +138,6 @@ public class WallPlacer : MonoBehaviour
         {
             if (WallIsOnRoomEdge(wall, room))
                 return false;
-            //if (IsWallInsideRoom(wall, room))
-            //    return true;
         }
         return true;
     }
@@ -157,7 +148,7 @@ public class WallPlacer : MonoBehaviour
         {
             if (wall == null)
                 continue;
-            if (IsWallRemovable(wall))
+            if (IsWallRemovable(wall) || IsWallNearDoor(wall))
             {
                 Destroy(wall);
             }
