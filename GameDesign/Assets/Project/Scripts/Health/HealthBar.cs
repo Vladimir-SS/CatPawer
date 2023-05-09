@@ -22,8 +22,8 @@ public class HealthBar : MonoBehaviour
             return;
         }
         
-        healthbarImage.fillAmount = damageable.CurrentHealth / statsEntity.Body.MaxHP;
-    }
+        healthbarImage.fillAmount = (float)damageable.CurrentHealth / statsEntity.Body.MaxHP;
+    }   
 
 
 }

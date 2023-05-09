@@ -11,6 +11,7 @@ public class AIController : MonoBehaviour
     public float timeToRotate = 2;                  //  Wait time when the enemy detect near the player without seeing
     public float speedWalk = 6;                     //  Walking speed, speed in the nav mesh agent
     public float speedRun = 9;                      //  Running speed
+    public float meleeDamage = 10;
 
     public float viewRadius = 15;                   //  Radius of the enemy view
     public float viewAngle = 90;                    //  Angle of the enemy view
@@ -19,7 +20,9 @@ public class AIController : MonoBehaviour
     public float meshResolution = 1.0f;             //  How many rays will cast per degree
     public int edgeIterations = 4;                  //  Number of iterations to get a better performance of the mesh filter when the raycast hit an obstacule
     public float edgeDistance = 0.5f;               //  Max distance to calcule the a minumun and a maximum raycast when hits something
-
+    public float meleeAttackRange = 2f;
+    public float meleeAttackCooldown = 1f;
+    private float nextMeleeAttackTime = 0f;
 
     public Transform[] waypoints;                   //  All the waypoints where the enemy patrols
     int m_CurrentWaypointIndex;                     //  Current waypoint where the enemy is going to
@@ -61,6 +64,7 @@ public class AIController : MonoBehaviour
         if (!m_IsPatrol)
         {
             Chasing();
+            MeleeAttack(GameObject.FindGameObjectWithTag("Player").transform); //to be changed for range/meele attacks
         }
         else
         {
@@ -174,6 +178,28 @@ public class AIController : MonoBehaviour
     {
         m_CaughtPlayer = true;
     }
+
+    void MeleeAttack(Transform player)
+{
+    if (Time.time >= nextMeleeAttackTime)
+    {
+        if (player != null && Vector3.Distance(transform.position, player.position) <= meleeAttackRange)
+        {
+            Damageable damageable = player.GetComponent<Damageable>();
+            if(damageable != null)
+            {
+                damageable.TakeDamage(meleeDamage);
+                nextMeleeAttackTime = Time.time + meleeAttackCooldown;
+                Debug.Log("Player just took melee damage amount : "+ meleeDamage);
+            }
+            else
+            {
+                Debug.LogError("Damageable script component not found on player object");
+            }
+        }
+    }
+}
+
 
     void LookingPlayer(Vector3 player)
     {

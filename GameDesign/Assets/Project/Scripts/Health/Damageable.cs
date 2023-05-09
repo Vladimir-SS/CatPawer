@@ -1,4 +1,3 @@
-
 using System;
 using System.Xml.Serialization;
 using UnityEngine;
@@ -25,6 +24,7 @@ public class Damageable : MonoBehaviour
 
     //TODO: change with an event subscription later on
     private float lastMaxHealth = 0;
+
     private void UpdateCurrentHealth(float newMaxHealth)
     {
         var delta = newMaxHealth - lastMaxHealth;
@@ -39,15 +39,12 @@ public class Damageable : MonoBehaviour
             UpdateCurrentHealth(stats.Body.MaxHP);
         }
 
-        // TODO: DELETE
-        //test bar
-        currentHealth -= Time.deltaTime * 0.1f;
-
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
+        Debug.Log("Taking damage, current health : "+ currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -59,5 +56,6 @@ public class Damageable : MonoBehaviour
     void Die()
     {
         Destroy(transform.root.gameObject);
+        Debug.Log("Just died damn");
     }
 }
