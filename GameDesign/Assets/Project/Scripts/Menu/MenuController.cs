@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+    [SerializeField] private GameObject pauseMenu;
     public void PlayGame()
     {
         SceneManager.LoadScene("Game");
@@ -12,6 +13,7 @@ public class MenuController : MonoBehaviour
 
     public void ExitGame()
     {
+        pauseMenu.GetComponent<PauseMenu>().DeterminePause();
         SceneManager.LoadScene("Menu");
     }
 
