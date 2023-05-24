@@ -198,4 +198,4 @@ MonoBehaviour:
     MagazineCapacity: 100
   <Combat>k__BackingField:
     DamageBonus: 0
-    DamageBase: 3
+    DamageBase: 10
