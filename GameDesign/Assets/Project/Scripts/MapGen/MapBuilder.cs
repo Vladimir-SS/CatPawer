@@ -29,7 +29,7 @@ public class MapBuilder : MonoBehaviour
         startRoom.GetComponent<RoomParameters>().SetCorners(mapGenerator.GetStartRoomCorners());
         placeableRooms.Add(startRoom);
 
-        wallPlacer.PlaceWalls(placeableRooms, 1, wall, moveWallsUpBy);
+        wallPlacer.PlaceWalls(placeableRooms, 1, wall);
         player.SetActive(true);
         this.gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
