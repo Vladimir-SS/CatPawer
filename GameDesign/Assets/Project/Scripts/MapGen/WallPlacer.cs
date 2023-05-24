@@ -89,19 +89,34 @@ public class WallPlacer : MonoBehaviour
             topRight.Add(room.topRight);
             bottomLeft.Add(room.bottomLeft);
             bottomRight.Add(room.bottomRight);
+
+            //GameObject emptyGameObject = new GameObject("TL");
+            //emptyGameObject.transform.position = room.topLeft;
+
+            //GameObject emptyGameObject1 = new GameObject("BL");
+            //emptyGameObject1.transform.position = room.bottomLeft;
+
+            //GameObject emptyGameObject2 = new GameObject("TR");
+            //emptyGameObject2.transform.position = room.topRight;
+
+            //GameObject emptyGameObject3 = new GameObject("BR");
+            //emptyGameObject3.transform.position = room.bottomRight;
         }
 
         PlaceWallsAlongXAxis(topLeft, topRight, bottomLeft, bottomRight);
         PlaceWallsAlongZAxis(topLeft, topRight, bottomLeft, bottomRight);
 
         ClearExtraWalls();
+
+        Debug.Log("Walls placed");
     }
 
     private bool WallIsOnRoomEdge(GameObject wall, RoomAttributes room)
     {
         Vector3 p = wall.transform.position;
-        if (p.x >= room.bottomLeft.x - wallWidth * 3 / 2 && p.x <= room.bottomRight.x + wallWidth / 2 && p.z >= room.bottomLeft.z - wallWidth / 2 && p.z <= room.topLeft.z + wallWidth / 2)
+        if ((p.x >= room.bottomLeft.x - wallWidth * 3 / 2 && p.x <= room.bottomRight.x + wallWidth / 2) && (p.z >= room.bottomLeft.z - wallWidth / 2 && p.z <= room.topLeft.z + wallWidth / 2))
             return true;
+
         return false;
     }
 
@@ -123,11 +138,19 @@ public class WallPlacer : MonoBehaviour
 
     private bool IsWallRemovable(GameObject wall)
     {
+        GameObject emptyGameObject3 = new GameObject(wall.transform.position.x.ToString("R"));
+        emptyGameObject3.transform.position = wall.transform.position;
         foreach (RoomAttributes room in roomAttributes)
         {
+            Vector3 p = wall.transform.position;
+            if ((p.x >= room.bottomLeft.x + wallWidth && p.x <= room.bottomRight.x - wallWidth) && (p.z >= room.bottomLeft.z + wallWidth && p.z <= room.topLeft.z - wallWidth ))
+                return true;
             if (WallIsOnRoomEdge(wall, room))
                 return false;
         }
+
+        print("Wall is removable");
+ 
         return true;
     }
 
@@ -135,6 +158,7 @@ public class WallPlacer : MonoBehaviour
     {
         foreach(GameObject wall in placedWalls)
         {
+            
             if (wall == null)
                 continue;
             if (IsWallRemovable(wall) || IsWallNearDoor(wall))
