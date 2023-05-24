@@ -107,6 +107,8 @@ public class WallPlacer : MonoBehaviour
         PlaceWallsAlongZAxis(topLeft, topRight, bottomLeft, bottomRight);
 
         ClearExtraWalls();
+
+        Debug.Log("Walls placed");
     }
 
     private bool WallIsOnRoomEdge(GameObject wall, RoomAttributes room)
