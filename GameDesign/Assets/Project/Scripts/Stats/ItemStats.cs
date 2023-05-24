@@ -1,11 +1,15 @@
+using Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemStats : StatsBase
+namespace Stats
 {
-    protected override StatsEntityFinal FindFinalStats()
+    public class ItemStats : AutoHandledStats
     {
-        return GetComponentInParent<StatsEntityFinal>();
+        protected override StatsEntityFinal FindFinalStats()
+        {
+            return GetComponentInParent<StatsEntityFinal>();
+        }
     }
 }

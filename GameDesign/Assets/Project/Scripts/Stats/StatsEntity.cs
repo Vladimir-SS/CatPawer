@@ -3,14 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(StatsEntityFinal))]
-public class StatsEntity : StatsBase
+namespace Stats
 {
-    protected override StatsEntityFinal FindFinalStats()
+    [RequireComponent(typeof(StatsEntityFinal))]
+    public class StatsEntity : AutoHandledStats
     {
-        return GetComponent<StatsEntityFinal>();
+        protected override StatsEntityFinal FindFinalStats()
+        {
+            return GetComponent<StatsEntityFinal>();
+        }
     }
 }
+
+
 
 
 

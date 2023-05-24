@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class MapBuilder : MonoBehaviour
@@ -8,6 +9,7 @@ public class MapBuilder : MonoBehaviour
     public int seed = 123;
     public GameObject startRoom;
     public List<GameObject> placeableRooms;
+    [SerializeField] private GameObject player;
 
     public GameObject wall;
     private MapGenerator mapGenerator;
@@ -27,7 +29,9 @@ public class MapBuilder : MonoBehaviour
         startRoom.GetComponent<RoomParameters>().SetCorners(mapGenerator.GetStartRoomCorners());
         placeableRooms.Add(startRoom);
 
-        wallPlacer.PlaceWalls(placeableRooms, 1, wall);
+        wallPlacer.PlaceWalls(placeableRooms, 1, wall, moveWallsUpBy);
+        player.SetActive(true);
+        this.gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     private IEnumerator ClearRooms()
