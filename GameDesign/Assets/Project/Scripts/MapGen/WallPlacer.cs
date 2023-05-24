@@ -138,8 +138,6 @@ public class WallPlacer : MonoBehaviour
 
     private bool IsWallRemovable(GameObject wall)
     {
-        GameObject emptyGameObject3 = new GameObject(wall.transform.position.x.ToString("R"));
-        emptyGameObject3.transform.position = wall.transform.position;
         foreach (RoomAttributes room in roomAttributes)
         {
             Vector3 p = wall.transform.position;
