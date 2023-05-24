@@ -11,8 +11,6 @@ public class MapBuilder : MonoBehaviour
     public List<GameObject> placeableRooms;
     [SerializeField] private GameObject player;
 
-    public float moveWallsUpBy = 0.5f;
-
     public GameObject wall;
     private MapGenerator mapGenerator;
     private WallPlacer wallPlacer;
