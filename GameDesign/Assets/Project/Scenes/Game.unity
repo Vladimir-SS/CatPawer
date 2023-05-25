@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -710,7 +710,7 @@ PrefabInstance:
       objectReference: {fileID: 1029010421}
     - target: {fileID: 6884482590926495722, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}
       propertyPath: placeableRooms.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6884482590926495722, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}
       propertyPath: placeableRooms.Array.data[0]
@@ -727,11 +727,11 @@ PrefabInstance:
     - target: {fileID: 6884482590926495722, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}
       propertyPath: placeableRooms.Array.data[3]
       value: 
-      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
+      objectReference: {fileID: 2982581846862761626, guid: d8eea56c4f31431499787a8618d30671, type: 3}
     - target: {fileID: 6884482590926495722, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}
       propertyPath: placeableRooms.Array.data[4]
       value: 
-      objectReference: {fileID: 3163648872910060060, guid: bd7c57e33b89db1408880d668dd7164e, type: 3}
+      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
     - target: {fileID: 6884482590926495723, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}
       propertyPath: m_Name
       value: MapBuilder

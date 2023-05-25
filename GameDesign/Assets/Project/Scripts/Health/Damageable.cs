@@ -64,4 +64,9 @@ public class Damageable : MonoBehaviour
         Destroy(transform.root.gameObject);
         Debug.Log("Just died damn");
     }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        TakeDamage(1);
+    }
 }
