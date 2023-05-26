@@ -44,7 +44,7 @@ public class Damageable : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
-        Debug.Log("Taking damage, current health : "+ currentHealth);
+        // Debug.Log("Taking damage, current health : "+ currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -56,6 +56,6 @@ public class Damageable : MonoBehaviour
     void Die()
     {
         Destroy(transform.root.gameObject);
-        Debug.Log("Just died damn");
+        // Debug.Log("Just died damn");
     }
 }
