@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     public int seed = 123;
+    public int rounds = 0;
 
     [SerializeField] private float collisionTollerance;
 
@@ -32,7 +34,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        seed = UnityEngine.Random.Range(0, 1000000);
+        seed = UnityEngine.Random.Range(0, 100000);
         CreateLevel(numberOfRooms);
     }
 
@@ -49,8 +51,9 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         ClearLevel();
-
-        UnityEngine.SceneManagement.Scene activeScene = SceneManager.GetActiveScene();
+        rounds++;
+        //UnityEngine.SceneManagement.Scene activeScene = SceneManager.GetActiveScene();
+        UnityEngine.SceneManagement.Scene gameScene = SceneManager.GetSceneByName("Game");
         SceneManager.LoadScene("GameTemplate", LoadSceneMode.Additive);
 
         UnityEngine.SceneManagement.Scene sceneToMerge = SceneManager.GetSceneByName("GameTemplate");
@@ -60,16 +63,25 @@ public class LevelManager : MonoBehaviour
         //    sceneToMerge = SceneManager.GetSceneByName("GameTemplate");
         //}
 
-        print(activeScene.name);
-        print(sceneToMerge.name);
-        if (activeScene.IsValid() && sceneToMerge.IsValid())
+        //print(activeScene.name);
+        //print(sceneToMerge.name);
+        player.transform.position = new Vector3(1, 2, 0);
+        player.SetActive(false);
+        try
         {
-            SceneManager.MergeScenes(sceneToMerge, activeScene);
+            if (gameScene.IsValid() && sceneToMerge.IsValid())
+            {
+                print("merging");
+                SceneManager.MergeScenes(sceneToMerge, gameScene);
+            }
+            else
+            {
+                Debug.LogError("Invalid scenes for merging.");
+            }
         }
-        else
-        {
-            Debug.LogError("Invalid scenes for merging.");
-        }
+        catch (ArgumentException e) { }
+        SceneManager.UnloadSceneAsync(sceneToMerge);
+
         //SceneManager.MergeScenes(SceneManager.GetSceneByName("Game 1"), SceneManager.GetActiveScene());
         //// Find the template scene
         //string templateSceneName = "Game";
@@ -148,10 +160,9 @@ public class LevelManager : MonoBehaviour
         var scene = SceneManager.GetActiveScene();
         var sceneRoots = scene.GetRootGameObjects();
 
-        GameObject result = null;
         foreach (var root in sceneRoots)
         {
-            if (!root.name.Equals("PlayerCat"))
+            if (!root.name.Equals("PlayerCat") && !root.CompareTag("Persistent"))
             {
                 Destroy(root);
             }
