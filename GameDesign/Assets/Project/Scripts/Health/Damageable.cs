@@ -44,7 +44,6 @@ public class Damageable : MonoBehaviour
         {
             UpdateCurrentHealth(stats.Body.MaxHP);
         }
-
     }
 
     public void TakeDamage(float damage)
@@ -61,6 +60,11 @@ public class Damageable : MonoBehaviour
     
     void Die()
     {
+        if (gameObject.CompareTag("Enemy"))
+        {
+            ScoreSystem.instance.AddPoints(stats.Body.MaxHP / 10);
+        }
+
         Destroy(transform.root.gameObject);
         Debug.Log("Just died damn");
     }
