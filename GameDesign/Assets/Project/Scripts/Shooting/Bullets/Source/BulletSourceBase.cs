@@ -9,6 +9,7 @@ public abstract class BulletSourceBase : MonoBehaviour
 {
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
+    protected EventSubmission eventSubmission;
 
     protected float nextFire;
     protected uint bulletsInMagazine;
@@ -25,6 +26,7 @@ public abstract class BulletSourceBase : MonoBehaviour
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
         statsEntityFinal = GetComponentInParent<StatsEntityFinal>();
+        eventSubmission = GetComponentInParent<EventSubmission>();
 
         bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
     }
@@ -46,8 +48,11 @@ public abstract class BulletSourceBase : MonoBehaviour
 
     protected async void reload()
     {
+        
         isReloading = true;
-        await Task.Delay((int)(statsEntityFinal.Gun.ReloadSpeed * 1000));
+        var reloadSpeed = statsEntityFinal.Gun.ReloadSpeed;
+        eventSubmission.TriggerGunReloadEvent(this, new GunReloadEventArgs(reloadSpeed));
+        await Task.Delay((int)(reloadSpeed * 1000));
         bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
         isReloading = false;
     }
