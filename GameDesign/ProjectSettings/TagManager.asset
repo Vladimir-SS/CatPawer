@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CinemachineTarget
   - Enemy
+  - Room
+  - RoomSpawnPoint
+  - Persistent
   layers:
   - Default
   - TransparentFX

@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 8308963783250982788}
   - component: {fileID: 4874398835761041829}
   m_Layer: 0
-  m_Name: Area 1
+  m_Name: Area 2
   m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19bfec628eb6c342a8bb8db286f4c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSpecialRoom: 0
+  isSpecialRoom: 1
 --- !u!23 &8308963783250982788
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -565,7 +565,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 68c64ad6f7e102349a0001379687f4f2, type: 2}
+  - {fileID: 2100000, guid: 0811bc15a735f944880025e4d16c8119, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
