@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface OnGunReloadI
+public interface IOnGunReload
 {
     void OnGunReloadEvent(object sender, GunReloadEventArgs e);
 }

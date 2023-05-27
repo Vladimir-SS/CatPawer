@@ -29,7 +29,8 @@ public class CrosshairReloadUI : GunEventHandler
 
     private void OnEnable()
     {
-        StartCoroutine(FillImg());
+        if(duration > 0)
+            StartCoroutine(FillImg());
     }
 
     override public void OnGunReloadEvent(object sender, GunReloadEventArgs e)

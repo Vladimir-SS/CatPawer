@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Stats;
 
-public abstract class BulletSourceBase : MonoBehaviour
+public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
 {
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
@@ -15,6 +15,8 @@ public abstract class BulletSourceBase : MonoBehaviour
     protected uint bulletsInMagazine;
     protected bool isReloading;
     public bool isManual;
+
+    public uint BulletsInMagazine => bulletsInMagazine;
 
     void Awake()
     {
