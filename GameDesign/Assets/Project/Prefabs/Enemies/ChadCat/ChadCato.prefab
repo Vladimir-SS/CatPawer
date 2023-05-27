@@ -692,13 +692,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Body>k__BackingField:
     MaxHP: 0
-    Armor: 0
+    DamageReduction: 0
     Speed: 0
   <Gun>k__BackingField:
     FireRate: 0
     ReloadSpeed: 0
     MagazineCapacity: 0
-  Combat:
+  <Combat>k__BackingField:
     Damage: 0
 --- !u!114 &3959637606340821527
 MonoBehaviour:
@@ -713,8 +713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Body>k__BackingField:
-    MaxHP: 0
-    Armor: 0
+    MaxHP: 150
+    Armor: 10
     Speed: 0
   <Gun>k__BackingField:
     FireRate: 0
@@ -964,6 +964,7 @@ MonoBehaviour:
   timeToRotate: 2
   speedWalk: 0.5
   speedRun: 0.5
+  meleeDamage: 10
   viewRadius: 15
   viewAngle: 90
   playerMask:
@@ -975,6 +976,8 @@ MonoBehaviour:
   meshResolution: 1
   edgeIterations: 4
   edgeDistance: 0.5
+  meleeAttackRange: 2
+  meleeAttackCooldown: 1
   waypoints:
   - {fileID: 3485859163525333064, guid: 207c3a850eb2c3c4686febcf6dcae247, type: 3}
   - {fileID: 1168085595034471927, guid: d79dd65e4a39e154b8a7df1dabc10a8a, type: 3}
