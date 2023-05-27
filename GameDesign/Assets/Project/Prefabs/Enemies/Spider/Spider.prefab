@@ -757,6 +757,7 @@ MonoBehaviour:
   timeToRotate: 2
   speedWalk: 2
   speedRun: 2
+  meleeDamage: 10
   viewRadius: 15
   viewAngle: 90
   playerMask:
@@ -768,6 +769,8 @@ MonoBehaviour:
   meshResolution: 1
   edgeIterations: 4
   edgeDistance: 0.5
+  meleeAttackRange: 2
+  meleeAttackCooldown: 1
   waypoints:
   - {fileID: 3485859163525333064, guid: 207c3a850eb2c3c4686febcf6dcae247, type: 3}
   - {fileID: 1168085595034471927, guid: d79dd65e4a39e154b8a7df1dabc10a8a, type: 3}
@@ -981,15 +984,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8140ff5b320916d41bb500b589d35f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 0
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 0
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
-  <MeleeDamage>k__BackingField: 0
-  <RangedDamage>k__BackingField: 0
+  <Body>k__BackingField:
+    MaxHP: 0
+    DamageReduction: 0
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  <Combat>k__BackingField:
+    Damage: 0
 --- !u!114 &4325999386302722727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,13 +1006,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affa30c920d410f46b2d08967840c1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 200
-  <AttackSpeed>k__BackingField: 0
-  <RangedDamageBase>k__BackingField: 0
-  <Armor>k__BackingField: 0
-  <AttackRange>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
-  <DamagePercentageBase>k__BackingField: 0
+  <Body>k__BackingField:
+    MaxHP: 300
+    Armor: 15
+    Speed: 0
+  <Gun>k__BackingField:
+    FireRate: 0
+    ReloadSpeed: 0
+    MagazineCapacity: 0
+  <Combat>k__BackingField:
+    DamageBonus: 0
+    DamageBase: 0
 --- !u!114 &4325999386302722726
 MonoBehaviour:
   m_ObjectHideFlags: 0
