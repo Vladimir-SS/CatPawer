@@ -15,27 +15,21 @@ public class Damageable : MonoBehaviour
         }
     }
     protected StatsEntityFinal stats;
-    
+
     void Start()
     {
         stats = GetComponent<StatsEntityFinal>();
-        lock(maxHealthLock)
-        {
-            currentHealth = stats.Body.MaxHP;
-        }
+        currentHealth = stats.Body.MaxHP;
     }
 
     //TODO: change with an event subscription later on
     private float lastMaxHealth = 0;
-    private object maxHealthLock = new object();
 
     private void UpdateCurrentHealth(float newMaxHealth)
     {
-        lock (maxHealthLock)
-        {
-            currentHealth = Math.Min(currentHealth, newMaxHealth);
-            newMaxHealth = lastMaxHealth;
-        }
+        var delta = newMaxHealth - lastMaxHealth;
+        lastMaxHealth = newMaxHealth;
+        currentHealth += delta;
     }
 
     private void Update()
@@ -44,13 +38,13 @@ public class Damageable : MonoBehaviour
         {
             UpdateCurrentHealth(stats.Body.MaxHP);
         }
+
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
-
-        Debug.Log("Taking damage, current health : " + currentHealth + " max HP : " + stats.Body.MaxHP + " damage : " + damage);
+        // Debug.Log("Taking damage, current health : "+ currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -61,17 +55,7 @@ public class Damageable : MonoBehaviour
     
     void Die()
     {
-        if (gameObject.CompareTag("Enemy"))
-        {
-            ScoreSystem.instance.AddPoints(stats.Body.MaxHP / 10);
-        }
-
         Destroy(transform.root.gameObject);
         // Debug.Log("Just died damn");
-    }
-
-    private void OnParticleCollision(GameObject other)
-    {
-        TakeDamage(1);
     }
 }

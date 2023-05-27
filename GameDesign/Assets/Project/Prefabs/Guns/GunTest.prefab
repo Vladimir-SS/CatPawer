@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1141293191813983601}
   - component: {fileID: 518596471149180070}
+  - component: {fileID: 4361316616248237572}
   m_Layer: 0
   m_Name: GunTest
   m_TagString: Untagged
@@ -138,17 +139,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3db472061ffdb4a917af8e295146b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Body>k__BackingField:
-    MaxHP: 0
-    Armor: 0
-    Speed: 0
-  <Gun>k__BackingField:
-    FireRate: 0
-    ReloadSpeed: 0
-    MagazineCapacity: 0
-  <Combat>k__BackingField:
-    DamageBonus: 0
-    DamageBase: 0
+  <MaxHealth>k__BackingField: 0
+  <AttackSpeed>k__BackingField: 0
+  <RangedDamageBase>k__BackingField: 0
+  <Armor>k__BackingField: 0
+  <AttackRange>k__BackingField: 0
+  <MoveSpeed>k__BackingField: 0
+  <DamagePercentageBase>k__BackingField: 0
+--- !u!114 &4361316616248237572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141293191813983600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf34be889b9cb67469aa9c4a35f51b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FireRateBase>k__BackingField: 0.3
+  <ReloadSpeedBase>k__BackingField: 2
+  <MagazineCapacityBase>k__BackingField: 4
 --- !u!1 &2734033768933348677
 GameObject:
   m_ObjectHideFlags: 0

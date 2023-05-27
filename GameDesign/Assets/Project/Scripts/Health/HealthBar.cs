@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        statsEntity = GetComponentInParent<Stats.StatsEntityFinal>();
+        statsEntity = GetComponentInParent<Stats.StatsEntityFinal> ();
         damageable = GetComponentInParent<Damageable>();
     }
 
