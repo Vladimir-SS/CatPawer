@@ -282,6 +282,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CornerWall
       objectReference: {fileID: 0}
+    - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
 --- !u!4 &1161286538948011822 stripped
@@ -405,6 +409,10 @@ PrefabInstance:
     - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
       propertyPath: m_Name
       value: CornerWall (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
@@ -592,6 +600,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CornerWall (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
 --- !u!4 &4843656281990259193 stripped
@@ -653,6 +665,10 @@ PrefabInstance:
     - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
       propertyPath: m_Name
       value: CornerWall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001094793847196862, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e35e287c744e9649bae4ff6a068c64f, type: 3}

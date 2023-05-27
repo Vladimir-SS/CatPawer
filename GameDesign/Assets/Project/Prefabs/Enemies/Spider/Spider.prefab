@@ -771,10 +771,7 @@ MonoBehaviour:
   edgeDistance: 0.5
   meleeAttackRange: 2
   meleeAttackCooldown: 1
-  waypoints:
-  - {fileID: 3485859163525333064, guid: 207c3a850eb2c3c4686febcf6dcae247, type: 3}
-  - {fileID: 1168085595034471927, guid: d79dd65e4a39e154b8a7df1dabc10a8a, type: 3}
-  - {fileID: 608996611393769573, guid: 4f5f00fcefcf56447a46fef71c71d87a, type: 3}
+  waypoints: []
 --- !u!1 &5367802301835492981
 GameObject:
   m_ObjectHideFlags: 0

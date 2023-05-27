@@ -54,7 +54,8 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
+        if (waypoints.Length > 0)
+            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
     }
 
     private void Update()
@@ -126,21 +127,23 @@ public class AIController : MonoBehaviour
         {
             m_PlayerNear = false;           //  The player is no near when the enemy is platroling
             playerLastPosition = Vector3.zero;
-            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the enemy destination to the next waypoint
-            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            {
-                //  If the enemy arrives to the waypoint position then wait for a moment and go to the next
-                if (m_WaitTime <= 0)
+            if (waypoints.Length > 0) {
+                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the enemy destination to the next waypoint
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
                 {
-                    NextPoint();
-                    Move(speedWalk);
-                    m_WaitTime = startWaitTime;
-                }
-                else
-                {
-                    Stop();
-                    m_WaitTime -= Time.deltaTime;
-                }
+                    //  If the enemy arrives to the waypoint position then wait for a moment and go to the next
+                    if (m_WaitTime <= 0)
+                    {
+                        NextPoint();
+                        Move(speedWalk);
+                        m_WaitTime = startWaitTime;
+                    }
+                    else
+                    {
+                        Stop();
+                        m_WaitTime -= Time.deltaTime;
+                    }
+                } 
             }
         }
     }

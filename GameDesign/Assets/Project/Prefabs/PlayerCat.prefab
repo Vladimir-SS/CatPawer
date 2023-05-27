@@ -2027,7 +2027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82001280ea23bc841becb9680b33f636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 0}
+  gun: {fileID: 7616482532641671417}
 --- !u!114 &303716089258877909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2546,7 +2546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6212867309264758265, guid: 25665e71c553dc04987e56dfdd2b21ff, type: 3}
       propertyPath: m_Name
-      value: HealthBarCanvas
+      value: PlayerCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6212867309264758265, guid: 25665e71c553dc04987e56dfdd2b21ff, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25665e71c553dc04987e56dfdd2b21ff, type: 3}
