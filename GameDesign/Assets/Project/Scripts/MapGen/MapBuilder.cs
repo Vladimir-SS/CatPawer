@@ -5,35 +5,51 @@ using UnityEngine;
 
 public class MapBuilder : MonoBehaviour
 {
-    public float collisionTollerance;
-    public int seed = 123;
-    public GameObject startRoom;
-    public List<GameObject> placeableRooms;
-    [SerializeField] private GameObject player;
+    private float collisionTollerance;
+     private int seed;
 
-    public GameObject wall;
-    private MapGenerator mapGenerator;
-    private WallPlacer wallPlacer;
+     private GameObject startRoom;
+    private GameObject wall;
+    private List<GameObject> placeableRooms;
+     private GameObject player;
+
+    public MapGenerator mapGenerator;
+    public WallPlacer wallPlacer;
+    private List<GameObject> rooms;
 
 
-    IEnumerator Start()
+
+    public IEnumerator StartBuild()
     {
-        mapGenerator = this.GetComponent<MapGenerator>();
         yield return StartCoroutine(mapGenerator.GenerateMap(seed, collisionTollerance, startRoom, placeableRooms));
-        
-        yield return(StartCoroutine(ClearRooms()));
 
-        wallPlacer = this.GetComponent<WallPlacer>();
+        yield return (StartCoroutine(ClearRooms()));
 
         // a necessary artifice; corners position gets mangled
         startRoom.GetComponent<RoomParameters>().SetCorners(mapGenerator.GetStartRoomCorners());
         placeableRooms.Add(startRoom);
 
         wallPlacer.PlaceWalls(placeableRooms, 2, wall);
+
         player.SetActive(true);
+
         this.gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
 
         Debug.Log("Map built");
+    }
+
+    public void SetMapBuilderParameters(int seed, float collisionTollerance, 
+                                List<GameObject> placeableRooms, GameObject startRoom, GameObject wall, GameObject player)
+    {
+        this.seed = seed;
+        this.collisionTollerance = collisionTollerance;
+        this.startRoom = startRoom;
+        this.placeableRooms = placeableRooms;
+        this.wall = wall;
+        this.player = player;
+
+        this.mapGenerator = this.GetComponent<MapGenerator>();
+        this.wallPlacer = this.GetComponent<WallPlacer>();
     }
 
     private IEnumerator ClearRooms()

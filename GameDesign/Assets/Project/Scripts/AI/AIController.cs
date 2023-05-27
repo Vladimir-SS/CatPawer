@@ -190,7 +190,7 @@ public class AIController : MonoBehaviour
             {
                 damageable.TakeDamage(meleeDamage);
                 nextMeleeAttackTime = Time.time + meleeAttackCooldown;
-                Debug.Log("Player just took melee damage amount : "+ meleeDamage);
+                //Debug.Log("Player just took melee damage amount : "+ meleeDamage);
             }
             else
             {
