@@ -1,23 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public int seed = 123;
-    public int rounds = 0;
+    private int seed = 123;
 
     [SerializeField] private float collisionTollerance;
 
     [SerializeField] private int numberOfRooms = 5;
 
+    [SerializeField] private string levelSceneName = "LevelTemplate";
+
     private GameObject player;
-    private GameObject playerCopy;
 
     [SerializeField] private List<GameObject> allStartRooms;
     [SerializeField] private List<GameObject> allEndRooms;
@@ -28,6 +26,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private SceneAsset sourceSceneAsset;
 
+    private List<GameObject> placeableRooms;
     private GameObject startRoom;
 
     public GameObject mapBuilderObject;
@@ -42,78 +41,24 @@ public class LevelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-
-            StartCoroutine(GetNextLevel(numberOfRooms));
+            StartCoroutine(GetNextLevel());
         }
     }
 
-    public IEnumerator GetNextLevel(int numberOfRooms)
+    public IEnumerator GetNextLevel()
     {
         yield return new WaitForSeconds(1);
         ClearLevel();
-        rounds++;
-        //UnityEngine.SceneManagement.Scene activeScene = SceneManager.GetActiveScene();
-        UnityEngine.SceneManagement.Scene gameScene = SceneManager.GetSceneByName("Game");
-        SceneManager.LoadScene("GameTemplate", LoadSceneMode.Additive);
 
-        UnityEngine.SceneManagement.Scene sceneToMerge = SceneManager.GetSceneByName("GameTemplate");
+        SceneManager.LoadScene(levelSceneName, LoadSceneMode.Additive);
 
-        //if (sceneToMerge == null) 
-        //{
-        //    sceneToMerge = SceneManager.GetSceneByName("GameTemplate");
-        //}
+        UnityEngine.SceneManagement.Scene sceneToMerge = SceneManager.GetSceneByName(levelSceneName);
 
-        //print(activeScene.name);
-        //print(sceneToMerge.name);
-        player.transform.position = new Vector3(1, 2, 0);
+        player.GetComponentInChildren<CharacterController>().transform.position = new Vector3(0, 2, 0);
+
         player.SetActive(false);
-        try
-        {
-            if (gameScene.IsValid() && sceneToMerge.IsValid())
-            {
-                print("merging");
-                SceneManager.MergeScenes(sceneToMerge, gameScene);
-            }
-            else
-            {
-                Debug.LogError("Invalid scenes for merging.");
-            }
-        }
-        catch (ArgumentException e) { }
+
         SceneManager.UnloadSceneAsync(sceneToMerge);
-
-        //SceneManager.MergeScenes(SceneManager.GetSceneByName("Game 1"), SceneManager.GetActiveScene());
-        //// Find the template scene
-        //string templateSceneName = "Game";
-        //string newSceneName = "new_Game";
-
-        //player = FindObject("PlayerCat");
-        //print(player.name);
-
-        //// Load the "NewGame" scene
-        //SceneManager.LoadScene("Game 1", LoadSceneMode.Single);
-        //    print("Loaded scene: " + SceneManager.GetActiveScene().name);
-
-        //    // Place the gameObject into the new scene
-        //    SceneManager.MoveGameObjectToScene(player, SceneManager.GetActiveScene());
-        //    print("Placed object: " + player.name);
-
-        //GameObject obj = GameObject.Find("LevelManager");
-        //obj.GetComponent<LevelManager>().seed = 123;
-
-        //CreateLevel(numberOfRooms);
-        //SceneManager.sceneLoaded += OnSceneLoaded;
-
-    }
-
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
-    {
-        //// Find the desired object in the loaded scene
-        //GameObject obj = GameObject.Find("LevelManager");
-
-        //obj.GetComponent<LevelManager>().player = GameObject.Find("PlayerCat");
-
-        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private Tuple<GameObject, List<GameObject>> SelectRooms(int numberOfRooms)
@@ -142,17 +87,17 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevel(int numberOfRooms)
     {
-        List<GameObject> placeableRooms = new List<GameObject>();
         player = FindObject("PlayerCat");
-        do
-        {
-            //ClearLevel();
-            (startRoom, placeableRooms) = SelectRooms(numberOfRooms);
 
-            mapBuilderObject.GetComponent<MapBuilder>().SetMapBuilderParameters(seed, collisionTollerance, placeableRooms, startRoom, wall, player);
-            mapBuilderObject.GetComponent<MapBuilder>().StartCoroutine(mapBuilderObject.GetComponent<MapBuilder>().StartBuild());
-        } while (GameObject.FindGameObjectsWithTag("Room").Length < numberOfRooms);
-        // remove loading screen
+        (startRoom, placeableRooms) = SelectRooms(numberOfRooms);
+
+        mapBuilderObject.GetComponent<MapBuilder>().SetMapBuilderParameters(seed, collisionTollerance, placeableRooms, startRoom, wall, player);
+        mapBuilderObject.GetComponent<MapBuilder>().StartCoroutine(mapBuilderObject.GetComponent<MapBuilder>().StartBuild());
+        
+        if(GameObject.FindGameObjectsWithTag("Room").Length < numberOfRooms + 2)
+        {
+            StartCoroutine(GetNextLevel());
+        }
     }
 
     private void ClearLevel()
@@ -166,7 +111,6 @@ public class LevelManager : MonoBehaviour
             {
                 Destroy(root);
             }
-
         }
     }
 

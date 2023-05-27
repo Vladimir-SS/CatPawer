@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 705507994}
   m_Layer: 0
   m_Name: Directional Light
-  m_TagString: Untagged
+  m_TagString: Persistent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -847,9 +847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df996f8a34d08b1468f34ee0c7dae0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 123
   collisionTollerance: 1
   numberOfRooms: 5
+  levelSceneName: LevelTemplate
   allStartRooms:
   - {fileID: 8221810263872733410, guid: 68a06ef1fbe9d1f4c818b0a212171a32, type: 3}
   allEndRooms:
@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 145950721922096553}
   m_Layer: 5
   m_Name: MenuCanvas
-  m_TagString: Untagged
+  m_TagString: Persistent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
