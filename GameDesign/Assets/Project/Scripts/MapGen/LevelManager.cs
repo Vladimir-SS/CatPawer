@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -24,7 +26,11 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameObject wall;
 
-    [SerializeField] private SceneAsset sourceSceneAsset;
+    public GameObject loadingScreenImage;
+    public Slider loadingBarSlider;
+    private static GameObject loadingScreen;
+    private static Slider loadingBar;
+
 
     private List<GameObject> placeableRooms;
     private GameObject startRoom;
@@ -33,6 +39,11 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        if (loadingScreenImage != null && loadingBarSlider != null)
+        {
+            loadingScreen = loadingScreenImage;
+            loadingBar = loadingBarSlider;
+        }
         seed = UnityEngine.Random.Range(0, 100000);
         CreateLevel(numberOfRooms);
     }
@@ -45,20 +56,32 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public IEnumerator GetNextLevel()
+    private IEnumerator LoadLevel()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         ClearLevel();
 
+        loadingBar.value = 0.1f;
         SceneManager.LoadScene(levelSceneName, LoadSceneMode.Additive);
-
-        UnityEngine.SceneManagement.Scene sceneToMerge = SceneManager.GetSceneByName(levelSceneName);
-
+        loadingBar.value = 0.5f;
         player.GetComponentInChildren<CharacterController>().transform.position = new Vector3(0, 2, 0);
+        loadingBar.value = 0.8f;
+
+        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(levelSceneName));
+
+        loadingBar.value = 0.9f;
 
         player.SetActive(false);
+        loadingScreen.SetActive(false);
+    }
 
-        SceneManager.UnloadSceneAsync(sceneToMerge);
+    public IEnumerator GetNextLevel()
+    {
+        loadingBar.value = 0;
+
+        loadingScreen.SetActive(true);
+        
+        yield return StartCoroutine(LoadLevel());
     }
 
     private Tuple<GameObject, List<GameObject>> SelectRooms(int numberOfRooms)
