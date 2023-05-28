@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPlace: {fileID: 7616482532641671417}
-  Gun: {fileID: 4802609925598262313, guid: 1258e3c019be9fe48a68205fe2f04f5d, type: 3}
+  StartWithThisGun: {fileID: 4802609925598262313, guid: 1258e3c019be9fe48a68205fe2f04f5d, type: 3}
   ItemsPlace: {fileID: 4110065055067629176}
   Items: []
 --- !u!1 &7982045112182234505

@@ -15,8 +15,8 @@ public class BulletSourceBulletProvider : BulletSourceBase
 
     protected override void ShootBullet()
     {
-        BulletProjectile bullet = (BulletProjectile)bulletProvider.GetBullet();
-        bullet.damageFromProvider = statsEntityFinal.Combat.Damage;
+        IBullet bullet = bulletProvider.GetBullet();
+        bullet.Damage = statsEntityFinal.Combat.Damage;
         bullet.Shoot(transform.position, GetDirection());
     }   
 }

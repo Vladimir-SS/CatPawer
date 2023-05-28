@@ -7,8 +7,9 @@ public class InventoryHandler : MonoBehaviour
     //TODO: perhaps more guns and press 1,2,3 to switch between them ? like in our description
 
     [SerializeField] private GameObject GunPlace;
-    [SerializeField] private GameObject Gun;
-
+    private GameObject Gun;
+    [SerializeField] private GameObject StartWithThisGun;
+        
     [SerializeField] private GameObject ItemsPlace;
     [SerializeField] private List<GameObject> Items;
 
@@ -47,7 +48,7 @@ public class InventoryHandler : MonoBehaviour
     private void Start()
     {
         eventSubmission = GetComponent<EventSubmission>();
-        ChangeGun(Gun);
+        ChangeGun(StartWithThisGun);
     }
 
 }
