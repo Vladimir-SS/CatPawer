@@ -4,29 +4,8 @@ using UnityEngine;
 
 public class ItemData : MonoBehaviour
 {
-    [SerializeField] private int id;
-    [SerializeField] private string itemName;
-    [SerializeField] private string description;
-    [SerializeField] private Sprite icon;
-    [SerializeField] private GameObject prefab;
+    [field: SerializeField] public string Name { get; protected set; }
+    [field: SerializeField] public string Description { get; protected set; }
+    [field: SerializeField] public Sprite Image { get; protected set; }
 
-    public string ItemName
-    {
-        get => itemName;
-    }
-
-    public string Description
-    {
-        get => description;
-    }
-
-    public Sprite ItemSprite
-    {
-        get => icon;
-    }
-
-    public GameObject Prefab
-    {
-        get => prefab;
-    }
 }
