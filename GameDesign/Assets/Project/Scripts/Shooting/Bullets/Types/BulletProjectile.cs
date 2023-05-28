@@ -4,15 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BulletProjectile : IBullet
+public class BulletProjectile : IBulletMonoBehaviour
 {
     public float speed;
     public Vector3 originalPosition = Vector3.zero;
 
-   
-    public float damageFromProvider;
-    
-    public override void Shoot(Vector3 position, Vector3 direction)
+    override public void Shoot(Vector3 position, Vector3 direction)
     {
         transform.position = position;
         transform.forward = direction;
@@ -38,7 +35,7 @@ public class BulletProjectile : IBullet
 
             if (target != null)
             {
-                target.TakeDamage(damageFromProvider);
+                target.TakeDamage(Damage);
             }
         }
 

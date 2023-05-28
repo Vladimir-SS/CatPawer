@@ -1,10 +1,11 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IBullet : MonoBehaviour
+public interface IBullet
 {
-    public float damage;
+    public float Damage { get; set; }
 
-    public abstract void Shoot(Vector3 position, Vector3 direction);
+    public void Shoot(Vector3 position, Vector3 direction);
 }

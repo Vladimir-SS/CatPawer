@@ -11,6 +11,12 @@ public class EventSubmission : MonoBehaviour
     {
         GunReloadEvent?.Invoke(sender, e);
     }
-    
-    
+
+    // GunSwitchEvent
+    public delegate void GunSwitchEventHandler(object sender, GunSwitchEventArgs e);
+    public event GunSwitchEventHandler GunSwitchEvent;
+    public void TriggerGunSwitchEvent(object sender, GunSwitchEventArgs e)
+    {
+        GunSwitchEvent?.Invoke(sender, e);
+    }
 }
