@@ -68,4 +68,9 @@ public class InventoryManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
+    public void Print()
+    {
+        print("InventoryManager");
+    }
 }
