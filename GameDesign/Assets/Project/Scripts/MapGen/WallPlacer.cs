@@ -146,8 +146,6 @@ public class WallPlacer : MonoBehaviour
             if (WallIsOnRoomEdge(wall, room))
                 return false;
         }
-
-        print("Wall is removable");
  
         return true;
     }

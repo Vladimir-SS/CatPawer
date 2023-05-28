@@ -45,6 +45,11 @@ public class InventoryHandler : MonoBehaviour
         //TODO: event sub??
     }
 
+    public List<GameObject> GetItems()
+    {
+        return Items;
+    }
+
     private void Start()
     {
         eventSubmission = GetComponent<EventSubmission>();
