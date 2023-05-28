@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   itemName: Fur
-  description: Bristly fur
+  description: line 1 \n line 2
   icon: {fileID: 21300000, guid: 60ab7a4a184217242818cb3e5f44f4c3, type: 3}
   prefab: {fileID: 4438672922076922996, guid: b3efe0c758fe7d8448b4bc6a7cb6dbfc, type: 3}
 --- !u!114 &2365475266023770237

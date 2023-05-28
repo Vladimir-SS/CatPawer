@@ -58,6 +58,9 @@ public class InventoryManager : MonoBehaviour
             newItem.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = data.ItemName;
             newItem.transform.Find("Image").GetComponent<Image>().sprite = data.ItemSprite;
 
+            newItem.transform.Find("Description/Text").GetComponent<TextMeshProUGUI>().text = data.Description.Replace("\\n", System.Environment.NewLine);
+
+            newItem.transform.Find("Description").transform.gameObject.SetActive(false);
         }
     }
 

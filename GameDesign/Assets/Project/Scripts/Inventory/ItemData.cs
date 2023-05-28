@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ItemData : MonoBehaviour
 {
-    [SerializeField] private int id;
+    //[SerializeField] private int id;
     [SerializeField] private string itemName;
     [SerializeField] private string description;
     [SerializeField] private Sprite icon;
-    [SerializeField] private GameObject prefab;
+    //[SerializeField] private GameObject prefab;
 
     public string ItemName
     {
@@ -23,10 +24,5 @@ public class ItemData : MonoBehaviour
     public Sprite ItemSprite
     {
         get => icon;
-    }
-
-    public GameObject Prefab
-    {
-        get => prefab;
     }
 }
