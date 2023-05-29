@@ -55,8 +55,8 @@ public class InventoryManager : MonoBehaviour
 
             GameObject newItem = Instantiate(inventoryItem, inventoryContent);
 
-            newItem.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = data.ItemName;
-            newItem.transform.Find("Image").GetComponent<Image>().sprite = data.ItemSprite;
+            newItem.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = data.Name;
+            newItem.transform.Find("Image").GetComponent<Image>().sprite = data.Image;
 
         }
     }
