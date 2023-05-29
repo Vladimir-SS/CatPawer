@@ -7,6 +7,7 @@ using Stats;
 
 public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
 {
+    public uint BulletsInMagazine { get; set; }
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
     protected EventSubmission eventSubmission;
@@ -16,7 +17,6 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
     protected bool isReloading;
     public bool isManual;
 
-    public uint BulletsInMagazine => bulletsInMagazine;
 
     void Awake()
     {
@@ -46,11 +46,14 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
         return AimRaycastProvider.GetHitObject();
     }
 
-    protected abstract void ShootBullet();
+    protected void ShootBullet()
+    {
+        Shoot(GetDirection());
+    }
 
     protected async void reload()
     {
-        
+
         isReloading = true;
         var reloadSpeed = statsEntityFinal.Gun.ReloadSpeed;
         eventSubmission.TriggerGunReloadEvent(this, new GunReloadEventArgs(reloadSpeed));
@@ -82,4 +85,6 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
             }
         }
     }
+
+    abstract public void Shoot(Vector3 shootPosition);
 }
