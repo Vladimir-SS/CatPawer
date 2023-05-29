@@ -58,6 +58,9 @@ public class InventoryManager : MonoBehaviour
             newItem.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = data.Name;
             newItem.transform.Find("Image").GetComponent<Image>().sprite = data.Image;
 
+            newItem.transform.Find("Description/Text").GetComponent<TextMeshProUGUI>().text = data.Description.Replace("\\n", System.Environment.NewLine);
+
+            newItem.transform.Find("Description").transform.gameObject.SetActive(false);
         }
     }
 
@@ -67,5 +70,10 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    public void Print()
+    {
+        print("InventoryManager");
     }
 }
