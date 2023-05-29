@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameObject wall;
 
+    public GameObject menuCanvas;
     public GameObject loadingScreenImage;
     public Slider loadingBarSlider;
     private static GameObject loadingScreen;
@@ -72,6 +73,7 @@ public class LevelManager : MonoBehaviour
         loadingBar.value = 0.9f;
 
         player.SetActive(false);
+        menuCanvas.SetActive(false);
         loadingScreen.SetActive(false);
     }
 
@@ -79,6 +81,7 @@ public class LevelManager : MonoBehaviour
     {
         loadingBar.value = 0;
 
+        menuCanvas.SetActive(true);
         loadingScreen.SetActive(true);
         
         yield return StartCoroutine(LoadLevel());
