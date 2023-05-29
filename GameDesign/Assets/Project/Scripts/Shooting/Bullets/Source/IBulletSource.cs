@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IBulletSource
 {
-    uint BulletsInMagazine { get; }
+    
+    void Shoot(Vector3 shootPosition);
 }
