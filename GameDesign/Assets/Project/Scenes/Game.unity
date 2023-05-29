@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1681568385455549507, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 1281
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681568386068405634, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 1681568386068405635, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.75
@@ -279,8 +287,36 @@ PrefabInstance:
       value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: field of view
-      value: 30
+      value: 61.39524
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_FOVAxisMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_FocalLength
+      value: 12.80107
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_SensorSize.x
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_SensorSize.y
+      value: 15.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420758, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
