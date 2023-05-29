@@ -64,6 +64,7 @@ public class Damageable : MonoBehaviour
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
         Debug.Log("Taking damage, current health : " + currentHealth + " max HP : " + stats.Body.MaxHP + " damage : " + damage);
 
+
         if (currentHealth <= 0)
         {
             Die();
@@ -85,7 +86,7 @@ public class Damageable : MonoBehaviour
         }    
 
         Destroy(transform.root.gameObject);
-        Debug.Log("Just died damn");
+        // Debug.Log("Just died damn");
     }
 
     private void OnParticleCollision(GameObject other)
