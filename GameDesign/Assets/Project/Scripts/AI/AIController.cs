@@ -21,6 +21,7 @@ public class AIController : MonoBehaviour
     public int edgeIterations = 4;                  //  Number of iterations to get a better performance of the mesh filter when the raycast hit an obstacule
     public float edgeDistance = 0.5f;               //  Max distance to calcule the a minumun and a maximum raycast when hits something
     public float meleeAttackRange = 2f;
+    public float rangeAttackDistance = 10f;
     public float meleeAttackCooldown = 1f;
     private float nextMeleeAttackTime = 0f;
     private BulletSourceEnemy bulletSourceEnemy;
@@ -69,13 +70,18 @@ public class AIController : MonoBehaviour
         {
             Chasing();
 
-            if (bulletSourceEnemy != null)    // If enemy is ranged
+            // Get the player's position
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            // If enemy is ranged and the player is within attack distance
+            if (bulletSourceEnemy != null && Vector3.Distance(transform.position, player.position) <= rangeAttackDistance) 
             {
-                RangeAttack(GameObject.FindGameObjectWithTag("Player").transform);
+                RangeAttack(player);
             }
-            else    // If enemy is melee
+            // If enemy is melee
+            else 
             {
-                MeleeAttack(GameObject.FindGameObjectWithTag("Player").transform);
+                MeleeAttack(player);
             }
         }
         else
