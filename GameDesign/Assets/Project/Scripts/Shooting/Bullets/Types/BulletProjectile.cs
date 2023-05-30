@@ -29,20 +29,9 @@ public class BulletProjectile : IBulletMonoBehaviour
 
    private void OnTriggerEnter(Collider other)
     {
-        if (ShooterTag == "Enemy" && other.CompareTag("Player"))
+        if (!other.CompareTag(ShooterTag))
         {
             var target = other.GetComponent<Damageable>();
-            if (target != null)
-            {
-                target.TakeDamage(Damage);
-            }
-
-            gameObject.SetActive(false);
-        }
-        else if (ShooterTag == "Player" && other.CompareTag("Enemy"))
-        {
-            var target = other.GetComponent<Damageable>();
-
             if (target != null)
             {
                 target.TakeDamage(Damage);

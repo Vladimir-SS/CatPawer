@@ -43,7 +43,7 @@ public class AIController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-         bulletSourceEnemy = GetComponentInChildren<BulletSourceEnemy>();     // Get BulletSourceEnemy component in children
+        bulletSourceEnemy = GetComponentInChildren<BulletSourceEnemy>();     // Get BulletSourceEnemy component in children
 
         m_PlayerPosition = Vector3.zero;
         m_IsPatrol = true;
@@ -227,7 +227,8 @@ public class AIController : MonoBehaviour
     {
         if (bulletSourceEnemy != null && player != null)
         {
-            bulletSourceEnemy.Shoot(player.position);
+            Vector3 pos = player.position;
+            bulletSourceEnemy.Shoot(pos);
         }
     }
 

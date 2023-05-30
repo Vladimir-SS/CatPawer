@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(IBulletProvider))]
 public class BulletSourceEnemy : MonoBehaviour
 {
-    [SerializeField] private IBulletProvider bulletProvider;
+    private IBulletProvider bulletProvider;
     private StatsEntityFinal statsEntityFinal;
 
     private bool canShoot = true;  
@@ -35,7 +35,8 @@ public class BulletSourceEnemy : MonoBehaviour
             bullet.Damage = statsEntityFinal.Combat.Damage;
             // Set the shooter's tag to the bullet
             (bullet as BulletProjectile).ShooterTag = "Enemy";
-            bullet.Shoot(transform.position, shootPosition);
+            Vector3 direction = shootPosition - transform.position;
+            bullet.Shoot(transform.position, direction);
         }
     }
 
