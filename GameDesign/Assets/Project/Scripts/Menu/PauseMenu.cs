@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject menuCamera;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject playerCanvas;
+    [SerializeField] private GameObject tryAgainMenu;
 
     private void Awake()
     {
@@ -58,6 +59,7 @@ public class PauseMenu : MonoBehaviour
     {
         menuCanvas.SetActive(true);
         pauseMenuUI.SetActive(true);
+        tryAgainMenu.SetActive(false);
         Time.timeScale = 0;
         GameIsPaused = true;
 
@@ -66,5 +68,13 @@ public class PauseMenu : MonoBehaviour
         mainCamera.SetActive(false);
         menuCamera.SetActive(true);
 
+    }
+
+    public void TryAgainMenu()
+    {
+        action.Pause.PauseGame.Disable();
+        PauseGame();
+        pauseMenuUI.SetActive(false);
+        tryAgainMenu.SetActive(true);
     }
 }

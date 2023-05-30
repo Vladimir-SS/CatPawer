@@ -11,6 +11,12 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public void TryAgain()
+    {
+        pauseMenu.GetComponent<PauseMenu>().DeterminePause();
+        SceneManager.LoadScene("Game");
+    }
+
     public void ExitGame()
     {
         pauseMenu.GetComponent<PauseMenu>().DeterminePause();

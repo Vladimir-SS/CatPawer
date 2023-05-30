@@ -83,9 +83,14 @@ public class Damageable : MonoBehaviour
         if (gameObject.CompareTag("Enemy"))
         {
             ScoreSystem.instance.AddPoints(stats.Body.MaxHP / 10);
-        }    
+            Destroy(transform.root.gameObject);
+        }
+        
+        if (gameObject.CompareTag("Player"))
+        {
+            gameObject.GetComponentInParent<PauseMenu>().TryAgainMenu();
+        }
 
-        Destroy(transform.root.gameObject);
         // Debug.Log("Just died damn");
     }
 
