@@ -4,6 +4,5 @@ using UnityEngine;
 
 public interface IBulletSource
 {
-    
     void Shoot(Vector3 shootPosition);
 }

@@ -23,6 +23,7 @@ public class AIController : MonoBehaviour
     public float meleeAttackRange = 2f;
     public float meleeAttackCooldown = 1f;
     private float nextMeleeAttackTime = 0f;
+    private BulletSourceEnemy bulletSourceEnemy;
 
     public Transform[] waypoints;                   //  All the waypoints where the enemy patrols
     int m_CurrentWaypointIndex;                     //  Current waypoint where the enemy is going to
@@ -37,9 +38,11 @@ public class AIController : MonoBehaviour
     bool m_IsPatrol;                                //  If the enemy is patrol, state of patroling
     bool m_CaughtPlayer;                            //  if the enemy has caught the player
 
+
     void Start()
     {
         animator = GetComponent<Animator>();
+         bulletSourceEnemy = GetComponentInChildren<BulletSourceEnemy>();     // Get BulletSourceEnemy component in children
 
         m_PlayerPosition = Vector3.zero;
         m_IsPatrol = true;
@@ -60,12 +63,20 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        EnviromentView();                       //  Check whether or not the player is in the enemy's field of vision
+        EnviromentView();
 
         if (!m_IsPatrol)
         {
             Chasing();
-            MeleeAttack(GameObject.FindGameObjectWithTag("Player").transform); //to be changed for range/meele attacks
+
+            if (bulletSourceEnemy != null)    // If enemy is ranged
+            {
+                RangeAttack(GameObject.FindGameObjectWithTag("Player").transform);
+            }
+            else    // If enemy is melee
+            {
+                MeleeAttack(GameObject.FindGameObjectWithTag("Player").transform);
+            }
         }
         else
         {
@@ -183,25 +194,36 @@ public class AIController : MonoBehaviour
     }
 
     void MeleeAttack(Transform player)
-{
-    if (Time.time >= nextMeleeAttackTime)
     {
-        if (player != null && Vector3.Distance(transform.position, player.position) <= meleeAttackRange)
+        if (bulletSourceEnemy != null)    // If enemy is ranged, do not perform melee attack
+            return;
+
+        if (Time.time >= nextMeleeAttackTime)
         {
-            Damageable damageable = player.GetComponent<Damageable>();
-            if(damageable != null)
+            if (player != null && Vector3.Distance(transform.position, player.position) <= meleeAttackRange)
             {
-                damageable.TakeDamage(meleeDamage);
-                nextMeleeAttackTime = Time.time + meleeAttackCooldown;
-                //Debug.Log("Player just took melee damage amount : "+ meleeDamage);
-            }
-            else
-            {
-                Debug.LogError("Damageable script component not found on player object");
+                Damageable damageable = player.GetComponent<Damageable>();
+                if(damageable != null)
+                {
+                    damageable.TakeDamage(meleeDamage);
+                    nextMeleeAttackTime = Time.time + meleeAttackCooldown;
+                    //Debug.Log("Player just took melee damage amount : "+ meleeDamage);
+                }
+                else
+                {
+                    Debug.LogError("Damageable script component not found on player object");
+                }
             }
         }
     }
-}
+
+    void RangeAttack(Transform player)
+    {
+        if (bulletSourceEnemy != null && player != null)
+        {
+            bulletSourceEnemy.Shoot(player.position);
+        }
+    }
 
 
     void LookingPlayer(Vector3 player)

@@ -8,6 +8,7 @@ public class BulletProjectile : IBulletMonoBehaviour
 {
     public float speed;
     public Vector3 originalPosition = Vector3.zero;
+    public string ShooterTag { get; set; } = "Player";
 
     override public void Shoot(Vector3 position, Vector3 direction)
     {
@@ -28,8 +29,17 @@ public class BulletProjectile : IBulletMonoBehaviour
 
    private void OnTriggerEnter(Collider other)
     {
-        // Modify this method to check for the "Enemy" tag and apply the stored damage value
-        if (other.CompareTag("Enemy"))
+        if (ShooterTag == "Enemy" && other.CompareTag("Player"))
+        {
+            var target = other.GetComponent<Damageable>();
+            if (target != null)
+            {
+                target.TakeDamage(Damage);
+            }
+
+            gameObject.SetActive(false);
+        }
+        else if (ShooterTag == "Player" && other.CompareTag("Enemy"))
         {
             var target = other.GetComponent<Damageable>();
 
@@ -37,9 +47,10 @@ public class BulletProjectile : IBulletMonoBehaviour
             {
                 target.TakeDamage(Damage);
             }
-        }
 
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
+    
 }
 

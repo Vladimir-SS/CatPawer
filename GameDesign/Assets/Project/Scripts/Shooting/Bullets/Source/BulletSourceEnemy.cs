@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(IBulletProvider))]
-public class BulletSourceEnemy : MonoBehaviour, IBulletSource
+public class BulletSourceEnemy : MonoBehaviour
 {
     [SerializeField] private IBulletProvider bulletProvider;
     private StatsEntityFinal statsEntityFinal;
 
-    private bool canShoot = true;
+    private bool canShoot = true;  
 
     void Awake()
     {
@@ -22,18 +22,21 @@ public class BulletSourceEnemy : MonoBehaviour, IBulletSource
     {
         canShoot = false;
         var fireRate = statsEntityFinal.Gun.FireRate;
-        await Task.Delay((int)(fireRate * 1000));
+        await Task.Delay((int)(fireRate * 6000));  //IDK WHY ASK JHORJHE
         canShoot = true;
     }
 
     public void Shoot(Vector3 shootPosition)
     {
-        if (canShoot)
+         if (canShoot)
         {
             blockShooting();
             IBullet bullet = bulletProvider.GetBullet();
             bullet.Damage = statsEntityFinal.Combat.Damage;
+            // Set the shooter's tag to the bullet
+            (bullet as BulletProjectile).ShooterTag = "Enemy";
             bullet.Shoot(transform.position, shootPosition);
         }
     }
+
 }
