@@ -26,11 +26,12 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameObject wall;
 
-    public GameObject menuCanvas;
+    public GameObject menuCanvasObject;
     public GameObject loadingScreenImage;
     public Slider loadingBarSlider;
     private static GameObject loadingScreen;
     private static Slider loadingBar;
+    private static GameObject menuCanvas;
 
 
     private List<GameObject> placeableRooms;
@@ -40,10 +41,11 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        if (loadingScreenImage != null && loadingBarSlider != null)
+        if (loadingScreenImage != null && loadingBarSlider != null && menuCanvasObject != null)
         {
             loadingScreen = loadingScreenImage;
             loadingBar = loadingBarSlider;
+            menuCanvas = menuCanvasObject;
         }
         seed = UnityEngine.Random.Range(0, 100000);
         CreateLevel(numberOfRooms);
@@ -80,10 +82,10 @@ public class LevelManager : MonoBehaviour
     public IEnumerator GetNextLevel()
     {
         loadingBar.value = 0;
-
+    
         menuCanvas.SetActive(true);
         loadingScreen.SetActive(true);
-        
+
         yield return StartCoroutine(LoadLevel());
     }
 
