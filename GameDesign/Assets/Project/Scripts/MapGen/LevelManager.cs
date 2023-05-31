@@ -58,6 +58,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadLevel()
     {
+        print(3);
         yield return new WaitForSeconds(1f);
         ClearLevel();
 
@@ -77,9 +78,12 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator GetNextLevel()
     {
+        print(0);
         loadingBar.value = 0;
+        print(1);
 
         loadingScreen.SetActive(true);
+        print(2);
         
         yield return StartCoroutine(LoadLevel());
     }
