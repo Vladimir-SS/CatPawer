@@ -62,7 +62,7 @@ public class Damageable : MonoBehaviour
         }
 
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
-        Debug.Log("Taking damage, current health : " + currentHealth + " max HP : " + stats.Body.MaxHP + " damage : " + damage);
+        Debug.Log("Taking damage, " + gameObject.transform.parent.name + "   current health : " + currentHealth + " max HP : " + stats.Body.MaxHP + " damage : " + damage);
 
 
         if (currentHealth <= 0)

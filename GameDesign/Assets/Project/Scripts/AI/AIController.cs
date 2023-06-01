@@ -111,7 +111,10 @@ public class AIController : MonoBehaviour
                 Move(speedWalk);
                 m_TimeToRotate = timeToRotate;
                 m_WaitTime = startWaitTime;
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                if (waypoints.Length > 0)
+                {
+                    navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                }  
             }
             else
             {

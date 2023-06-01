@@ -150,6 +150,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 4067813983902286559, guid: 7efc7bc07b04913458cdcd53bde547be, type: 3}
   - {fileID: 9075441756378592109, guid: 754fa2cc5def50b4395e81782c3240d0, type: 3}
+  - {fileID: 5193896620371396301, guid: 1ca0cef954bd11a48b6bc203c7649011, type: 3}
   difficulty: 1
 --- !u!1 &2071011399210356286
 GameObject:
