@@ -675,7 +675,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 9075441756378592109}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.4
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -719,5 +719,6 @@ MonoBehaviour:
   edgeIterations: 4
   edgeDistance: 0.5
   meleeAttackRange: 2
+  rangeAttackDistance: 10
   meleeAttackCooldown: 1
   waypoints: []

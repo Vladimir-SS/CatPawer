@@ -677,8 +677,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6120671, y: 2.138825, z: 1.4981904}
-  m_Center: {x: -0.085103914, y: 0.23146026, z: 0}
+  m_Size: {x: 1.6120671, y: 2.1031537, z: 1.4981904}
+  m_Center: {x: -0.085103914, y: 0.12698753, z: 0}
 --- !u!114 &3959637606340821526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,6 +1077,7 @@ MonoBehaviour:
   edgeIterations: 4
   edgeDistance: 0.5
   meleeAttackRange: 2
+  rangeAttackDistance: 10
   meleeAttackCooldown: 1
   waypoints: []
 --- !u!1 &4174748465695108249
