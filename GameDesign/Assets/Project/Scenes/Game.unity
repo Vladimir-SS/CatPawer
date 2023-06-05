@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: gunPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 7156683297942649673, guid: 647a4aa3584fffd4c8dca20a0cc5dc68, type: 3}
+      objectReference: {fileID: 416912092747514927, guid: 1f0857443d014734f8feb96be9828062, type: 3}
     - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: gunPrefabs.Array.data[3]
       value: 
@@ -1670,6 +1670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeMaster: 0
   qualityIndex: 0
+  weapon: Glock
 --- !u!4 &1828506976
 Transform:
   m_ObjectHideFlags: 0
