@@ -7,7 +7,7 @@ public class InventoryHandler : MonoBehaviour
     //TODO: perhaps more guns and press 1,2,3 to switch between them ? like in our description
 
     [SerializeField] private GameObject GunPlace;
-    private GameObject Gun;
+    public GameObject Gun { get; private set; } = null;
     [SerializeField] private GameObject StartWithThisGun;
         
     [SerializeField] private GameObject ItemsPlace;
