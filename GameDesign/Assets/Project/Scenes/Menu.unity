@@ -123,6 +123,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &350338328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5637738288035009701, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+  m_PrefabInstance: {fileID: 5286359657000498647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &350338330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350338328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dce402ddf359664a9d906126eb36c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &463847997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5286359658907828814, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
@@ -237,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeMaster: 0
   qualityIndex: 0
+  weapon: Glock
 --- !u!4 &945581189
 Transform:
   m_ObjectHideFlags: 0
@@ -245,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945581187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 298.46426, y: 630.3409, z: 16.146927}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -572,6 +590,90 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1286206600131748323, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726651336568624583, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 350338330}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: WeaponSetter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: 50Cal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296864496021416794, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2835230713225784348, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135895275624994675, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 350338330}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: WeaponSetter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Glock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272893924059318115, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746299367203817366, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5286359658907828810, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -663,6 +765,86 @@ PrefabInstance:
     - target: {fileID: 5286359658907828814, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
       propertyPath: m_Name
       value: MenuCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 350338330}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: WeaponSetter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Minigun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409927820144263781, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5637738288035009701, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5720217061460234302, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262872234960734336, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 350338330}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: WeaponSetter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Bazooka
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279258504855733978, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7495851287027946612, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd3bf985e31547549bba04d422b2fd9e, type: 3}
