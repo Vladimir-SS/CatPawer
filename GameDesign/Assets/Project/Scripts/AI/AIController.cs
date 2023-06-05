@@ -245,7 +245,8 @@ public class AIController : MonoBehaviour
             {
                 m_PlayerNear = false;
                 Move(speedWalk);
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                if (waypoints.Length > 0)
+                    navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
                 m_WaitTime = startWaitTime;
                 m_TimeToRotate = timeToRotate;
             }
@@ -270,7 +271,7 @@ public class AIController : MonoBehaviour
                 float dstToPlayer = Vector3.Distance(transform.position, player.position);          //  Distance of the enmy and the player
                 if (!Physics.Raycast(transform.position, dirToPlayer, dstToPlayer, obstacleMask))
                 {
-                    m_playerInRange = true;             //  The player has been seeing by the enemy and then the nemy starts to chasing the player
+                    m_playerInRange = true;             //  The player has been seeing by the enemy and then the enemy starts to chasing the player
                     m_IsPatrol = false;                 //  Change the state to chasing the player
                 }
                 else
