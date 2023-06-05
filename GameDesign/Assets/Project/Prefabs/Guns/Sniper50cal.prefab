@@ -85,7 +85,7 @@ MonoBehaviour:
   <Gun>k__BackingField:
     FireRate: 1.5
     ReloadSpeed: 4
-    MagazineCapacity: 5
+    MagazineCapacity: 10
   <Combat>k__BackingField:
     DamageBonus: 150
     DamageBase: 60
