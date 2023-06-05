@@ -130,6 +130,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs
+      value: 
+      objectReference: {fileID: 1477795697756041051, guid: b07509c6785629a44bd4d811f14160aa, type: 3}
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1477795697756041051, guid: b07509c6785629a44bd4d811f14160aa, type: 3}
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4802609925598262313, guid: 1258e3c019be9fe48a68205fe2f04f5d, type: 3}
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 7156683297942649673, guid: 647a4aa3584fffd4c8dca20a0cc5dc68, type: 3}
+    - target: {fileID: 1699915803699426168, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: gunPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 1373914156511575920, guid: 7fb3de3b716ef8049aa3d8de85545e83, type: 3}
     - target: {fileID: 2944877546058805194, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1624,6 +1648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1828506976}
   - component: {fileID: 1828506975}
+  - component: {fileID: 1828506977}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Persistent
@@ -1660,6 +1685,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1828506977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828506974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d0459abe3b42a4a97cef09537bc48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2038228111 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1509496744278933352, guid: 032714122fc16b943a8d76e7f14a2832, type: 3}
