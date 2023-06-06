@@ -31,11 +31,15 @@ public class MapBuilder : MonoBehaviour
 
         wallPlacer.PlaceWalls(placeableRooms, 2, wall);
 
-        player.SetActive(true);
+        //player.SetActive(true);
 
         this.gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
 
         Debug.Log("Map built");
+        player.SetActive(true);
+        LevelManager.menuCanvas.SetActive(false);
+        LevelManager.loadingScreen.SetActive(false);
+
     }
 
     public void SetMapBuilderParameters(int seed, float collisionTollerance, 

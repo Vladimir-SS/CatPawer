@@ -36,9 +36,9 @@ public class LevelManager : MonoBehaviour
     public GameObject menuCanvasObject;
     public GameObject loadingScreenImage;
     public Slider loadingBarSlider;
-    private static GameObject loadingScreen;
+    public static GameObject loadingScreen;
     private static Slider loadingBar;
-    private static GameObject menuCanvas;
+    public static GameObject menuCanvas;
 
 
     private List<GameObject> placeableRooms;
@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadLevel()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         ClearLevel();
 
         loadingBar.value = 0.1f;
@@ -82,8 +82,7 @@ public class LevelManager : MonoBehaviour
         loadingBar.value = 0.9f;
 
         player.SetActive(false);
-        menuCanvas.SetActive(false);
-        loadingScreen.SetActive(false);
+        return null;
     }
 
     public IEnumerator GetNextLevel()
@@ -122,6 +121,7 @@ public class LevelManager : MonoBehaviour
 
     private void CreateLevel(int numberOfRooms)
     {
+        Debug.Log("Creating level");
         player = FindObject("PlayerCat");
 
         (startRoom, placeableRooms) = SelectRooms(numberOfRooms);
@@ -131,6 +131,7 @@ public class LevelManager : MonoBehaviour
         
         if(GameObject.FindGameObjectsWithTag("Room").Length < numberOfRooms + 2)
         {
+            Debug.Log("Not enough rooms");
             StartCoroutine(GetNextLevel());
         }
     }

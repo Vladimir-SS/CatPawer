@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &117485738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +406,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8774940469319420756, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
 --- !u!1001 &127790686
@@ -473,7 +477,7 @@ PrefabInstance:
       objectReference: {fileID: 8221810263872733410, guid: 68a06ef1fbe9d1f4c818b0a212171a32, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allSpecialRooms.Array.data[0]
@@ -494,15 +498,15 @@ PrefabInstance:
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[3]
       value: 
-      objectReference: {fileID: 1336893895788367795, guid: c18a09be1914bf0448fd0aea9ab84db2, type: 3}
+      objectReference: {fileID: 1336893895788367795, guid: 8f166118096512043b8b71a5b65ea1fd, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[4]
       value: 
-      objectReference: {fileID: 1336893895788367795, guid: 8f166118096512043b8b71a5b65ea1fd, type: 3}
+      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[5]
       value: 
-      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
+      objectReference: {fileID: 1336893895788367795, guid: 9d34e91fd8754b8439ef4d07e721a947, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[6]
       value: 
@@ -1792,7 +1796,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1828506976}
   - component: {fileID: 1828506975}
-  - component: {fileID: 1828506977}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Persistent
@@ -1830,18 +1833,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1828506977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828506974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d0459abe3b42a4a97cef09537bc48a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2038228111 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1509496744278933352, guid: 032714122fc16b943a8d76e7f14a2832, type: 3}
@@ -1890,7 +1881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &145950721922096546
 MonoBehaviour:
   m_ObjectHideFlags: 0
