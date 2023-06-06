@@ -8,6 +8,7 @@ public class MainManager : MonoBehaviour
 
     public float volumeMaster;
     public int qualityIndex;
+    public string weapon = "Glock";
 
     private void Awake()
     {

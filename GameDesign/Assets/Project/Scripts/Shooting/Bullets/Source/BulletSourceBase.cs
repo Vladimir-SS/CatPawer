@@ -13,7 +13,6 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
     protected EventSubmission eventSubmission;
 
     protected float nextFire;
-    protected uint bulletsInMagazine;
     protected bool isReloading;
     public bool isManual;
 
@@ -21,7 +20,7 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
     void Awake()
     {
         nextFire = 0f;
-        bulletsInMagazine = 0;
+        BulletsInMagazine = 0;
     }
 
     void Start()
@@ -30,7 +29,7 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
         statsEntityFinal = GetComponentInParent<StatsEntityFinal>();
         eventSubmission = GetComponentInParent<EventSubmission>();
 
-        bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
+        BulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
     }
 
     protected Vector3 GetDirection()
@@ -58,7 +57,7 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
         var reloadSpeed = statsEntityFinal.Gun.ReloadSpeed;
         eventSubmission.TriggerGunReloadEvent(this, new GunReloadEventArgs(reloadSpeed));
         await Task.Delay((int)(reloadSpeed * 1000));
-        bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
+        BulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
         isReloading = false;
     }
 
@@ -77,10 +76,10 @@ public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
             if (isManual)
                 starterAssetsInputs.shootHold = false;
             // TODO : FireRateFinal
-            if (Time.time > nextFire && bulletsInMagazine != 0)
+            if (Time.time > nextFire && BulletsInMagazine != 0)
             {
                 nextFire = Time.time + statsEntityFinal.Gun.FireRate;
-                --bulletsInMagazine;
+                --BulletsInMagazine;
                 ShootBullet();
             }
         }

@@ -351,6 +351,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Potion2
       objectReference: {fileID: 0}
+    - target: {fileID: 8623155595798300839, guid: 52dd2bf422dddc94abed4ff5cffb04f5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52dd2bf422dddc94abed4ff5cffb04f5, type: 3}
 --- !u!4 &675588297625745295 stripped

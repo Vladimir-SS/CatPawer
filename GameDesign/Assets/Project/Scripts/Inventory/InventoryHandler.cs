@@ -7,11 +7,12 @@ public class InventoryHandler : MonoBehaviour
     //TODO: perhaps more guns and press 1,2,3 to switch between them ? like in our description
 
     [SerializeField] private GameObject GunPlace;
-    private GameObject Gun;
+    public GameObject Gun { get; private set; } = null;
     [SerializeField] private GameObject StartWithThisGun;
         
     [SerializeField] private GameObject ItemsPlace;
     [SerializeField] private List<GameObject> Items;
+    [SerializeField] private List<GameObject> gunPrefabs;
 
     private EventSubmission eventSubmission;
 
@@ -54,6 +55,26 @@ public class InventoryHandler : MonoBehaviour
     {
         eventSubmission = GetComponent<EventSubmission>();
         ChangeGun(StartWithThisGun);
+        if (MainManager.Instance != null)
+        {
+            switch (MainManager.Instance.weapon)
+            {
+                case "Glock":
+                    ChangeGun(gunPrefabs[0]);
+                    break;
+                case "Minigun":
+                    ChangeGun(gunPrefabs[1]);
+                    break;
+                case "Bazooka":
+                    ChangeGun(gunPrefabs[2]);
+                    break;
+                case "50Cal":
+                    ChangeGun(gunPrefabs[3]);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 }
