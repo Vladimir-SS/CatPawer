@@ -116,6 +116,7 @@ Transform:
   m_Children:
   - {fileID: 7224948294272881122}
   - {fileID: 2642773046253678906}
+  - {fileID: 7673738267221636701}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,6 +194,37 @@ MonoBehaviour:
   <Combat>k__BackingField:
     DamageBonus: 0
     DamageBase: 10
+--- !u!1 &6617480050157949469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7673738267221636701}
+  m_Layer: 0
+  m_Name: HoldingAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7673738267221636701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617480050157949469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.027, z: -0.057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5327086440146595475}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7616084387840475378
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2642773046253678906}
-  - component: {fileID: 295016377948859764}
+  - component: {fileID: 6784102104218491578}
   - component: {fileID: 7408783813255205086}
   m_Layer: 0
   m_Name: ShootingAnchor
@@ -226,7 +258,7 @@ Transform:
   m_Father: {fileID: 5327086440146595475}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &295016377948859764
+--- !u!114 &6784102104218491578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779b6ef60d2096946a0210810decc2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 7827946832104461083, guid: 53b5ba401d400a14d99332659e684ffa, type: 3}
+  _bulletPrefab: {fileID: 964548814070305946, guid: b4eb64a300f9b704e919c897d7957788, type: 3}
 --- !u!114 &7408783813255205086
 MonoBehaviour:
   m_ObjectHideFlags: 0

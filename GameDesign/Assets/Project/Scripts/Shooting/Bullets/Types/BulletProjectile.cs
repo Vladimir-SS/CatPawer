@@ -4,15 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BulletProjectile : IBullet
+public class BulletProjectile : IBulletMonoBehaviour
 {
     public float speed;
     public Vector3 originalPosition = Vector3.zero;
+    public string ShooterTag { get; set; } = "Player";
 
-   
-    public float damageFromProvider;
-    
-    public override void Shoot(Vector3 position, Vector3 direction)
+    override public void Shoot(Vector3 position, Vector3 direction)
     {
         transform.position = position;
         transform.forward = direction;
@@ -31,18 +29,17 @@ public class BulletProjectile : IBullet
 
    private void OnTriggerEnter(Collider other)
     {
-        // Modify this method to check for the "Enemy" tag and apply the stored damage value
-        if (other.CompareTag("Enemy"))
+        if (!other.CompareTag(ShooterTag))
         {
             var target = other.GetComponent<Damageable>();
-
             if (target != null)
             {
-                target.TakeDamage(damageFromProvider);
+                target.TakeDamage(Damage);
             }
-        }
 
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
+    
 }
 

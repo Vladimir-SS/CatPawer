@@ -12,11 +12,11 @@ public class BulletSourceBulletProvider : BulletSourceBase
     {
         bulletProvider = GetComponent<IBulletProvider>();
     }
-
-    protected override void ShootBullet()
+    
+    override public void Shoot(Vector3 targetPos)
     {
-        BulletProjectile bullet = (BulletProjectile)bulletProvider.GetBullet();
-        bullet.damageFromProvider = statsEntityFinal.Combat.Damage;
-        bullet.Shoot(transform.position, GetDirection());
-    }   
+        IBullet bullet = bulletProvider.GetBullet();
+        bullet.Damage = statsEntityFinal.Combat.Damage;
+        bullet.Shoot(transform.position, targetPos);
+    }
 }

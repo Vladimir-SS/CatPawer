@@ -6,15 +6,15 @@ using UnityEngine;
 public class MapBuilder : MonoBehaviour
 {
     private float collisionTollerance;
-     private int seed;
+    private int seed;
 
-     private GameObject startRoom;
+    private GameObject startRoom;
     private GameObject wall;
     private List<GameObject> placeableRooms;
-     private GameObject player;
+    private GameObject player;
 
-    public MapGenerator mapGenerator;
-    public WallPlacer wallPlacer;
+    private MapGenerator mapGenerator;
+    private WallPlacer wallPlacer;
     private List<GameObject> rooms;
 
 

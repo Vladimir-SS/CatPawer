@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 1336893895788367795, guid: 8f166118096512043b8b71a5b65ea1fd, type: 3}
   - {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
   wall: {fileID: 323599538811438161, guid: 568eca2f0043e614e8e5e155fca4e29e, type: 3}
+  menuCanvas: {fileID: 0}
   loadingScreenImage: {fileID: 0}
   loadingBarSlider: {fileID: 0}
-  mapBuilderObject: {fileID: 0}
+  mapBuilderObject: {fileID: 6884482590926495723, guid: c1039dfa26a5c4e4782906cbdee1a864, type: 3}

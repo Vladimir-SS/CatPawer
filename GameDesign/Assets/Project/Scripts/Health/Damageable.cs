@@ -3,11 +3,17 @@ using System.Xml.Serialization;
 using UnityEngine;
 using Stats;
 using Stats.Structs;
+using System.Collections.Generic;
+using Random = System.Random;
 
 [RequireComponent(typeof(StatsEntityFinal))]
 public class Damageable : MonoBehaviour
 {
     private float currentHealth = 0;
+
+    [SerializeField] AudioSource soundEffects;
+
+    [SerializeField] List<AudioClip> damageSounds;
     public float CurrentHealth {
         get
         {
@@ -48,6 +54,13 @@ public class Damageable : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (soundEffects && !soundEffects.isPlaying)
+        {
+            Random random = new();
+            soundEffects.clip = damageSounds[random.Next(damageSounds.Count - 1)];
+            soundEffects.Play();
+        }
+
         currentHealth -= Math.Max(1, damage - damage * stats.Body.DamageReduction);
         Debug.Log("Taking damage, current health : " + currentHealth + " max HP : " + stats.Body.MaxHP + " damage : " + damage);
 
@@ -61,17 +74,28 @@ public class Damageable : MonoBehaviour
     
     void Die()
     {
+        if (soundEffects)
+        {
+            soundEffects.clip = damageSounds[damageSounds.Count - 1];
+            soundEffects.Play();
+        }
+
         if (gameObject.CompareTag("Enemy"))
         {
             ScoreSystem.instance.AddPoints(stats.Body.MaxHP / 10);
+            Destroy(transform.root.gameObject);
+        }
+        
+        if (gameObject.CompareTag("Player"))
+        {
+            gameObject.GetComponentInParent<PauseMenu>().TryAgainMenu();
         }
 
-        Destroy(transform.root.gameObject);
         // Debug.Log("Just died damn");
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        TakeDamage(1);
+        TakeDamage(0.05f);
     }
 }

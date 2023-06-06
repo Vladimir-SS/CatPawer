@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Enemy
+  - Music
   - Room
   - RoomSpawnPoint
   - Persistent
@@ -22,7 +23,7 @@ TagManager:
   - Player
   - WhatIsGround
   - Bullet
-  - 
+  - Enemy
   - 
   - 
   - 

@@ -21,8 +21,10 @@ public class AIController : MonoBehaviour
     public int edgeIterations = 4;                  //  Number of iterations to get a better performance of the mesh filter when the raycast hit an obstacule
     public float edgeDistance = 0.5f;               //  Max distance to calcule the a minumun and a maximum raycast when hits something
     public float meleeAttackRange = 2f;
+    public float rangeAttackDistance = 10f;
     public float meleeAttackCooldown = 1f;
     private float nextMeleeAttackTime = 0f;
+    private BulletSourceEnemy bulletSourceEnemy;
 
     public Transform[] waypoints;                   //  All the waypoints where the enemy patrols
     int m_CurrentWaypointIndex;                     //  Current waypoint where the enemy is going to
@@ -37,9 +39,11 @@ public class AIController : MonoBehaviour
     bool m_IsPatrol;                                //  If the enemy is patrol, state of patroling
     bool m_CaughtPlayer;                            //  if the enemy has caught the player
 
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        bulletSourceEnemy = GetComponentInChildren<BulletSourceEnemy>();     // Get BulletSourceEnemy component in children
 
         m_PlayerPosition = Vector3.zero;
         m_IsPatrol = true;
@@ -54,17 +58,31 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
+        if (waypoints.Length > 0)
+            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
     }
 
     private void Update()
     {
-        EnviromentView();                       //  Check whether or not the player is in the enemy's field of vision
+        EnviromentView();
 
         if (!m_IsPatrol)
         {
             Chasing();
-            MeleeAttack(GameObject.FindGameObjectWithTag("Player").transform); //to be changed for range/meele attacks
+
+            // Get the player's position
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            // If enemy is ranged and the player is within attack distance
+            if (bulletSourceEnemy != null && Vector3.Distance(transform.position, player.position) <= rangeAttackDistance) 
+            {
+                RangeAttack(player);
+            }
+            // If enemy is melee
+            else 
+            {
+                MeleeAttack(player);
+            }
         }
         else
         {
@@ -126,21 +144,23 @@ public class AIController : MonoBehaviour
         {
             m_PlayerNear = false;           //  The player is no near when the enemy is platroling
             playerLastPosition = Vector3.zero;
-            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the enemy destination to the next waypoint
-            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            {
-                //  If the enemy arrives to the waypoint position then wait for a moment and go to the next
-                if (m_WaitTime <= 0)
+            if (waypoints.Length > 0) {
+                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the enemy destination to the next waypoint
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
                 {
-                    NextPoint();
-                    Move(speedWalk);
-                    m_WaitTime = startWaitTime;
-                }
-                else
-                {
-                    Stop();
-                    m_WaitTime -= Time.deltaTime;
-                }
+                    //  If the enemy arrives to the waypoint position then wait for a moment and go to the next
+                    if (m_WaitTime <= 0)
+                    {
+                        NextPoint();
+                        Move(speedWalk);
+                        m_WaitTime = startWaitTime;
+                    }
+                    else
+                    {
+                        Stop();
+                        m_WaitTime -= Time.deltaTime;
+                    }
+                } 
             }
         }
     }
@@ -180,25 +200,37 @@ public class AIController : MonoBehaviour
     }
 
     void MeleeAttack(Transform player)
-{
-    if (Time.time >= nextMeleeAttackTime)
     {
-        if (player != null && Vector3.Distance(transform.position, player.position) <= meleeAttackRange)
+        if (bulletSourceEnemy != null)    // If enemy is ranged, do not perform melee attack
+            return;
+
+        if (Time.time >= nextMeleeAttackTime)
         {
-            Damageable damageable = player.GetComponent<Damageable>();
-            if(damageable != null)
+            if (player != null && Vector3.Distance(transform.position, player.position) <= meleeAttackRange)
             {
-                damageable.TakeDamage(meleeDamage);
-                nextMeleeAttackTime = Time.time + meleeAttackCooldown;
-                //Debug.Log("Player just took melee damage amount : "+ meleeDamage);
-            }
-            else
-            {
-                Debug.LogError("Damageable script component not found on player object");
+                Damageable damageable = player.GetComponent<Damageable>();
+                if(damageable != null)
+                {
+                    damageable.TakeDamage(meleeDamage);
+                    nextMeleeAttackTime = Time.time + meleeAttackCooldown;
+                    //Debug.Log("Player just took melee damage amount : "+ meleeDamage);
+                }
+                else
+                {
+                    Debug.LogError("Damageable script component not found on player object");
+                }
             }
         }
     }
-}
+
+    void RangeAttack(Transform player)
+    {
+        if (bulletSourceEnemy != null && player != null)
+        {
+            Vector3 pos = player.position;
+            bulletSourceEnemy.Shoot(pos);
+        }
+    }
 
 
     void LookingPlayer(Vector3 player)

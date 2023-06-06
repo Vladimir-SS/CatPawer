@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Stats;
 
-public abstract class BulletSourceBase : MonoBehaviour
+public abstract class BulletSourceBase : MonoBehaviour, IBulletSource
 {
+    public uint BulletsInMagazine { get; set; }
     protected StarterAssetsInputs starterAssetsInputs;
     protected StatsEntityFinal statsEntityFinal;
+    protected EventSubmission eventSubmission;
 
     protected float nextFire;
     protected uint bulletsInMagazine;
     protected bool isReloading;
     public bool isManual;
+
 
     void Awake()
     {
@@ -25,6 +28,7 @@ public abstract class BulletSourceBase : MonoBehaviour
     {
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
         statsEntityFinal = GetComponentInParent<StatsEntityFinal>();
+        eventSubmission = GetComponentInParent<EventSubmission>();
 
         bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
     }
@@ -42,12 +46,18 @@ public abstract class BulletSourceBase : MonoBehaviour
         return AimRaycastProvider.GetHitObject();
     }
 
-    protected abstract void ShootBullet();
+    protected void ShootBullet()
+    {
+        Shoot(GetDirection());
+    }
 
     protected async void reload()
     {
+
         isReloading = true;
-        await Task.Delay((int)(statsEntityFinal.Gun.ReloadSpeed * 1000));
+        var reloadSpeed = statsEntityFinal.Gun.ReloadSpeed;
+        eventSubmission.TriggerGunReloadEvent(this, new GunReloadEventArgs(reloadSpeed));
+        await Task.Delay((int)(reloadSpeed * 1000));
         bulletsInMagazine = statsEntityFinal.Gun.MagazineCapacity;
         isReloading = false;
     }
@@ -75,4 +85,6 @@ public abstract class BulletSourceBase : MonoBehaviour
             }
         }
     }
+
+    abstract public void Shoot(Vector3 shootPosition);
 }

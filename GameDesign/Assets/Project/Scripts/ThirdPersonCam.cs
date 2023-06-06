@@ -76,4 +76,3 @@ public class ThirdPersonCam : MonoBehaviour
         currentStyle = newStyle;
     }
 }
-
