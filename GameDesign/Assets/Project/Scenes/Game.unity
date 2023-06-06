@@ -154,6 +154,10 @@ PrefabInstance:
       propertyPath: gunPrefabs.Array.data[3]
       value: 
       objectReference: {fileID: 1373914156511575920, guid: 7fb3de3b716ef8049aa3d8de85545e83, type: 3}
+    - target: {fileID: 2814630162892690260, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 570
+      objectReference: {fileID: 0}
     - target: {fileID: 2944877546058805194, guid: f1410e5043fcde94f8991f1e5ab2d5bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -335,6 +339,10 @@ PrefabInstance:
       propertyPath: menuCanvas
       value: 
       objectReference: {fileID: 145950721922096544}
+    - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
+      propertyPath: numberOfRooms
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: loadingBarSlider
       value: 

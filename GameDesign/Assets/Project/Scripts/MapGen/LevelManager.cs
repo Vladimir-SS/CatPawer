@@ -19,9 +19,16 @@ public class LevelManager : MonoBehaviour
 
     private GameObject player;
 
+    [Header("Rooms in which the player spawns")]
     [SerializeField] private List<GameObject> allStartRooms;
+
+    [Header("Single-door rooms used for patching remaining open doors")]
     [SerializeField] private List<GameObject> allEndRooms;
+
+    [Header("Rooms used to go to the next level")]
     [SerializeField] private List<GameObject> allSpecialRooms;
+
+    [Header("Everything else")]
     [SerializeField] private List<GameObject> allPlaceableRooms;
 
     [SerializeField] private GameObject wall;
@@ -51,12 +58,17 @@ public class LevelManager : MonoBehaviour
         CreateLevel(numberOfRooms);
     }
 
-    void Update()
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Z))
+    //    {
+    //        StartCoroutine(GetNextLevel());
+    //    }
+    //}
+
+    public void NextLevel()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            StartCoroutine(GetNextLevel());
-        }
+        StartCoroutine(GetNextLevel());
     }
 
     private IEnumerator LoadLevel()
@@ -80,7 +92,7 @@ public class LevelManager : MonoBehaviour
         loadingScreen.SetActive(false);
     }
 
-    public IEnumerator GetNextLevel()
+    private IEnumerator GetNextLevel()
     {
         print(0);
         loadingBar.value = 0;
