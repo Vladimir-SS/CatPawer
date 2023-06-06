@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    private int seed = 123;
+    private int seed = 100;
 
     [SerializeField] private float collisionTollerance;
 
@@ -58,13 +58,13 @@ public class LevelManager : MonoBehaviour
         CreateLevel(numberOfRooms);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            StartCoroutine(GetNextLevel());
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Z))
+    //    {
+    //        StartCoroutine(GetNextLevel());
+    //    }
+    //}
 
     private IEnumerator LoadLevel()
     {
