@@ -19,9 +19,16 @@ public class LevelManager : MonoBehaviour
 
     private GameObject player;
 
+    [Header("Rooms in which the player spawns")]
     [SerializeField] private List<GameObject> allStartRooms;
+
+    [Header("Single-door rooms used for patching remaining open doors")]
     [SerializeField] private List<GameObject> allEndRooms;
+
+    [Header("Rooms used to go to the next level")]
     [SerializeField] private List<GameObject> allSpecialRooms;
+
+    [Header("Everything else")]
     [SerializeField] private List<GameObject> allPlaceableRooms;
 
     [SerializeField] private GameObject wall;

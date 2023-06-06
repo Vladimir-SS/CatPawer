@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19bfec628eb6c342a8bb8db286f4c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSpecialRoom: 1
+  isSpecialRoom: 0
 --- !u!23 &2062058267071281448
 MeshRenderer:
   m_ObjectHideFlags: 0
