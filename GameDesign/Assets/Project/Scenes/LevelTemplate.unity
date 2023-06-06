@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -188,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 8221810263872733410, guid: 68a06ef1fbe9d1f4c818b0a212171a32, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.size
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allSpecialRooms.Array.data[0]
@@ -201,21 +201,25 @@ PrefabInstance:
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[1]
       value: 
-      objectReference: {fileID: 1336893895788367795, guid: 8f166118096512043b8b71a5b65ea1fd, type: 3}
+      objectReference: {fileID: 5617670012222534386, guid: 194272470b741f746b2a7cbf8db4263c, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[2]
       value: 
-      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
+      objectReference: {fileID: 1336893895788367795, guid: 7ae799e29fa18a04088676475d5464ed, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[3]
       value: 
-      objectReference: {fileID: 1336893895788367795, guid: 9d34e91fd8754b8439ef4d07e721a947, type: 3}
+      objectReference: {fileID: 1336893895788367795, guid: c18a09be1914bf0448fd0aea9ab84db2, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[4]
       value: 
-      objectReference: {fileID: 1336893895788367795, guid: 9d34e91fd8754b8439ef4d07e721a947, type: 3}
+      objectReference: {fileID: 1336893895788367795, guid: 8f166118096512043b8b71a5b65ea1fd, type: 3}
     - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
       propertyPath: allPlaceableRooms.Array.data[5]
+      value: 
+      objectReference: {fileID: 5617670012222534386, guid: 968f48f7f61d17d43ac6810674412daf, type: 3}
+    - target: {fileID: 8595132216553669331, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
+      propertyPath: allPlaceableRooms.Array.data[6]
       value: 
       objectReference: {fileID: 1336893895788367795, guid: 9d34e91fd8754b8439ef4d07e721a947, type: 3}
     - target: {fileID: 8595132216553669334, guid: 8dd7da9dbf0805249997f05865ba2061, type: 3}
