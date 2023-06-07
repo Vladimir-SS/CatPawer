@@ -8,6 +8,7 @@ public class NextLevelTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            ScoreSystem.instance.NextLevel();
             LevelManager manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
             manager.StartCoroutine(manager.GetNextLevel());
         }

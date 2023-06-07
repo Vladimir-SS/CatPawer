@@ -11,6 +11,7 @@ public class ScoreSystem : MonoBehaviour
     public TextMeshProUGUI highScoreText;
 
     float score = 0;
+    int level = 0;
     float highScore = 0;
 
     private void Awake()
@@ -21,7 +22,7 @@ public class ScoreSystem : MonoBehaviour
     {
         if (scoreText)
         {
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "Score: " + score.ToString() + "  Level: " + level.ToString();
         }
         else
         {
@@ -41,5 +42,10 @@ public class ScoreSystem : MonoBehaviour
         }
 
         Debug.Log("Points added " + points);
+    }
+
+    public void NextLevel()
+    {
+        level++;
     }
 }
