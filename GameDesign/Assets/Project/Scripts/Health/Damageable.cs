@@ -14,14 +14,17 @@ public class Damageable : MonoBehaviour
     [SerializeField] AudioSource soundEffects;
 
     [SerializeField] List<AudioClip> damageSounds;
-    public float CurrentHealth {
+
+    protected StatsEntityFinal stats;
+
+    public float CurrentHealth
+    {
         get
         {
             return Math.Max(0, currentHealth);
         }
     }
-    protected StatsEntityFinal stats;
-    
+
     void Start()
     {
         stats = GetComponent<StatsEntityFinal>();
@@ -71,7 +74,13 @@ public class Damageable : MonoBehaviour
         }
         
     }
-    
+
+    public void Heal(float heal)
+    {
+        if (heal > 0)
+            currentHealth = Math.Min(stats.Body.MaxHP, currentHealth + heal);
+    }
+
     void Die()
     {
         if (soundEffects)
