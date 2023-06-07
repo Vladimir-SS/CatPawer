@@ -69,5 +69,5 @@ MonoBehaviour:
     ReloadSpeed: 0
     MagazineCapacity: 0
   <Combat>k__BackingField:
-    DamageBonus: 0
-    DamageBase: 0
+    DamageBonus: 10
+    DamageBase: 1

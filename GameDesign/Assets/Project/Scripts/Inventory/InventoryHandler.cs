@@ -11,7 +11,7 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private GameObject StartWithThisGun;
         
     [SerializeField] private GameObject ItemsPlace;
-    [SerializeField] private List<GameObject> Items;
+    [SerializeField] private List<GameObject> StartingItems;
     [SerializeField] private List<GameObject> gunPrefabs;
 
     private EventSubmission eventSubmission;
@@ -39,20 +39,33 @@ public class InventoryHandler : MonoBehaviour
         eventSubmission.TriggerGunSwitchEvent(this, gunSwitchEventArgs);
     }
 
-    public void AddItem(GameObject item)
+    public void AddItem(GameObject itemPrefab)
     {
-        Items.Add(item);
-        
+        Instantiate(itemPrefab, ItemsPlace.transform);
+
+
         //TODO: event sub??
     }
 
     public List<GameObject> GetItems()
     {
-        return Items;
+        List<GameObject> rv = new();
+
+        foreach (Transform child in ItemsPlace.transform)
+        {
+            rv.Add(child.gameObject);
+        }
+
+        return rv;
     }
 
     private void Start()
     {
+        foreach (GameObject item in StartingItems)
+        {
+            AddItem(item);
+        }
+
         eventSubmission = GetComponent<EventSubmission>();
         ChangeGun(StartWithThisGun);
         if (MainManager.Instance != null)

@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Body>k__BackingField:
     MaxHP: 0
-    Armor: 0
+    Armor: 5
     Speed: 0
   <Gun>k__BackingField:
     FireRate: 0
